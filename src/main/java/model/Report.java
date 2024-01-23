@@ -4,22 +4,27 @@ import java.util.Date;
 
 public class Report {
 	
-	private String userid; 
-	private String punm;
+	private String reportid; //신고한사람
+	private int reportpnum;
 	private String content ;
 	private Date regdate ;
+	private int pnum;
 	
-	public String getUserid() {
-		return userid;
+	private String reportedid;//신고당한사람
+	
+	
+	 
+	public String getReportid() {
+		return reportid;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setReportid(String reportid) {
+		this.reportid = reportid;
 	}
-	public String getPunm() {
-		return punm;
+	public int getReportpnum() {
+		return reportpnum;
 	}
-	public void setPunm(String punm) {
-		this.punm = punm;
+	public void setReportpnum(int reportpnum) {
+		this.reportpnum = reportpnum;
 	}
 	public String getContent() {
 		return content;
@@ -33,11 +38,28 @@ public class Report {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+	public int getPnum() {
+		return pnum;
+	}
+	public void setPnum(int pnum) {
+		this.pnum = pnum;
+	}
+	public String getReportedid() {
+		return reportedid;
+	}
+	public void setReportedid(String reportedid) {
+		this.reportedid = reportedid;
+	}
 	@Override
 	public String toString() {
-		return "Report [userid=" + userid + ", punm=" + punm + ", content=" + content + ", regdate=" + regdate + "]";
+		return "Report [reportid=" + reportid + ", reportpnum=" + reportpnum + ", content=" + content + ", regdate="
+				+ regdate + ", pnum=" + pnum + ", reportedid=" + reportedid + "]";
 	}
-
+	
+	
+	
+	
+	
 	
 	
 }

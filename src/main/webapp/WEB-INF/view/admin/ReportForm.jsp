@@ -45,7 +45,7 @@ function previewImage(input) {
           
       <div class="form-group">
             <label for="id">작성자:</label> <input type="text" readonly
-               class="form-control" value="${amem.id }   " id="id"
+               class="form-control" value="${amem.id }" id="id"
                name="id" >
          </div><p>&nbsp;<p>
       
@@ -54,15 +54,11 @@ function previewImage(input) {
 			
 				<div class="form-group">
 				<label for="pnum">물품번호</label> <input type="text"
-					class="form-control" placeholder="Enter name" id="pnum" value=""
-					name="pnum" readonly>
+					class="form-control" placeholder="Enter name" id="pnum" value="${auction.pnum }"
+					name="pnum" >
 			</div>
 			
-				
-				<label for="subject">신고한 아이디</label> <input type="text"
-					class="form-control" placeholder="Enter info" id="subject" name="subject" value="${Auction.userid }">
-			</div>
-			
+		
 		
 			
 			

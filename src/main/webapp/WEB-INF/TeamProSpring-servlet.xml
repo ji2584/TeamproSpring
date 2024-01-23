@@ -20,12 +20,17 @@
             
             
       <!--  annotaion,main 패키지에 @Component가 있는 클래스를 객체화 -->
-      <context:component-scan base-package="controller,dao"/>
+      <context:component-scan base-package="controller,dao,service"/>
       <!-- Autowired 사용 생략가능 -->
       <context:annotation-config/>
       <mvc:resources location="/image/" mapping="/image/**"/>
       <mvc:resources location="/team/" mapping="/team/**"/>
       <mvc:resources location="/admin/" mapping="/admin/**"/>
+      
+      
+      
+      
+      
       
        <bean id="dataSource"
       class="com.mchange.v2.c3p0.ComboPooledDataSource"
@@ -75,12 +80,22 @@
             <property name = "prefix" value="/WEB-INF/view/"/>
             <property name="suffix" value=".jsp"/>
         
-      
-      
-      
-      </bean>
+            </bean>
             
-            
+     <mvc:interceptors>
+             <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:exclude-mapping path="/admin/ReportForm"/>
+            <mvc:exclude-mapping path="/admin/ReportPro"/>
+            <bean class="interceptor.AdminInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+             <mvc:mapping path="/view/***"/>
+             <mvc:mapping path="/admin/ReportForm"/>
+            <ref bean = "login"/>
+        </mvc:interceptor>
+          </mvc:interceptors>
+              <bean id = "login" class = "interceptor.LoginInterceptor"/>
         
             
 </beans>

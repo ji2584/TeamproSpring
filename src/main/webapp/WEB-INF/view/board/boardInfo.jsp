@@ -48,7 +48,7 @@ function commentPro(pnum, userid) {
                   <th>value</th>
                </tr>
                <tr>
-                  <td>작성자</td>
+                  <td>닉네임</td>
                   <td>${board.pname}</td>
                <tr>
                <tr>
@@ -80,7 +80,7 @@ function commentPro(pnum, userid) {
                      <a class="btn btn-primary"
                      href="${pageContext.request.contextPath}/board/boardList">목록</a>
                       <a class="btn btn-primary"
-                     href="${pageContext.request.contextPath}/admin/ReportForm">신고</a>
+                     href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">신고</a>
                   </td>
                </tr>
             </table>

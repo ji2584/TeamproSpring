@@ -71,6 +71,7 @@ public class MemberController {
 	@RequestMapping("loginForm")
 	public String loginForm() throws Exception {
 		// TODO Auto-generated method stub
+		
 		return "member/loginForm";
 	}
 	
@@ -100,24 +101,24 @@ public class MemberController {
 	@RequestMapping("loginPro")
 	   public String loginPro(String id, String pass) throws Exception {
 	    
-	      Amem mem = md.oneMember(id);
+	      Amem imem = md.oneMember(id);
 	      
-	      
+	      session.setAttribute("imem", imem);
 
 	      String msg = "아이디를 확인하세요";
 	      String url = "/member/loginForm";
-	      if(mem != null ) { //id 존재할때
-	         if (pass.equals(mem.getPass())) { //login ok
+	      if(imem != null ) { //id 존재할때
+	         if (pass.equals(imem.getPass())) { //login ok
 	            session.setAttribute("id", id);
-	            if (mem.getAdminchk().equals("1")) {
+	            if (imem.getAdminchk().equals("1")) {
 	               session.setAttribute("admin", id);
 	            msg = "관리자로 로그인하셧습니다.";
 	            url = "/admin/main";
-	            }else if(mem.getAdminchk().equals("0")){
-	         msg = mem.getName() + "님이 로그인 하셨습니다.";
+	            }else if(imem.getAdminchk().equals("0")){
+	         msg = imem.getName() + "님이 로그인 하셨습니다.";
 	          url = "/member/index";
 	            }} else {
-	            msg = "비밀번호를 확인하세요";
+	            msg = "비밀번호를 확인하세요"; 
 	         }
 	      }
 	      

@@ -13,6 +13,22 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/admin/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <style>
+        .content-preview {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .expanded {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+        }
+    </style>
+        
+        
+        
+        
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -46,7 +62,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/AdminReport">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/Reportlist">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 신고된 게시물
                             </a>
@@ -127,26 +143,33 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>신고자: </th>
+                                            <th>신고당한사람:</th>
+                                            <th>신고물품번호:</th>
+                                            <th>신고사유:</th>
+                                            <th>신고날짜:</th>
+                                            
                                         </tr>
                                     </thead>
-                                
+                               
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
+                 <c:forEach var="report" items="${reportList}">
+                <tr>
+                    <td>${report.reportid}</td>
+                    <td>${report.reportedid}</td>
+                    <td>
+                     <a href="${pageContext.request.contextPath}/board/boardInfo?num=${report.reportpnum}">${report.reportpnum}</a> 
+                    
+                     <td class="content-preview" id="contentPreview_${report.reportpnum}">
+          				 <a href="${pageContext.request.contextPath}/admin/reportInfo?reportpnum=${report.reportpnum}&amemid=${report.reportid}" target="_blank">${report.content}</a>
+          				  </td>
+                    
+                    <td>${report.regdate}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
                                     
-                                    </tbody>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -170,5 +193,8 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
+        <script>
+       
+    </script>
     </body>
 </html>

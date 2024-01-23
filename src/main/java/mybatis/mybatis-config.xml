@@ -33,5 +33,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.9//EN"
       <mapper resource="mybatis/cart.xml" />
       <mapper class="mybatis.AMemberAnno" />
       <mapper class="mybatis.AReportAnno" />
+      
    </mappers>
 </configuration>
