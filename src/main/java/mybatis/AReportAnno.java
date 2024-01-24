@@ -3,6 +3,7 @@ package mybatis;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -37,7 +38,11 @@ public interface AReportAnno {
             + "JOIN Amem amem ON rep.reportid = amem.id "
             + "WHERE rep.reportpnum = #{reportpnum} and amem.id = #{amemid}")
     List<Report> contentReport(Map map);
-
+    
+    @Delete("DELETE FROM auction WHERE pnum = #{reportpnum}")
+    int deleteReport(int reportpnum);
+    
+    
     
 }
     

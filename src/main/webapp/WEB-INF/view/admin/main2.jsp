@@ -26,7 +26,7 @@
                     <li>고객센터</li>            
                 </ul>
             </div>
-            <!-- top_subject_area --> 
+            <!-- top_subject_area -->
             <div class="admin_top_wrap">
                 <span>관리자 페이지</span>
                 

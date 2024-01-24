@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
 
-import com.oreilly.servlet.MultipartRequest;
 
 
 import dao.BoardMybatisDao;
@@ -43,9 +42,11 @@ public class MemberController {
 	BoardMybatisDao bd;
 	 
 	@RequestMapping("index") //~~/board/index
-	   public String index() throws Exception {
+	   public String index(HttpServletRequest req) throws Exception {
 		      // TODO Auto-generated method stub
-	
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
 	List<Auction> li = bd.mainList();	
 		
 		
@@ -53,6 +54,8 @@ public class MemberController {
 		
 	    return "member/index";
 		}
+	
+	
 	
 	@ModelAttribute
 	protected void service(HttpServletRequest request) throws ServletException, IOException {
@@ -71,7 +74,6 @@ public class MemberController {
 	@RequestMapping("loginForm")
 	public String loginForm() throws Exception {
 		// TODO Auto-generated method stub
-		
 		return "member/loginForm";
 	}
 	
@@ -101,24 +103,24 @@ public class MemberController {
 	@RequestMapping("loginPro")
 	   public String loginPro(String id, String pass) throws Exception {
 	    
-	      Amem imem = md.oneMember(id);
-	      
-	      session.setAttribute("imem", imem);
+	      Amem mem = md.oneMember(id);
+	      session.setAttribute("mem", mem);
+	     
 
 	      String msg = "아이디를 확인하세요";
 	      String url = "/member/loginForm";
-	      if(imem != null ) { //id 존재할때
-	         if (pass.equals(imem.getPass())) { //login ok
+	      if(mem != null ) { //id 존재할때
+	         if (pass.equals(mem.getPass())) { //login ok
 	            session.setAttribute("id", id);
-	            if (imem.getAdminchk().equals("1")) {
+	            if (mem.getAdminchk().equals("1")) {
 	               session.setAttribute("admin", id);
 	            msg = "관리자로 로그인하셧습니다.";
 	            url = "/admin/main";
-	            }else if(imem.getAdminchk().equals("0")){
-	         msg = imem.getName() + "님이 로그인 하셨습니다.";
+	            }else if(mem.getAdminchk().equals("0")){
+	         msg = mem.getName() + "님이 로그인 하셨습니다.";
 	          url = "/member/index";
 	            }} else {
-	            msg = "비밀번호를 확인하세요"; 
+	            msg = "비밀번호를 확인하세요";
 	         }
 	      }
 	      
@@ -258,30 +260,7 @@ public class MemberController {
 	return "alert";
 	}
 	
-	@RequestMapping("pictureimgForm")
-	public View pictureimgForm() throws Exception {		
-		
-		return new InternalResourceView("/single/pictureimgForm.jsp") ;
-		}
 	
-	@RequestMapping("picturePro")
-	public View picturePro() throws Exception {		
-		String path =request.getServletContext().getRealPath("/")
-				     +"/image/member/picture/";
-		System.out.println(path);
-		String filename=null;
-		try {		
-		MultipartRequest multi = 
-			new MultipartRequest(request, path,10*1024*1024,"utf-8");
-		
-		filename = multi.getFilesystemName("picture");
-		
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-		request.setAttribute("filename", filename);
-		return new InternalResourceView("/single/picturePro.jsp") ;
-		}
 	
 	
 }

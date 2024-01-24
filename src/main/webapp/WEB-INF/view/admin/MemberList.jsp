@@ -66,10 +66,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 신고된 게시물
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/MemberList">
+                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/MemberList">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 회원 관리
-                            </a>
+                            </a>                      
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -141,42 +141,30 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                신고 처리 테이블
+                                회원관리
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>신고자: </th>
-                                            <th>신고당한사람:</th>
-                                            <th>신고물품번호:</th>
-                                            <th>신고사유:</th>
-                                            <th>신고날짜:</th>
+                                            <th>아이디: </th>
+                                            <th>이름:</th>
+                                            <th>전화번호:</th>
+                                            <th>이메일:</th>
+                                            <th>주소:</th>
                                             
                                         </tr>
                                     </thead>
                                
                                     <tbody>
-                 <c:forEach var="report" items="${reportList}">
+                 <c:forEach var="ml" items="${memberList}">
                 <tr>
-                    <td>${report.reportid}</td>
-                    <td>${report.reportedid}</td>
-                    <td>
-                     <a href="${pageContext.request.contextPath}/board/boardInfo?num=${report.reportpnum}">${report.reportpnum}</a> 
-                    
-                     <td class="content-preview" id="contentPreview_${report.reportpnum}">
-          				 <a href="${pageContext.request.contextPath}/admin/reportInfo?reportpnum=${report.reportpnum}&amemid=${report.reportid}" target="_blank">${report.content}</a>
-          				  </td>
-          				
-                         <td>${report.regdate}</td>
-  							 <td>
-                        <form action="deleteReportPro" method="post">
-    <input type="hidden" name="reportpnum" value="${report.reportpnum}">
-    <button class="btn btn-danger" type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-</form>
-                        </td>
-                 
-          				 
+                    <td>${ml.id}</td>
+                    <td>${ml.name}</td>
+                    <td>${ml.tel}</td> 
+                    <td>${ml.email} </td>
+          			<td>${ml.address}</td>
+  						          				 
                 </tr>
             </c:forEach>
             </tbody>

@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="jumunList" parameterType="map" resultType="Auction">
 SELECT 
-        a.pnum, a.picture, a.pname, a.file1, a.subject, a.price, a.readcnt, TO_CHAR(a.regdate, 'yyyy-MM-dd HH24:mi:ss') AS regdate
+        a.pnum, a.buy, a.idate,a.prompt, a.pname, a.file1, a.subject, a.price, a.readcnt, TO_CHAR(a.regdate, 'yyyy-MM-dd HH24:mi:ss') AS regdate
     FROM 
         amem m
     JOIN 
@@ -27,7 +27,7 @@ SELECT
       SELECT
             b.userid,
             b.pnum,
-            b.picture,
+            b.prompt,
             b.pname,
             b.file1,
             b.subject,
@@ -44,5 +44,8 @@ SELECT
             b.pnum DESC
     </select>
 
+<delete id="jumunDelete"  parameterType="int">
+delete from aproducts where itemid = #{itemid}
+</delete> 
 
 </mapper>

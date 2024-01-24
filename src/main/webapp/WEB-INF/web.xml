@@ -29,6 +29,7 @@
       <url-pattern>/WEB-INF/view/member/*</url-pattern>
       <url-pattern>/WEB-INF/view/board/*</url-pattern>
       <url-pattern>/WEB-INF/view/jumun/*</url-pattern>
+      <url-pattern>/WEB-INF/view/notice/*</url-pattern>
       
     <include-prelude>/common/head.jsp</include-prelude>
     

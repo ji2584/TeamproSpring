@@ -35,8 +35,15 @@ public class BoardMybatisDao {
 
 		return sqlSession.insert(ns + "insertBoard", board);
 	}
+	public int buyNow(Map<String, Object> params) throws UnsupportedEncodingException, SQLException {
+	    return sqlSession.update(ns + "buyNow", params);
+	}
 
 
+	public int updateBuy(Auction board) throws UnsupportedEncodingException, SQLException {
+	    return sqlSession.update(ns + "updateBuy", board);
+	}
+	
 	public List<Auction> boardList(int pageInt, int limit, String boardid)
 			throws UnsupportedEncodingException, SQLException {
 
@@ -47,6 +54,7 @@ public class BoardMybatisDao {
 		return sqlSession.selectList(ns + "boardList", map);
 	}
 	
+
 	public int boardCount(String boardid) throws UnsupportedEncodingException, SQLException {
 		return sqlSession.selectOne(ns + "boardCount", boardid);
 	}
@@ -62,6 +70,12 @@ public class BoardMybatisDao {
 		return sqlSession.update(ns + "updateBoard", board);
 
 	}
+public int testpro(Auction testpro) throws UnsupportedEncodingException, SQLException {
+
+		
+		return sqlSession.update(ns + "testpro", testpro);
+
+	}
 	public int boardDelete(int num) throws UnsupportedEncodingException, SQLException {
 
 
@@ -69,15 +83,19 @@ public class BoardMybatisDao {
 
 	}
 
-	public int insertComment(String comment, int num) throws UnsupportedEncodingException, SQLException {
-		
-		Map map = new HashMap();
-		map.put("comment", comment);
-		map.put("num", num);
+	public int insertComment(String comment, int num,String userid) throws UnsupportedEncodingException, SQLException {
+	      
+	      Map map = new HashMap();
+	      
+	      map.put("comment", comment);
+	      map.put("num", num);
+	      map.put("userid", userid); 
+	      
+	      
 
-		return sqlSession.insert(ns+"insertComment", map);
+	      return sqlSession.insert(ns+"insertComment", map);
 
-	}
+	   }
 
 	public List<Comment> commentList(int num) throws UnsupportedEncodingException, SQLException {
 
@@ -89,9 +107,17 @@ public class BoardMybatisDao {
 
 	
 		return sqlSession.selectList(ns + "mainList");
-	
 	}
-	
-	
-	
+	public int commentDelete(int ser) throws UnsupportedEncodingException, SQLException {
+	       return sqlSession.update(ns + "commentDelete", ser);
+	   }
+
+
+
+	   public Comment oneComment(int ser) throws UnsupportedEncodingException, SQLException {
+	       return sqlSession.selectOne(ns + "oneComment", ser);
+	   }
+
+
+
 }

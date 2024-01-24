@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +10,20 @@
 <script>
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(pnum, regdate) {
+        if (!regdate) {
+        	$("#remainingTime-" + pnum).html("낙찰 또는 시간 만료 상품");
+
+            return;
+        }
+
         var currentTime = new Date().getTime();
         var expirationTime = new Date(regdate).getTime() + (7 * 24 * 60 * 60 * 1000); // 7일을 밀리초로 변환
 
         var remainingTime = expirationTime - currentTime;
+        if (remainingTime <= 0) {
+            $("#remainingTime-" + pnum).text("시간이 만료된 상품입니다.");
+            return;
+        }
 
         var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
         var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -36,6 +47,7 @@
         </c:forEach>
     }, 1000); // 1초마다 업데이트
 </script>
+
 <style>
 ul {
    list-style: none;
@@ -45,7 +57,7 @@ ul {
 
 li {
    margin: 0 0px; /* 상하 0, 좌우 10px 간격 지정 */
-   padding: 0 20px;
+   padding: 0 0px;
    border-radius: 5px;
    float: left;
    position: relative;
@@ -133,7 +145,7 @@ li {
                         style="width: 120px; height: 140px;" alt=""></a>
 
                      <div class="remaining-time" id="remainingTime-${b.pnum}"></div>
-                     <span class="price">${b.price }&nbsp;원</span> <a
+                     <span class="price"><fmt:formatNumber value="${b.price}" pattern="#,##0" />원</span> <a
                         href="${pageContext.request.contextPath}/jumun/jumunAdd?pnum=${b.pnum}">찜하기</a>
                      <p></p>
                      <h6>&nbsp;</h6>
@@ -148,7 +160,7 @@ li {
             <a class="page-link"
             href="${pageContext.request.contextPath}/board/products?pageNum=${start-bottomLine}">Previous</a>
          </li>
-
+				
          <c:forEach var="p" begin="${start}" end="${end}">
 
             <li class="page-item <c:if test="${pageInt==p}"> active  </c:if>"><a
@@ -160,7 +172,7 @@ li {
             <a class="page-link"
             href="${pageContext.request.contextPath}/board/products?pagePnum=${start+bottomLine}">Next</a>
          </li>
-         <li><a class="page-link" href="boardForm">게시판입력</a></li>
+        <c:if test = "${sessionScope.id!=null}"> <li><a class="page-link" href="boardForm">게시판입력</a></li></c:if>
       </ul>
 
    </div>
@@ -206,4 +218,4 @@ li {
 
 
 </body>
-</html>
+</html> 

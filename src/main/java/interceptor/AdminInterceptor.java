@@ -25,14 +25,14 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 	        HttpSession session = request.getSession();
 	     
 	        
-	         Amem imem = (Amem)session.getAttribute("imem");
+	         Amem mem = (Amem)session.getAttribute("mem");
 	        
-	         System.out.println(imem);
+	         System.out.println(mem);
 	        
 	      
         
-
-	         if (imem == null || imem.getAdminchk().equals("0")) { // 관리자 계정 아닌 경우
+  
+	         if (mem == null || mem.getAdminchk().equals("0")) { // 관리자 계정 아닌 경우
 	        	    response.sendRedirect(request.getContextPath() + "/member/loginForm"); // 메인페이지로 리다이렉트
 	        	    return false;
 	        	} else { // 나머지 코드

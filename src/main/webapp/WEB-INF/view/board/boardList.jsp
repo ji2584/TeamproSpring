@@ -26,7 +26,7 @@
       <tr>
         <td>${b.pnum}</td>
         <td>${b.pname}</td>
-        <td><a href="boardInfo?num=${b.pnum}">${b.subject}</a></td>
+        <td><a href="${pageContext.request.contextPath}/board/boardInfo?num=${b.pnum}">${b.subject}</a></td>
         <td>${b.regdate}</td>
         <td>${b.readcnt}</td>
         <td>${b.file1}</td>

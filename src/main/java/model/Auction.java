@@ -7,7 +7,7 @@ public class Auction {
 		private int pnum;
 		private String pname;
 		private String price;
-		private String picture;
+		private String prompt;
 		private String subject;
 		private String content;
 		private String pass;
@@ -16,6 +16,9 @@ public class Auction {
 		private String file1;
 		private Date regdate;
 		private String userid;
+		private String buy;
+		private String buyid;
+		private Date idate;
 		public int getPnum() {
 			return pnum;
 		}
@@ -34,11 +37,11 @@ public class Auction {
 		public void setPrice(String price) {
 			this.price = price;
 		}
-		public String getPicture() {
-			return picture;
+		public String getPrompt() {
+			return prompt;
 		}
-		public void setPicture(String picture) {
-			this.picture = picture;
+		public void setPrompt(String prompt) {
+			this.prompt = prompt;
 		}
 		public String getSubject() {
 			return subject;
@@ -88,12 +91,36 @@ public class Auction {
 		public void setUserid(String userid) {
 			this.userid = userid;
 		}
+		public String getBuy() {
+			return buy;
+		}
+		public void setBuy(String buy) {
+			this.buy = buy;
+		}
+		public String getBuyid() {
+			return buyid;
+		}
+		public void setBuyid(String buyid) {
+			this.buyid = buyid;
+		}
+		public Date getIdate() {
+			return idate;
+		}
+		public void setIdate(Date idate) {
+			this.idate = idate;
+		}
 		@Override
 		public String toString() {
-			return "Auction [pnum=" + pnum + ", pname=" + pname + ", price=" + price + ", picture=" + picture
+			return "Auction [pnum=" + pnum + ", pname=" + pname + ", price=" + price + ", prompt=" + prompt
 					+ ", subject=" + subject + ", content=" + content + ", pass=" + pass + ", boardid=" + boardid
-					+ ", readcnt=" + readcnt + ", file1=" + file1 + ", regdate=" + regdate + ", userid=" + userid + "]";
+					+ ", readcnt=" + readcnt + ", file1=" + file1 + ", regdate=" + regdate + ", userid=" + userid
+					+ ", buy=" + buy + ", buyid=" + buyid + ", idate=" + idate + "]";
 		}
+		
+		
+		
+		
+		
 		
 	
 	

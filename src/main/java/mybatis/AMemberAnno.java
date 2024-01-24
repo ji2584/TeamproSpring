@@ -1,5 +1,6 @@
 package mybatis;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import model.Amem;
+import model.Report;
 
 public interface AMemberAnno {
    @Insert("insert into amem (id, nickname,pass,name,tel,email,address,bank,account,numberid) values (#{id}, #{nickname},#{pass},#{name},#{tel},#{email},#{address},#{bank},#{account},#{numberid})")
@@ -24,8 +26,7 @@ public interface AMemberAnno {
 
    @Update("update amem set pass =#{pass} where id = #{id}")
    int passMember(Map map);
-   
-   
-   
 
+   @Select("select * from amem")
+   List<Amem> selectMemberList();
 }

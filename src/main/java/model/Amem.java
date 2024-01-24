@@ -28,8 +28,8 @@ picture varchar(200));
 		return id;
 	}
 	public String getAdminchk() {
-	return adminchk;}
-
+		return adminchk;
+	}
 	public void setAdminchk(String adminchk) {
 	       if (!"1".equals(adminchk)) {
 	           // adminchk가 "1"이 아닌 경우 기본값 설정

@@ -1,6 +1,7 @@
 package dao;
 
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -22,21 +23,26 @@ public class CartMybatisDao {
 	
 	public int addToAproducts(Cart cart) throws SQLException {
 	  	
-		int num = sqlSession.insert(ns+"addToAproducts", cart);
-		sqlSession.commit();
-		return num;
+		
+		return sqlSession.insert(ns+"addToAproducts", cart);
 	}
 
 	public List<Cart> jumunList(String userid) throws SQLException {
-		List<Cart> li = sqlSession.selectList(ns+"jumunList", userid);
-	return li;
+		
+	return sqlSession.selectList(ns+"jumunList", userid);
 
 	}
 	public List<Cart> myList(String userid) throws SQLException {
-		List<Cart> li = sqlSession.selectList(ns+"myList", userid);
-	return li;
+		
+	return sqlSession.selectList(ns+"myList", userid);
 
 	}
 	
+	public int jumunDelete(int num) throws UnsupportedEncodingException, SQLException {
+
+
+	      return sqlSession.update(ns + "jumunDelete", num);
+
+	   } 
 	}
 

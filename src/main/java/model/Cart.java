@@ -13,6 +13,7 @@ public class Cart {
     private int readcnt;
     private String subject;
     private String ser;
+	private String prompt;
 	public int getPnum() {
 		return pnum;
 	}
@@ -73,11 +74,19 @@ public class Cart {
 	public void setSer(String ser) {
 		this.ser = ser;
 	}
+	public String getPrompt() {
+		return prompt;
+	}
+	public void setPrompt(String prompt) {
+		this.prompt = prompt;
+	}
 	@Override
 	public String toString() {
 		return "Cart [pnum=" + pnum + ", userid=" + userid + ", itemid=" + itemid + ", pname=" + pname + ", price="
 				+ price + ", file1=" + file1 + ", regdate=" + regdate + ", readcnt=" + readcnt + ", subject=" + subject
-				+ ", ser=" + ser + "]";
+				+ ", ser=" + ser + ", prompt=" + prompt + "]";
 	}
+	
+	
         
 }

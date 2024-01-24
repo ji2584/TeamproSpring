@@ -13,9 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.oreilly.servlet.MultipartRequest;
+
 
 import dao.AdminMybatisDao;
 
@@ -155,6 +156,23 @@ public class AdminController  {
 
        // 뷰 이름 반환
        return "admin/reportInfo";
+   }
+   
+   @RequestMapping("deleteReportPro")
+   public String deleteReportPro(int reportpnum) {
+       // DAO에서 deleteReport 호출
+       ad.deleteReport(reportpnum);
+
+       // 삭제 후 어떤 페이지로 이동할지 리턴
+       return "admin/Reportlist";
+   }
+   
+   
+   @RequestMapping("MemberList")
+   public String MemberList(Model model) { 
+       List<Amem> memberList = ad.selectMemberList();
+       model.addAttribute("memberList", memberList);
+       return "admin/MemberList";
    }
    }
    

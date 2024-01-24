@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.9//EN"
       <typeAlias type="model.Auction" alias="auction" />
       <typeAlias type="model.Comment" alias="comment" />
       <typeAlias type="model.Cart" alias="cart" />
+      <typeAlias type="model.Notice" alias="notice" />
       <typeAlias type="model.Report" alias="report"/>
    </typeAliases>
 
@@ -28,11 +29,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.9//EN"
    </environments>
 
    <mappers>
-     
+ 
       <mapper resource="mybatis/board.xml" />
       <mapper resource="mybatis/cart.xml" />
+      <mapper resource="mybatis/notice.xml" />
       <mapper class="mybatis.AMemberAnno" />
       <mapper class="mybatis.AReportAnno" />
-      
    </mappers>
 </configuration>

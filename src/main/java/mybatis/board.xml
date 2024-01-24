@@ -5,9 +5,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace = "board">
 
 <insert id="insertBoard" parameterType="Auction">
-    INSERT INTO auction (PNUM, PNAME, PRICE, PICTURE, SUBJECT, CONTENT, PASS, FILE1, BOARDID, REGDATE, READCNT, USERID)
-    VALUES (boardseq.nextval, #{pname}, #{price}, #{picture}, #{subject}, #{content}, #{pass}, #{file1}, #{boardid}, sysdate, 0,#{userid})
+    INSERT INTO auction (PNUM, PNAME, PRICE, prompt, SUBJECT, CONTENT, PASS, FILE1, BOARDID, REGDATE, READCNT, USERID, BUY, BUYID,IDATE)
+    VALUES (boardseq.nextval, #{pname}, #{price}, #{prompt}, #{subject}, #{content}, #{pass}, #{file1}, #{boardid}, sysdate, 0,#{userid},#{buy},#{buyid},sysdate)
 </insert>
+<update id="updateBuy" parameterType="Auction">
+    update auction set buy=#{buy},buyid=#{buyid} where pnum=#{pnum}
+</update>
+<!-- AuctionMapper.xml -->
+<update id="buyNow" parameterType="map">
+    update auction set regdate = null, buyid = #{userid},buy = #{prompt}  where pnum = #{pnum}
+</update>
+
 
 <select id="boardList" parameterType="map" resultType="Auction">
 select * from (
@@ -25,15 +33,16 @@ select * from auction where pnum = #{pnum}
 </select>
 
 <insert id="updateBoard" parameterType="Auction">
-update auction set pname=#{pname},subject=#{subject},content=#{content},file1=#{file1} where pnum =#{pnum}
+update auction set pname=#{pname},subject=#{subject},content=#{content},file1=#{file1},price=#{price},prompt=#{prompt} where pnum =#{pnum}
  </insert>
- 
+
+
  <delete id="boardDelete"  parameterType="int">
 delete from auction where pnum = #{pnum}
 </delete>
 
 <insert id="insertComment" parameterType="map">
-    insert into Aboardcomment values (Aboardcomseq.nextval, #{num}, #{comment}, sysdate)
+    insert into Aboardcomment values (Aboardcomseq.nextval, #{num}, #{comment}, sysdate,#{userid})
 </insert>
 
 <select id="commentList" parameterType="int" resultType="comment">
@@ -47,6 +56,16 @@ select * from (
 		order by pnum desc) a)
 		where rnum between 0 and 10
 </select>
+
+<delete id="commentDelete"  parameterType="int">
+    delete from Aboardcomment where ser = #{ser}
+</delete>
+
+<select id="oneComment" parameterType="int" resultType="Comment">
+        select * from Aboardcomment where ser = #{ser}
+    </select>
+
+
 
 
 </mapper>

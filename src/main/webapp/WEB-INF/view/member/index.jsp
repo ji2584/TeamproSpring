@@ -9,10 +9,19 @@
 <script>
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(pnum, regdate) {
+        if (!regdate) {
+        	$("#remainingTime-" + pnum).html("낙찰 또는 시간 만료 상품");
+            return;
+        }
+
         var currentTime = new Date().getTime();
         var expirationTime = new Date(regdate).getTime() + (7 * 24 * 60 * 60 * 1000); // 7일을 밀리초로 변환
 
         var remainingTime = expirationTime - currentTime;
+        if (remainingTime <= 0) {
+            $("#remainingTime-" + pnum).text("시간이 만료된 상품입니다.");
+            return;
+        }
 
         var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
         var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -36,6 +45,7 @@
         </c:forEach>
     }, 1000); // 1초마다 업데이트
 </script>
+
 <style>
 ul {
 	list-style: none;
@@ -143,24 +153,7 @@ li {
 			</div>
 		</c:forEach>
 		<ul class="pagination justify-content-center text-center">
-			<li
-				class="page-item <c:if test="${start<=bottomLine}"> disabled  </c:if> ">
-				<a class="page-link"
-				href="${pageContext.request.contextPath}/board/products?pageNum=${start-bottomLine}">Previous</a>
-			</li>
-
-			<c:forEach var="p" begin="${start}" end="${end}">
-
-				<li class="page-item <c:if test="${pageInt==p}"> active  </c:if>"><a
-					class="page-link"
-					href="${pageContext.request.contextPath}/board/products?pageNum=${p}">${p}</a></li>
-			</c:forEach>
-
-			<li class="page-item <c:if test="${end>=maxPage}"> disabled  </c:if>">
-				<a class="page-link"
-				href="${pageContext.request.contextPath}/board/products?pageNum=${start+bottomLine}">Next</a>
-			</li>
-			<li><a class="page-link" href="${pageContext.request.contextPath}/board/boardForm">게시판입력</a></li>
+			
 		</ul>
 
 	</div>

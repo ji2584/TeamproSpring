@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,4 +66,13 @@ public class AdminMybatisDao {
 	
 	
 }
+	
+	public void deleteReport(int reportpnum) {
+	    System.out.println(reportpnum);
+	    sqlSession.getMapper(AReportAnno.class).deleteReport(reportpnum);
+	}
+	
+	public List<Amem> selectMemberList() {
+	    return sqlSession.getMapper(AMemberAnno.class).selectMemberList();
+	}
 }

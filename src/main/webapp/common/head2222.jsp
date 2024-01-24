@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -35,7 +37,6 @@ body {
 	margin: 0 auto;
 }
 
-
 </style>
 <body
 	class="home page page-template page-template-template-portfolio page-template-template-portfolio-php">
@@ -54,11 +55,11 @@ body {
 						content</a>
 					<div class="menu-menu-1-container">
 						<ul id="menu-menu-1" class="menu">
-						         <c:if test="${sessionScope.admin!=null}">
+						<c:if test="${sessionScope.id!=null}">
                         <li><a href="${pageContext.request.contextPath}/admin/main">관리자페이지</a></li>
                         </c:if>
-							<li><a href="${pageContext.request.contextPath}/member/index">Main</a></li>
-							<li class="menu-item-has-children"><a href="#">board</a>
+							<li><a href="${pageContext.request.contextPath}/member/index">메인</a></li>
+							<li class="menu-item-has-children"><a href="#">게시판</a>
 								<ul class="sub-menu">
 
 						   <li><a href="${pageContext.request.contextPath}/notice/noticeList?boardid=1">공지사항</a></li> <!-- 관리자만 글작성 -->
@@ -68,7 +69,7 @@ body {
 
 								</ul></li>
 
-							<li class="menu-item-has-children"><a href="#">category</a>
+							<li class="menu-item-has-children"><a href="#">카테고리</a>
 								<ul class="sub-menu">
 
 									<li ><a
@@ -82,27 +83,24 @@ body {
 								</ul></li>
 
 							<c:if test="${sessionScope.id==null}">
-								<li><a href="../member/loginForm">login</a></li>
-								<li><a href="../member/memberinput">Sign up</a></li>
+								<li><a href="../member/loginForm">로그인</a></li>
+								<li><a href="../member/memberinput">회원가입</a></li>
 							</c:if>
 							<c:if test="${sessionScope.id!=null}">
 								<li><a
-									href="${pageContext.request.contextPath}/member/logout">logout</a></li>
+									href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
 
 
 
 
-								<li class="menu-item-has-children"><a href="#">Mypage (${amem.id })님</a>
+								<li class="menu-item-has-children"><a href="#">마이페이지</a>
 									<ul class="sub-menu">
 
 										<li><a href="${pageContext.request.contextPath}/member/memberinfo">회원정보</li>
-										<li><a href="${pageContext.request.contextPath}/notice/mynotice">나의문의글</li>
 										<li><a
 											href="${pageContext.request.contextPath}/jumun/jumunList">찜한상품</a></li>
 										<li><a
 											href="${pageContext.request.contextPath}/jumun/myList">판매등록상품</a></li>
-											<li><a
-											href="${pageContext.request.contextPath}/jumun/buyList">입찰중/입찰완료 상품</a></li>
 
 									</ul></li>
 							</c:if>
