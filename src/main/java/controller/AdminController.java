@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +23,11 @@ import dao.AdminMybatisDao;
 
 import dao.BoardMybatisDao;
 import dao.MemberMybatisDao;
+import dao.NoticeMybatisDao;
 import model.Amem;
 import model.Auction;
 import model.Comment;
+import model.Notice;
 import model.Report;
 
 
@@ -44,6 +47,8 @@ public class AdminController  {
    MemberMybatisDao md;
    @Autowired
    BoardMybatisDao bd;
+   @Autowired
+	NoticeMybatisDao nc;
    
   
    @RequestMapping("main")
@@ -125,7 +130,7 @@ public class AdminController  {
        rep.setReportpnum(pnum);
        rep.setContent(content);
        rep.setRegdate(new Date());
-       // ReportService를 통해 데이터 저장
+       // 데이터 저장
         ad.insertReport(rep);
 
        String msg = "게시물 신고 완료";
@@ -174,6 +179,31 @@ public class AdminController  {
        model.addAttribute("memberList", memberList);
        return "admin/MemberList";
    }
+   
+   @RequestMapping("Question")
+   
+   public String Question(Model model) throws Exception {
+	   Notice notice = new Notice();
+	   //List<Notice> QuestionList = nc.noticeList(pageInt,limit,"3");
+	   List<Notice> QuestionList = nc.selectQuestionList();
+	   
+       model.addAttribute("QuestionList", QuestionList);
+       
+       System.out.println(QuestionList);
+       
+       return "admin/Question";
+	      
+	   }
+   
+	   @RequestMapping("deleteMembers")
+   public String deleteMembers(@RequestParam("selectedMembers") String selectedMembers) {
+	       String[] ids = selectedMembers.split(",");
+		   ad.deleteMembers(ids);
+		   System.out.println(selectedMembers);
+	    return "admin/MemberList";
+	}
+   
+	   
    }
    
  

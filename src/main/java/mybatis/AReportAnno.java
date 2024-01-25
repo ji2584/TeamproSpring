@@ -32,7 +32,7 @@ public interface AReportAnno {
             + "JOIN Amem amem ON rep.reportid = amem.id")
     List<Report> selectReportList(); 
     
-    @Select("SELECT rep.content, rep.regdate, auc.userid AS reported_userid, amem.id AS reporter_id "
+    @Select("SELECT rep.content, rep.regdate, auc.userid AS reportedid, amem.id AS reportid "
             + "FROM AReport rep "
             + "JOIN Auction auc ON rep.reportpnum = auc.pnum "
             + "JOIN Amem amem ON rep.reportid = amem.id "

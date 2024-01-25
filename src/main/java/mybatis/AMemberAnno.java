@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -29,4 +30,12 @@ public interface AMemberAnno {
 
    @Select("select * from amem")
    List<Amem> selectMemberList();
+   
+ 
+   
+   
+   @Delete("<script> delete from amem where id in " +
+		   "<foreach item='item'  collection='list' open='(' separator=',' close=')'>"
+   		  + "             #{item} </foreach></script>")
+   void deleteMembers(List<String> list);
 }

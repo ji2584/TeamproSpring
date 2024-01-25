@@ -25,6 +25,13 @@
             text-overflow: unset;
         }
     </style>
+      <script>
+    function downloadFile(fileId, fileName) {
+        // fileId와 fileName을 사용하여 서버에 파일 다운로드 요청
+        alert(fileId+":"+fileName)
+        window.open('${pageContext.request.contextPath}/single/temp.jsp?filename='+fileName, '', 'left=100,top=100,width=320,height=320')
+    }
+</script>
         
         
         
@@ -33,7 +40,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}/admin/main">관리자 페이지</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -66,7 +73,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 신고된 게시물
                             </a>
-                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/Reportlist">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/MemberList">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                회원관리
+                            </a>
+                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/Question">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 1대1 문의
                             </a>
@@ -147,28 +158,26 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>신고자: </th>
-                                            <th>신고당한사람:</th>
-                                            <th>신고물품번호:</th>
-                                            <th>신고사유:</th>
-                                            <th>신고날짜:</th>
+                                            <th>아이디:</th>
+                                            <th>제목:</th>
+                                            <th>1대1문의내용:</th>
+                                            <th>파일:</th>
+                                            <th>문의날짜:</th>
                                             
                                         </tr>
                                     </thead>
                                
                                     <tbody>
-                 <c:forEach var="" items="">
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                                         
-                     <td class="content-preview" id="contentPreview_">
-          				     				  </td>
-                    
-                    <td></td>
-                </tr>
-            </c:forEach>
+            <c:forEach var="q" items="${QuestionList}">
+        <tr>
+            <td>${q.name}</td>
+            <td>${q.subject}</td>
+            <td>${q.content}</td>
+            <td><a href="#" 
+            onclick="downloadFile('${q.id}', '${q.file1}')">${q.file1}</a></td>
+            <td>${q.regdate}</td>               
+        </tr>
+    </c:forEach>
             </tbody>
                                     
                                     
@@ -195,8 +204,6 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
-        <script>
-       
-    </script>
+    
     </body>
 </html>

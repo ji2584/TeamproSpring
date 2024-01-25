@@ -33,7 +33,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}/admin/main">관리자 페이지</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -69,7 +69,11 @@
                              <a class="nav-link" href="${pageContext.request.contextPath}/admin/MemberList">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 회원 관리
-                            </a>                      
+                            </a>   
+                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/Question">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                              1대1문의
+                            </a>                        
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -144,6 +148,7 @@
                                 회원관리
                             </div>
                             <div class="card-body">
+                            <form id="deleteMembers">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
@@ -159,6 +164,9 @@
                                     <tbody>
                  <c:forEach var="ml" items="${memberList}">
                 <tr>
+                <td>
+                        <input type="checkbox" class="selectedMembersCheckbox" name="selectedMembers" value="${ml.id}">
+                    </td>
                     <td>${ml.id}</td>
                     <td>${ml.name}</td>
                     <td>${ml.tel}</td> 
@@ -171,7 +179,37 @@
                                     
                                     
                                 </table>
-                            </div>
+                                <button type="button" onclick="deleteMembers()">선택한 회원 삭제</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function deleteMembers() {
+    	alert("ok")
+        var selectedMembers = $(".selectedMembersCheckbox:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        if (selectedMembers.length === 0) {
+            alert('삭제할 회원을 선택하세요.');
+            return;
+        }
+        console.log(selectedMembers)
+        $.ajax({
+            type: 'GET',
+            url: '${pageContext.request.contextPath}/admin/deleteMembers?selectedMembers='+selectedMembers, // 실제 컨트롤러 매핑에 맞게 수정
+           // data: selectedMembers,
+            success: function(response) {
+                // 서버로부터의 응답 처리
+                alert('선택한 회원이 삭제되었습니다.');
+                location.reload(); // 페이지 새로고침 또는 필요한 작업 수행
+            },
+            error: function(error) {
+                console.error('에러 발생:', error);
+            }
+        });
+    }
+    </script>
+                            </div> 
                         </div>
                     </div>
                 </main>

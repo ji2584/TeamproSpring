@@ -13,11 +13,27 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/admin/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <style>
+        .content-preview {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .expanded {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+        }
+    </style>
+        
+        
+        
+        
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}/admin/main">Auction Admin Page</a>
+            <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}/admin/main">관리자 페이지</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -50,14 +66,14 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 신고된 게시물
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/MemberList">
+                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/MemberList">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 회원 관리
-                            </a>
-                              <a class="nav-link" href="${pageContext.request.contextPath}/admin/Question">
+                            </a>   
+                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/Question">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                1대1상담
-                            </a>
+                              1대1문의
+                            </a>                        
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -88,7 +104,7 @@
                                             <a class="nav-link" href="password.html">Forgot Password</a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" d ata-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                         Error
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
@@ -129,33 +145,70 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                신고처리테이블
+                                회원관리
                             </div>
                             <div class="card-body">
+                            <form id="deleteMembers">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>아이디: </th>
+                                            <th>이름:</th>
+                                            <th>전화번호:</th>
+                                            <th>이메일:</th>
+                                            <th>주소:</th>
+                                            
                                         </tr>
                                     </thead>
-                                
+                               
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
+                 <c:forEach var="ml" items="${memberList}">
+                <tr>
+                <td>
+                        <input type="checkbox" class="selectedMembersCheckbox" name="selectedMembers" value="${ml.id}">
+                    </td>
+                    <td>${ml.id}</td>
+                    <td>${ml.name}</td>
+                    <td>${ml.tel}</td> 
+                    <td>${ml.email} </td>
+          			<td>${ml.address}</td>
+  						          				 
+                </tr>
+            </c:forEach>
+            </tbody>
                                     
-                                    </tbody>
+                                    
                                 </table>
+                                <button type="button" onclick="deleteMembers()">선택한 회원 삭제</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function deleteMembers() {
+    	alert("ok")
+        var selectedMembers = $(".selectedMembersCheckbox:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        if (selectedMembers.length === 0) {
+            alert('삭제할 회원을 선택하세요.');
+            return;
+        }
+        console.log(selectedMembers)
+        $.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/admin/deleteMembers', // 실제 컨트롤러 매핑에 맞게 수정
+            data: { selectedMembers: selectedMembers },
+            success: function(response) {
+                // 서버로부터의 응답 처리
+                alert('선택한 회원이 삭제되었습니다.');
+                location.reload(); // 페이지 새로고침 또는 필요한 작업 수행
+            },
+            error: function(error) {
+                console.error('에러 발생:', error);
+            }
+        });
+    }
+    </script>
                             </div>
                         </div>
                     </div>
@@ -178,5 +231,8 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
+        <script>
+       
+    </script>
     </body>
 </html>
