@@ -38,7 +38,9 @@ public class BoardMybatisDao {
 	public int buyNow(Map<String, Object> params) throws UnsupportedEncodingException, SQLException {
 	    return sqlSession.update(ns + "buyNow", params);
 	}
-
+	 public List<Auction> searchBoards(String pname) throws UnsupportedEncodingException, SQLException {
+         return sqlSession.selectList(ns + "searchBoards", pname);
+     }
 
 	public int updateBuy(Auction board) throws UnsupportedEncodingException, SQLException {
 	    return sqlSession.update(ns + "updateBuy", board);

@@ -48,4 +48,24 @@ SELECT
 delete from aproducts where itemid = #{itemid}
 </delete> 
 
+<select id="Tier" parameterType="string" resultType="String">
+ SELECT Tier FROM
+    (
+        SELECT
+            COUNT(pnum) as total_pnum,
+            CASE
+                WHEN COUNT(pnum) &lt; 3 THEN 'Silver'
+                WHEN COUNT(pnum) BETWEEN 4 AND 6 THEN 'Gold'
+                WHEN COUNT(pnum) BETWEEN 7 AND 10 THEN 'Platinum'
+                ELSE 'Diamond'
+            END AS Tier
+        FROM
+            auction
+        WHERE
+            userid = #{userid}
+        GROUP BY
+            userid
+    ) 
+    </select>
+    
 </mapper>

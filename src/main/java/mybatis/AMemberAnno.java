@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import model.Amem;
-import model.Report;
 
 public interface AMemberAnno {
    @Insert("insert into amem (id, nickname,pass,name,tel,email,address,bank,account,numberid) values (#{id}, #{nickname},#{pass},#{name},#{tel},#{email},#{address},#{bank},#{account},#{numberid})")
@@ -19,7 +18,7 @@ public interface AMemberAnno {
    @Select("select*from amem where id =#{id}")
    Amem oneMember(String id);
 
-   @Update("update amem set name=#{name},tel=#{tel},email=#{email} where id =#{id}")
+   @Update("update amem set name=#{name},tel=#{tel},bank=#{bank},account=#{account},email=#{email},address=#{address} where id =#{id}")
    int updateMember(Amem amem);
 
    @Delete("delete amem where id =#{id}")
@@ -30,12 +29,11 @@ public interface AMemberAnno {
 
    @Select("select * from amem")
    List<Amem> selectMemberList();
-   
  
-   
-   
+
    @Delete("<script> delete from amem where id in " +
-		   "<foreach item='item'  collection='list' open='(' separator=',' close=')'>"
-   		  + "             #{item} </foreach></script>")
-   void deleteMembers(List<String> list);
+	         "<foreach item='item'  collection='list' open='(' separator=',' close=')'>"
+	           + "             #{item} </foreach></script>")
+	   void deleteMembers(List<String> list);
+
 }

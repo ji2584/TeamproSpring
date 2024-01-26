@@ -28,6 +28,7 @@
 body {
 	margin: 0;
 	padding: 0;
+	 background-color: white;
 }
 
 .container {
@@ -92,7 +93,7 @@ body {
 
 
 
-								<li class="menu-item-has-children"><a href="#">Mypage (${amem.id })님</a>
+								<li class="menu-item-has-children"><a href="#">Mypage </a>
 									<ul class="sub-menu">
 
 										<li><a href="${pageContext.request.contextPath}/member/memberinfo">회원정보</li>
@@ -105,6 +106,10 @@ body {
 											href="${pageContext.request.contextPath}/jumun/buyList">입찰중/입찰완료 상품</a></li>
 
 									</ul></li>
+									
+									
+									<li class="menu-item-has-children"><a href="#">[${amem.id }]님  회원등급:${Tier}</a></li>
+									
 							</c:if>
 
 							<!-- <ul class="sub-menu">

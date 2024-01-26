@@ -37,6 +37,7 @@ public class JumunController {
 
 	@Autowired
 	BoardMybatisDao bd;
+	
 	HttpSession session;
 	HttpServletRequest req;
 	
@@ -56,7 +57,8 @@ public class JumunController {
 		
       
         String id = (String) session.getAttribute("id");
-       
+	
+
        
         Cart c = new Cart();
         c.setUserid(id);
@@ -75,7 +77,8 @@ public class JumunController {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		
         String id = (String) session.getAttribute("id");
 		List<Cart>  li = cd.jumunList(id);
@@ -111,7 +114,8 @@ public class JumunController {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		
         String id = (String) session.getAttribute("id");
 		List<Cart>  li = cd.myList(id);
@@ -128,6 +132,9 @@ public class JumunController {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
+		
 	List<Auction> li = bd.mainList();	
 		
 		

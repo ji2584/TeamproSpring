@@ -44,5 +44,10 @@ public class CartMybatisDao {
 	      return sqlSession.update(ns + "jumunDelete", num);
 
 	   } 
+	public String tier(String userid) throws UnsupportedEncodingException, SQLException {
+
+        return sqlSession.selectOne(ns + "Tier", userid);
+
+     } 
 	}
 

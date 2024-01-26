@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.InternalResourceView;
 
 
 import dao.BoardMybatisDao;
+import dao.CartMybatisDao;
 import dao.MemberMybatisDao;
 
 import model.Amem;
@@ -37,16 +38,24 @@ public class MemberController {
 	MemberMybatisDao md;
 	HttpSession session;
 	HttpServletRequest request;
-	
+	@Autowired
+	CartMybatisDao cd;  
+
 	@Autowired
 	BoardMybatisDao bd;
 	 
 	@RequestMapping("index") //~~/board/index
 	   public String index(HttpServletRequest req) throws Exception {
 		      // TODO Auto-generated method stub
+		
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
+		
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
+		
+		
 	List<Auction> li = bd.mainList();	
 		
 		
@@ -92,11 +101,14 @@ public class MemberController {
 	
 	@RequestMapping("memberinfo")
 	public String memberinfo() throws Exception {	
+	
 		
 		
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		request.setAttribute("amem", mem);
+		String Tier = cd.tier(login); 
+		request.setAttribute("Tier", Tier);
 		return "member/memberinfo";
 	}
 	
@@ -156,7 +168,8 @@ public class MemberController {
 		String login =  (String) session.getAttribute("id");
 	
 		Amem mem = md.oneMember(login);
-		
+		String Tier = cd.tier(login); 
+		request.setAttribute("Tier", Tier);
 		request.setAttribute("amem", mem);		
 		
 		return "member/memberUpdateForm";
@@ -171,9 +184,11 @@ public class MemberController {
 		mem.setId(login); //session 저장 logout이면 에러남
 		mem.setPass(request.getParameter("pass"));
 		mem.setName(request.getParameter("name"));
-	
 		mem.setTel(request.getParameter("tel"));
+		mem.setBank(request.getParameter("bank"));
 		mem.setEmail(request.getParameter("email"));
+		mem.setAddress(request.getParameter("address"));
+		mem.setAccount(request.getParameter("account"));
 		
 
 	
@@ -198,7 +213,11 @@ public class MemberController {
 	
 	@RequestMapping("memberDeleteForm")
 	public String memberDeleteForm() throws Exception {		
-		
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		request.setAttribute("amem", mem);
+		String Tier = cd.tier(login); 
+		request.setAttribute("Tier", Tier);
 		return "member/memberDeleteForm";
 	}
 	
@@ -230,7 +249,11 @@ public class MemberController {
 	
 	@RequestMapping("memberPassForm")
 	public String memberPassForm() throws Exception {		
-		
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		request.setAttribute("amem", mem);
+		String Tier = cd.tier(login); 
+		request.setAttribute("Tier", Tier);
 		return "member/memberPassForm";
 	}
 	

@@ -16,7 +16,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update auction set regdate = null, buyid = #{userid},buy = #{prompt}  where pnum = #{pnum}
 </update>
 
-
+<select id="searchBoards" parameterType="string" resultType="auction">
+    SELECT * FROM auction
+    WHERE pname LIKE '%${value}%'
+</select>
 <select id="boardList" parameterType="map" resultType="Auction">
 select * from (
 		select rownum rnum,a.*  from (

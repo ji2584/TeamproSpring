@@ -148,7 +148,7 @@
                                 회원관리
                             </div>
                             <div class="card-body">
-                            <form id="deleteMembers">
+                            <form action="${pageContext.request.contextPath}/deleteMembers" method="post" id="deleteForm">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
@@ -162,7 +162,7 @@
                                     </thead>
                                
                                     <tbody>
-                 <c:forEach var="ml" items="${memberList}">
+                                    <c:forEach var="ml" items="${memberList}">
                 <tr>
                 <td>
                         <input type="checkbox" class="selectedMembersCheckbox" name="selectedMembers" value="${ml.id}">
@@ -171,8 +171,8 @@
                     <td>${ml.name}</td>
                     <td>${ml.tel}</td> 
                     <td>${ml.email} </td>
-          			<td>${ml.address}</td>
-  						          				 
+                   <td>${ml.address}</td>
+                                           
                 </tr>
             </c:forEach>
             </tbody>
@@ -184,7 +184,7 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     function deleteMembers() {
-    	alert("ok")
+       alert("ok")
         var selectedMembers = $(".selectedMembersCheckbox:checked").map(function() {
             return $(this).val();
         }).get();
@@ -209,7 +209,21 @@
         });
     }
     </script>
-                            </div> 
+ 
+<script>
+    function deleteSelectedMembers() {
+        var checkboxes = document.getElementsByName('selectedMembers');
+        var checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+
+        if (checkedCheckboxes.length === 0) {
+            alert('삭제할 회원을 선택하세요.');
+            return;
+        }
+
+        document.getElementById('deleteForm').submit();
+    }
+</script>
+                            </div>
                         </div>
                     </div>
                 </main>

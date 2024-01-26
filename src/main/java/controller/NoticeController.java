@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import dao.CartMybatisDao;
 import dao.MemberMybatisDao;
 import dao.NoticeMybatisDao;
 import model.Amem;
@@ -36,7 +36,9 @@ public class NoticeController {
 	@Autowired
 	NoticeMybatisDao nc;
 
-	
+	@Autowired
+	CartMybatisDao cd;  
+
 	@ModelAttribute
 	protected void init(HttpServletRequest request) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -99,6 +101,7 @@ public class NoticeController {
 	public String noticeList(String boardid, String pageNum) throws Exception {
 		// TODO Auto-generated method stub
 		
+		
 		//board session 처리한다.		
 		if(boardid!=null) { //? boardid = 3
 			session.setAttribute("boardid", boardid);
@@ -157,7 +160,8 @@ public class NoticeController {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		return "notice/noticeList";
 }
 	
@@ -171,7 +175,8 @@ public class NoticeController {
 		Notice notice = nc.oneNotice(num);
 		
 		req.setAttribute("notice", notice);	
-	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		
 		return "notice/noticeInfo";
 	}
@@ -185,6 +190,8 @@ public class NoticeController {
 	    Amem mem = md.oneMember(login);
 	    req.setAttribute("amem", mem);
 		req.setAttribute("notice", notice);
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		return "notice/noticeUpdateForm";
 }
 	
@@ -230,7 +237,12 @@ public class NoticeController {
 }
 	
 	@RequestMapping("noticeDeleteForm") 
-	public String noticeDeleteForm() throws Exception {		
+	public String noticeDeleteForm() throws Exception {	
+		String login = (String) session.getAttribute("id");
+	    Amem mem = md.oneMember(login);
+	    req.setAttribute("amem", mem);
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		req.setAttribute("num", req.getParameter("num"));
 		return "notice/noticeDeleteForm";
 }

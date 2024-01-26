@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.view.InternalResourceView;
 
 
 import dao.BoardMybatisDao;
-
+import dao.CartMybatisDao;
 import dao.MemberMybatisDao;
 
 
@@ -44,7 +45,9 @@ public class BoardController  {
 	MemberMybatisDao md;
 	HttpSession session;
 	HttpServletRequest req;
-	
+	@Autowired
+	CartMybatisDao cd;  
+
 	
 	@ModelAttribute
 	protected void service(HttpServletRequest request) throws ServletException, IOException {
@@ -53,6 +56,25 @@ public class BoardController  {
 		this.req=request;
 	}
 	
+	@RequestMapping("searchauction")
+	   public String searchauction(Model model, String pname) throws Exception {
+	      System.out.println("======== searchauction");
+	      System.out.println(pname);
+	      String login = (String) session.getAttribute("id");
+			Amem mem = md.oneMember(login);
+			req.setAttribute("amem", mem);
+			
+			String Tier = cd.tier(login); 
+			req.setAttribute("Tier", Tier);
+	      
+	      List<Auction>  li = bd.searchBoards(pname);
+	      model.addAttribute("li",li);
+	      System.out.println(li);
+	   
+	      
+	      return "member/index";
+	   } 
+	
 	@RequestMapping("boardForm")
 	public String boardForm(String boardid, String pageNum) throws Exception {
 		// TODO Auto-generated method stub
@@ -60,6 +82,8 @@ public class BoardController  {
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
 		
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		if (req.getParameter("boardid") != null) { // ? boardid = 3
 			session.setAttribute("boardid",boardid);
 			session.setAttribute("pageNum", "1");
@@ -126,6 +150,9 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
+	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		// board session 처리한다.
 		if (boardid != null) { // ? boardid = 3
 			session.setAttribute("boardid", boardid);
@@ -203,7 +230,9 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
+	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 				
 		Auction board = bd.oneBoard(num);
 		
@@ -223,6 +252,11 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
+		
+	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
+		
 		Auction board = bd.oneBoard(num);
 		req.setAttribute("board", board);
 		return "board/boardUpdateForm";
@@ -255,6 +289,7 @@ public class BoardController  {
 
 	    req.setAttribute("msg", msg);
 	    req.setAttribute("url", url);
+	    System.out.println("pnum: " + pnum + ", buy: " + buy + ", buyid: " + buyid);
 	    return "alert";
 	}
 	@RequestMapping("buyNowPro")
@@ -323,6 +358,11 @@ public class BoardController  {
 	@RequestMapping("boardDeleteForm")
 	public String boardDeleteForm() throws Exception {
 		// TODO Auto-generated method stub
+		String login = (String) session.getAttribute("id");
+	    Amem mem = md.oneMember(login);
+	    req.setAttribute("amem", mem);
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
 		req.setAttribute("pnum", req.getParameter("num"));
 		return "board/boardDeleteForm";
 	}

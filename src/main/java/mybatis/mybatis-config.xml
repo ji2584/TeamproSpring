@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.9//EN"
    </environments>
 
    <mappers>
- 
+      <mapper resource="mybatis/amem.xml" />
       <mapper resource="mybatis/board.xml" />
       <mapper resource="mybatis/cart.xml" />
       <mapper resource="mybatis/notice.xml" />

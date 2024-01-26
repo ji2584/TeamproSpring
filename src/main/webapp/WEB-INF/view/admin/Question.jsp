@@ -26,12 +26,26 @@
         }
     </style>
       <script>
-    function downloadFile(fileId, fileName) {
+    function checkFile(fileId, fileName) {
         // fileId와 fileName을 사용하여 서버에 파일 다운로드 요청
-        alert(fileId+":"+fileName)
+       
         window.open('${pageContext.request.contextPath}/single/temp.jsp?filename='+fileName, '', 'left=100,top=100,width=320,height=320')
     }
+    function toggleTextExpansion(elementId) {
+        var element = document.getElementById(elementId);
+        element.classList.toggle('expanded');
+    }
+    
 </script>
+
+<script>
+    function AnswerForm(name, subject) {
+        // AnswerForm 함수 내에서 팝업을 띄우는 로직을 추가
+        window.open('${pageContext.request.contextPath}/admin/AnswerForm.jsp?name=' + name + '&subject=' + subject, "_blank", "width=400, height=400");
+    }
+</script>
+
+
         
         
         
@@ -152,7 +166,7 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                신고 처리 테이블
+                                1대1문의
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -172,10 +186,19 @@
         <tr>
             <td>${q.name}</td>
             <td>${q.subject}</td>
-            <td>${q.content}</td>
+            <td class="content-preview" id="contentPreview_${q.content}" onclick="toggleTextExpansion('contentPreview_${q.content}')">
+    ${q.content}
+</td>
             <td><a href="#" 
-            onclick="downloadFile('${q.id}', '${q.file1}')">${q.file1}</a></td>
-            <td>${q.regdate}</td>               
+            onclick="checkFile('${q.id}', '${q.file1}')">${q.file1}</a></td>
+            <td>${q.regdate}</td> 
+            <td>
+     <form action="${pageContext.request.contextPath}/admin/AnswerForm" method="post">
+    <input type="hidden" name="answer" value="${q.name},${q.subject}">
+    <button class="btn btn-danger" type="button" onclick="AnswerForm('${q.name}', '${q.subject}')">답변</button>
+</form>
+
+</td>
         </tr>
     </c:forEach>
             </tbody>

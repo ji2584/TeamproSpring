@@ -78,6 +78,12 @@
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
 }
+.expanded {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+}
+
 
 *,
 *::before,

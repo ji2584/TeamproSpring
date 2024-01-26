@@ -124,12 +124,21 @@ li {
 	}
 	
 }
+.search{
+background-color:#2A2A2A;
+color:white;
+}
 </style>
 </head>
 <body>
 
 	<div class="container">
-		<h5 class="text-center">[${li.size()}]개의 상품이 있습니다</h5>
+		<h5 class="text-center">최신상품 [${li.size()}]개의 상품이 있습니다</h5>
+		<form action="${pageContext.request.contextPath}/board/searchauction" method="GET">
+    <input type="text"  placeholder="상품 검색"  name="pname">
+    <button class="search" type="submit">검색</button>
+    <div>&nbsp;</div>
+</form>
 
 		<c:forEach var="b" items="${li}">
 			<div class="product-item">

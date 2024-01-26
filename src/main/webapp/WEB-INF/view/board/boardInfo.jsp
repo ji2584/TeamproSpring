@@ -90,7 +90,36 @@ li {
     }, 1000); // 1초마다 업데이트
 </script>
 
-
+<script> 
+		let count = ${count}
+		function enterkey(pnum, userid) {
+		   if(window.event.keyCode==13) {
+		      commentPro(pnum, userid)
+		   }
+		}
+		function commentPro(pnum, userid) {
+		   count = count+1
+		   let comment = document.querySelector("#comment").value
+		   //alert(comment)
+		   const xhttp = new XMLHttpRequest()
+		   let url = "${pageContext.request.contextPath}/board/boardCommentPro?comment="
+		         +comment+"&boardnum="+pnum+"&count="+count+"&userid="+userid
+		   xhttp.open("GET",url,true)
+		   xhttp.send()
+		   xhttp.onreadystatechange = function() {      
+		      if(this.readyState ==4 && this.status==200) {
+		     
+		      
+		   let commentList = document.querySelector("#commentList")
+		   commentList.innerHTML = this.responseText + "<br>" + commentList.innerHTML
+		   location.reload(true);
+		      }      
+		}
+		   document.querySelector("#comment").value=""
+		   }
+	
+	
+		</script>
 </head>
 <body>
 
@@ -127,7 +156,7 @@ li {
 				<p>
 				<form class="cart" method="post" enctype='multipart/form-data'>
 
-					
+		
 					<button onclick="openPurchasePopup()">입찰하기</button>
 					 <button onclick="buyNow()">즉시구매</button>
 				</form>
@@ -190,10 +219,7 @@ function openPurchasePopup() {
             // 입력값이 범위에 있는지 확인
             if (parseInt(buyAmount) >= parseInt(bidRangeStart) && parseInt(buyAmount) <= parseInt(promptPrice)) {
                 // 올바른 범위에 속한 경우 서버로 전송
-               
-               // window.location.href = "${pageContext.request.contextPath}/board/buyPro?pnum=${board.pnum}&buy=" + buyAmount + "&buyid=${amem.id}";
-                 test = "${pageContext.request.contextPath}/board/buyPro?pnum=${board.pnum}&buy=" + buyAmount + "&buyid=${amem.id}";
-                 alert(test)
+                window.location.href = "${pageContext.request.contextPath}/board/buyPro?pnum=${board.pnum}&buy=" + buyAmount + "&buyid=${amem.id}";
             } else {
                 alert("입력한 금액이 올바른 범위에 속하지 않습니다.");
             }
@@ -220,6 +246,7 @@ function openPurchasePopup() {
 						<tbody>
 							<tr>
 								<th>작성자 ID</th>
+							
 								<td>${board.userid }님</td>
 							</tr>
 							<tr>
@@ -242,7 +269,7 @@ function openPurchasePopup() {
 									<a class="btn btn-primary"
 									href="${pageContext.request.contextPath}/board/boardDeleteForm?num=${board.pnum}">삭제</a>
 									<a class="btn btn-primary"
-									href="${pageContext.request.contextPath}/board/boardList">목록</a>
+									href="${pageContext.request.contextPath}/board/products">목록</a>
 									 <a class="btn btn-primary"
                      href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">신고</a>
 									</td> </c:if>
@@ -300,7 +327,7 @@ function checkAndShowLoginForm() {
 				<div class="col-sm-12">
 					<div class="row">
 						<div class="col-sm-10">${sercount}번째
-							댓글 <br>${c.userid}님 작성시간 ${c.regdate}
+							댓글 <br>${c.userid}님 작성시간 ${board.idate}
 							<p>&nbsp; ${c.content}
 							<p>
 							<form

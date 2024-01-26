@@ -69,6 +69,12 @@ public class AdminMybatisDao {
 	
 }
 	
+	public void deleteMembers(String[] ids) {
+	      
+	      List<String>  list = Arrays.asList(ids);
+	       sqlSession.getMapper(AMemberAnno.class).deleteMembers(list);
+	   }
+
 	public void deleteReport(int reportpnum) {
 	    System.out.println(reportpnum);
 	    sqlSession.getMapper(AReportAnno.class).deleteReport(reportpnum);
@@ -77,13 +83,8 @@ public class AdminMybatisDao {
 	public List<Amem> selectMemberList() {
 	    return sqlSession.getMapper(AMemberAnno.class).selectMemberList();
 	}
-	
-	
-	public void deleteMembers(String[] ids) {
-	   
-		List<String>  list = Arrays.asList(ids);
-	    sqlSession.getMapper(AMemberAnno.class).deleteMembers(list);
+	public void deleteMembers(@RequestParam("selectedMembers") List<String> selectedMembers) {
+	    System.out.println(selectedMembers);
+	    sqlSession.getMapper(AMemberAnno.class).deleteMembers(selectedMembers);
 	}
-	
-	
 	}

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,7 +129,7 @@ public class AdminController  {
        rep.setReportpnum(pnum);
        rep.setContent(content);
        rep.setRegdate(new Date());
-       // 데이터 저장
+       // ReportService를 통해 데이터 저장
         ad.insertReport(rep);
 
        String msg = "게시물 신고 완료";
@@ -190,20 +189,26 @@ public class AdminController  {
        model.addAttribute("QuestionList", QuestionList);
        
        System.out.println(QuestionList);
-       
        return "admin/Question";
 	      
 	   }
-   
-	   @RequestMapping("deleteMembers")
-   public String deleteMembers(@RequestParam("selectedMembers") String selectedMembers) {
-	       String[] ids = selectedMembers.split(",");
-		   ad.deleteMembers(ids);
-		   System.out.println(selectedMembers);
-	    return "admin/MemberList";
-	}
-   
 	   
+   @RequestMapping("deleteMembers")
+   public String deleteMembers(@RequestParam("selectedMembers") String selectedMembers) {
+          String[] ids = selectedMembers.split(",");
+         ad.deleteMembers(ids);
+         System.out.println(selectedMembers);
+       return "admin/MemberList";
+   }
+   
+   @RequestMapping("AnswerForm")
+   public String AnswerForm(@RequestParam("name") String name, @RequestParam("subject") String subject) {
+       // name과 subject 값을 사용하는 로직 추가
+       // ...
+
+       return "admin/AnswerForm";
+   }
+   
    }
    
  

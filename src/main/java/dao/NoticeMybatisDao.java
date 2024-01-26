@@ -14,7 +14,6 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 import model.Notice;
 
@@ -48,7 +47,11 @@ public class NoticeMybatisDao {
       
 		}
 		
-	 
+	 public List<Notice> selectQuestionList() throws UnsupportedEncodingException, SQLException {
+	     
+		    return sqlSession.selectList(NS+"allNotice");
+	 }
+
 
 public int noticeCount(String boardid) throws UnsupportedEncodingException, SQLException {
 		 
@@ -90,16 +93,6 @@ public List<Notice> mynotice(int pageInt, int limit, String boardid, String id) 
      
   
       }
-
-public List<Notice> selectQuestionList() throws UnsupportedEncodingException, SQLException {
-  	
-    return sqlSession.selectList(NS+"allNotice");
-             
-}
-
-
-
-
 	  
 	 
 }
