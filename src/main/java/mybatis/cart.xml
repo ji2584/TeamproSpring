@@ -4,8 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "cart">
 <insert id="addToAproducts" parameterType="cart">
-    INSERT INTO Aproducts (ser, userid, itemid) 
-    values (Aproduct.nextval, #{userid}, #{itemid})
+    INSERT INTO Aproducts (ser, id, pnum) 
+    values (Aproduct.nextval, #{id}, #{pnum})
 </insert>
 
 <select id="jumunList" parameterType="map" resultType="Auction">
@@ -14,11 +14,11 @@ SELECT
     FROM 
         amem m
     JOIN 
-        aproducts ap ON m.id = ap.userid
+        aproducts ap ON m.id = ap.id
     JOIN 
-        auction a ON ap.itemid = a.pnum
+        auction a ON ap.pnum = a.pnum
     WHERE 
-        m.id = #{userId}
+        m.id = #{id}
     ORDER BY 
     a.pnum DESC
 </select>
@@ -45,7 +45,7 @@ SELECT
     </select>
 
 <delete id="jumunDelete"  parameterType="int">
-delete from aproducts where itemid = #{itemid}
+delete from aproducts where pnum = #{pnum}
 </delete> 
 
 <select id="Tier" parameterType="string" resultType="String">

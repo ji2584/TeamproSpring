@@ -6,7 +6,7 @@ public class Auction {
 		// TODO Auto-generated method stub
 		private int pnum;
 		private String pname;
-		private String price;
+		private int price;
 		private String prompt;
 		private String subject;
 		private String content;
@@ -31,10 +31,10 @@ public class Auction {
 		public void setPname(String pname) {
 			this.pname = pname;
 		}
-		public String getPrice() {
+		public int getPrice() {
 			return price;
 		}
-		public void setPrice(String price) {
+		public void setPrice(int price) {
 			this.price = price;
 		}
 		public String getPrompt() {

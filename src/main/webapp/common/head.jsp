@@ -23,6 +23,11 @@
 	type='text/css' media='all' />
 <link rel='stylesheet' href='${pageContext.request.contextPath}/team/css/easy-responsive-shortcodes.css'
 	type='text/css' media='all' />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  
+	
 </head>
 <style>
 body {
@@ -59,6 +64,7 @@ body {
                         <li><a href="${pageContext.request.contextPath}/admin/main">관리자페이지</a></li>
                         </c:if>
 							<li><a href="${pageContext.request.contextPath}/member/index">Main</a></li>
+					
 							<li class="menu-item-has-children"><a href="#">board</a>
 								<ul class="sub-menu">
 

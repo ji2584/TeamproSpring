@@ -6,9 +6,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-<script>
-alert("${msg}");location.href="${pageContext.request.contextPath}${url}"
-</script>
+<body> 
+
+입찰자  누구누구
+ 
+시간  10"1데홀올ㅇ"
+
+금액 10000
 </body>
 </html>

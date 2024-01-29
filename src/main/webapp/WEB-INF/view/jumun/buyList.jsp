@@ -20,6 +20,7 @@
                     <th scope="col">물품명</th>
                     <th scope="col">파일</th>
                     <th scope="col">제목</th>
+                    <th scope="col">내가넣은금액</th>
                     <th scope="col">현재가</th>
                     <th scope="col">입찰횟수</th>
                     <th scope="col">마감일</th>
@@ -37,6 +38,7 @@
                         <td><a href="">${j.pname}</a></td>
                         <td>${j.file1}</td>
                         <td>${j.subject}</td>
+                          <td>40000</td>
                         <td>${j.price}</td>
                         <td>${j.readcnt}</td>
                         <td>${j.regdate}</td>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+                       <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,8 +33,23 @@
 					class="form-control" placeholder="Enter file1" id="file"
 					name="f">
 			</div>
+			
+			 <div class="form-group">
+        <label for="isPublic">공개 여부:</label>
+        <input type="checkbox" id="isPublicCheckbox">
+        <input type="hidden" id="isPublic" name="isPublic" value="N"> <!-- 기본값은 'N'으로 설정 -->
+    </div>
+
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 	</div>
+	
+	<script>
+    // 체크박스의 선택 여부에 따라 hidden input의 값을 변경
+    document.getElementById('isPublicCheckbox').addEventListener('change', function() {
+        var isPublicInput = document.getElementById('isPublic');
+        isPublicInput.value = this.checked ? 'Y' : 'N';
+    });
+    </script>
 </body>
 </html>

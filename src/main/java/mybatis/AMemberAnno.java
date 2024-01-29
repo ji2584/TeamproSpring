@@ -36,4 +36,10 @@ public interface AMemberAnno {
 	           + "             #{item} </foreach></script>")
 	   void deleteMembers(List<String> list);
 
+@Select("select * from amem where name = #{name} and email = #{email}")
+   Amem findMemberByNameAndEmail(Map<String, String> map);
+   
+   @Select("select * from amem where id = #{id} and name = #{name} and email = #{email}")
+   Amem findMemberByIdAndNameAndEmail(Map<String, String> map);
+
 }

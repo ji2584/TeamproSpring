@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -10,7 +12,7 @@
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(pnum, regdate) {
         if (!regdate) {
-        	$("#remainingTime-" + pnum).html("낙찰 또는 시간 만료 상품");
+          	$("#remainingTime-" + pnum).html("즉시구매 된 상품입니다.");
             return;
         }
 
@@ -64,8 +66,8 @@ li {
 
 .custom-border {
 	width: 200px; /* 상자의 너비 설정 */
-	height: 310px; /* 상자의 높이 설정 */
-	border: 1px solid #ddd; /* 테두리 스타일 정의 */
+	height: 350px; /* 상자의 높이 설정 */
+	border: 5px solid #ddd; /* 테두리 스타일 정의 */
 	border-radius: 10px; /* 테두리 둥글게 처리 */
 	margin-right: 20px;
 	margin-bottom: 20px; /* 아래쪽 간격을 20px로 설정 */
@@ -97,7 +99,6 @@ li {
 	color: white; /* 글자 색상 설정 */
 }
 
-
 .product-content {
 	display: flex;
 	flex-direction: column;
@@ -105,64 +106,103 @@ li {
 	text-align: center;
 }
 
-   .category-list {
-        position: fixed;
-        top: 10px; /* 상단 여백 조절 */
-        left: 230px; /* 좌측 여백 조절 */
-        background-color: #fff;
-        padding: 20px; /* 내부 여백 조절 */
-        border: 5px solid #ddd; /* 테두리 스타일 정의 */
-        border-radius: 10px; /* 테두리 둥글게 처리 */
-        transition: top 0.3s ease-in-out;
-    }
-
-
+.category-list {
+	position: fixed;
+	top: 10px; /* 상단 여백 조절 */
+	left: 230px; /* 좌측 여백 조절 */
+	background-color: #fff;
+	padding: 20px; /* 내부 여백 조절 */
+	border: 5px solid #ddd; /* 테두리 스타일 정의 */
+	border-radius: 10px; /* 테두리 둥글게 처리 */
+	transition: top 0.3s ease-in-out;
+}
 
 @media screen and (max-width: 1668px) {
 	.category-list {
-		display: none; 
+		display: none;
 	}
-	
 }
-.search{
-background-color:#2A2A2A;
-color:white;
+
+.order {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.search {
+	background-color: #2A2A2A;
+	color: white;
+}
+
+.qwe {
+	display: right;
 }
 </style>
 </head>
 <body>
-
+	<div class="order">
+		<form action="${pageContext.request.contextPath}/board/searchauction"
+			method="GET">
+			<input type="text" placeholder="상품 검색" name="pname">
+			<button class="search" type="submit">검색</button>
+			<div class="dropdown">
+				<button class="menuList" type="button" name="menuList"
+					id="dropdownMenuButton" data-bs-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">메뉴</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<!-- Dropdown menu items -->
+					<a class="dropdown-item"
+						href="${pageContext.request.contextPath}/board/cntList?pname=readcnt">조회순</a>
+					<a class="dropdown-item"
+						href="${pageContext.request.contextPath}/board/cntList?pname=priced">가격
+						높은순</a> <a class="dropdown-item"
+						href="${pageContext.request.contextPath}/board/cntList?pname=price">가격
+						낮은순</a>
+				</div>
+			</div>
+		</form>
+	</div>
 	<div class="container">
 		<h5 class="text-center">최신상품 [${li.size()}]개의 상품이 있습니다</h5>
-		<form action="${pageContext.request.contextPath}/board/searchauction" method="GET">
-    <input type="text"  placeholder="상품 검색"  name="pname">
-    <button class="search" type="submit">검색</button>
-    <div>&nbsp;</div>
-</form>
+
 
 		<c:forEach var="b" items="${li}">
 			<div class="product-item">
 				<ul class="products">
 					<li class="first product custom-border">
-						<h6>&nbsp;</h6>
+				
 						<div class="product-content">
+						
+                                 &nbsp;<br> &nbsp;
 							<h4>${b.pname }</h4>
-							<a href="${pageContext.request.contextPath}/board/boardInfo?num=${b.pnum}"> <img
+
+
+
+							<a
+								href="${pageContext.request.contextPath}/board/boardInfo?num=${b.pnum}">
+								<img
 								src="${pageContext.request.contextPath}/image/board/${b.file1}"
-								style="width: 120px; height: 140px;" alt=""></a>
+								style="width: 120px; height: 140px;" alt="">
+							</a>
 
 							<div class="remaining-time" id="remainingTime-${b.pnum}"></div>
-							<span class="price">${b.price }&nbsp;원</span> <a
-								href="${pageContext.request.contextPath}/jumun/jumunAdd?pnum=${b.pnum}">찜하기</a>
-							<p></p>
-							<h6>&nbsp;</h6>
+							<span class="price" style="font-size: 15px;"><fmt:formatNumber value="${b.price}"
+									pattern="#,##0" />원</span> 
+							
+								<span style="font-size: 13px;"> 조회수:${b.readcnt}
+							</span>
+							<a
+								href="${pageContext.request.contextPath}/jumun/jumunAdd?pnum=${b.pnum}">
+								<span style="font-size: 15px;"><i class="fas fa-heart"></i></span>
+							</a>
+			
+							
 						</div>
 					</li>
 				</ul>
 			</div>
 		</c:forEach>
 		<ul class="pagination justify-content-center text-center">
-			
+
 		</ul>
 
 	</div>
@@ -171,11 +211,14 @@ color:white;
 		<ul>
 			<!-- 카테고리 목록 아이템들을 동적으로 생성할 수 있습니다. -->
 			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=1">가전</a></li><p>
+				href="${pageContext.request.contextPath}/board/products?boardid=1">가전</a></li>
+			<p>
 			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=2">의류</a></li><p>
+				href="${pageContext.request.contextPath}/board/products?boardid=2">의류</a></li>
+			<p>
 			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=3">도서</a></li><p>
+				href="${pageContext.request.contextPath}/board/products?boardid=3">도서</a></li>
+			<p>
 			<li><a
 				href="${pageContext.request.contextPath}/board/products?boardid=4">기타</a></li>
 		</ul>

@@ -27,7 +27,7 @@ public class AdminMybatisDao {
 	
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	
+	private static final String NS="notice.";
 	
 
 	public int insertReport(Report rep) throws UnsupportedEncodingException, SQLException {
@@ -37,6 +37,14 @@ public class AdminMybatisDao {
 		return sqlSession.getMapper(AReportAnno.class).insertReport(rep);
 	}
 
+	public int updateAnswer(int num, String answer) {
+	       Map<String, Object> map = new HashMap<>();
+	       
+	       map.put("num", num);
+	       map.put("answer", answer);
+	       
+	      return sqlSession.update(NS + "updateAnswer", map);
+	   }
 
 	/*
 	 * public int oneBoardByOtherUser(int pnum) {
@@ -87,4 +95,14 @@ public class AdminMybatisDao {
 	    System.out.println(selectedMembers);
 	    sqlSession.getMapper(AMemberAnno.class).deleteMembers(selectedMembers);
 	}
+	
+	public List<Report> selectReportCount() {
+	    return sqlSession.getMapper(AReportAnno.class).selectReportCount();
+	}
+	
+	
+	
+	
+	
+	
 	}

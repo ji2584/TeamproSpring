@@ -14,14 +14,10 @@ public class Notice {
     private int readcnt;
     private String boardid;
     private String id;
+	private String answer;
+	private String ispublic;
 	public int getNum() {
 		return num;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
 	}
 	public void setNum(int num) {
 		this.num = num;
@@ -74,13 +70,30 @@ public class Notice {
 	public void setBoardid(String boardid) {
 		this.boardid = boardid;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	public String getIsPublic() {
+		return ispublic;
+	}
+	public void setIsPublic(String ispublic) {
+		this.ispublic = ispublic;
+	}
 	@Override
 	public String toString() {
 		return "Notice [num=" + num + ", name=" + name + ", pass=" + pass + ", subject=" + subject + ", content="
 				+ content + ", file1=" + file1 + ", regdate=" + regdate + ", readcnt=" + readcnt + ", boardid="
-				+ boardid + ", id=" + id + "]";
+				+ boardid + ", id=" + id + ", answer=" + answer + ", ispublic=" + ispublic + "]";
 	}
-	
-    
+
     
 }

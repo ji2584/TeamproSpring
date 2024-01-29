@@ -31,6 +31,7 @@ public class MemberMybatisDao {
 
 	}
 
+	
 	public Amem oneMember(String id) throws SQLException {
 
 	
@@ -38,6 +39,25 @@ public class MemberMybatisDao {
 
 	}
 
+
+public Amem findMemberByNameAndEmail(String name, String email) throws SQLException {
+       Map<String, String> map = new HashMap<>();
+       map.put("name", name);
+       map.put("email", email);
+       
+       return sqlSession.getMapper(AMemberAnno.class).findMemberByNameAndEmail(map);
+   }
+   public Amem findMemberByIdAndNameAndEmail(String id, String name, String email) throws SQLException {
+       Map<String, String> map = new HashMap<>();
+       map.put("id", id);
+       map.put("name", name);
+       map.put("email", email);
+       
+       return sqlSession.getMapper(AMemberAnno.class).findMemberByIdAndNameAndEmail(map);
+   }
+
+
+	
 	public int updateMember(Amem amem) throws UnsupportedEncodingException, SQLException {
 
 		return sqlSession.getMapper(AMemberAnno.class).updateMember(amem);

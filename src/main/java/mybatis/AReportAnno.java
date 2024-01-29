@@ -41,6 +41,12 @@ public interface AReportAnno {
     
     @Delete("DELETE FROM auction WHERE pnum = #{reportpnum}")
     int deleteReport(int reportpnum);
+    
+@Select("SELECT reportedid, COUNT(*) reportedid"
+		+ "FROM areport"
+		+ "GROUP BY reportedid;")
+    List<Report> selectReportCount();
+   
 
     
 }

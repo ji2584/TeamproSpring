@@ -27,14 +27,14 @@ public class CartMybatisDao {
 		return sqlSession.insert(ns+"addToAproducts", cart);
 	}
 
-	public List<Cart> jumunList(String userid) throws SQLException {
+	public List<Cart> jumunList(String id) throws SQLException {
 		
-	return sqlSession.selectList(ns+"jumunList", userid);
+	return sqlSession.selectList(ns+"jumunList", id);
 
 	}
-	public List<Cart> myList(String userid) throws SQLException {
+	public List<Cart> myList(String id) throws SQLException {
 		
-	return sqlSession.selectList(ns+"myList", userid);
+	return sqlSession.selectList(ns+"myList", id);
 
 	}
 	
@@ -44,9 +44,9 @@ public class CartMybatisDao {
 	      return sqlSession.update(ns + "jumunDelete", num);
 
 	   } 
-	public String tier(String userid) throws UnsupportedEncodingException, SQLException {
+	public String tier(String id) throws UnsupportedEncodingException, SQLException {
 
-        return sqlSession.selectOne(ns + "Tier", userid);
+        return sqlSession.selectOne(ns + "Tier", id);
 
      } 
 	}

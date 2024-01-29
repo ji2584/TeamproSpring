@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>
-alert("${msg}");location.href="${pageContext.request.contextPath}${url}"
-</script>
+123
 </body>
 </html>

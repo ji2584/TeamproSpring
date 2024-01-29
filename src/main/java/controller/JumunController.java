@@ -38,6 +38,15 @@ public class JumunController {
 	@Autowired
 	BoardMybatisDao bd;
 	
+	
+	
+	public JumunController() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	
 	HttpSession session;
 	HttpServletRequest req;
 	

@@ -8,7 +8,8 @@
 </head>
 <body>
 <script>
-alert("${msg}");location.href="${pageContext.request.contextPath}${url}"
+alert("${msg}");
+window.close(); // 현재 창 닫기
 </script>
 </body>
 </html>

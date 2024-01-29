@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "notice">
 <insert id="insertNotice" parameterType="notice">
-    INSERT INTO anotice (num, name, pass, subject, content, file1, regdate, readcnt, boardid)
-    VALUES (anoticeseq.nextval, #{name}, #{pass}, #{subject}, #{content}, #{file1}, sysdate, 0, #{boardid})
+    INSERT INTO anotice (num, name, pass, subject, content, file1, regdate, readcnt, boardid,answer,ispublic)
+    VALUES (anoticeseq.nextval, #{name}, #{pass}, #{subject}, #{content}, #{file1}, sysdate, 0, #{boardid},#{answer},#{ispublic})
 </insert>
 
 <select id = "noticeList" parameterType="map" resultType="notice">
@@ -17,6 +17,12 @@ select * from(
          		 where rnum between #{start} and #{end} 
 
 </select>
+<update id = "updateAnswer"  parameterType="map">
+
+ UPDATE anotice SET answer = #{answer} WHERE num = #{num}
+
+</update>
+
 <select id = "allNotice"   resultType="notice" >
 select * from anotice where boardid = 3
 </select>
@@ -54,5 +60,15 @@ SELECT a.num, a.name, a.subject, a.regdate, a.readcnt, a.file1
         WHERE a.boardid = 3 AND m.id = #{loggedInUserId}
         ORDER BY a.num DESC 
 </select>
+
+
+<select id = "contentanswer" resultType="notice" parameterType="int">
+
+select * from anotice where boardid = 3 and num=#{num}
+
+
+
+</select>
+
 
 </mapper>

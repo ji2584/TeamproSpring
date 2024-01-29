@@ -46,9 +46,8 @@
 					<tr>
 					<tr>
 						<td>1대1문의답변</td>
-						<td>${notice.readcnt}</td>
+						<td>${notice.answer}</td>
 					<tr>
-					
 					<tr>
 						<td colspan="2" class="text-right"><a class="btn btn-primary"
 							href="${pageContext.request.contextPath}/notice/noticeUpdateForm?num=${notice.num}">변경</a>
@@ -59,10 +58,10 @@
 						</td>
 					</tr>
 				</table>
-					
-				</div>
-							
+
 			</div>
+
 		</div>
+	</div>
 </body>
 </html>

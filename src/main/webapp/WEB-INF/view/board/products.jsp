@@ -11,7 +11,7 @@
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(pnum, regdate) {
         if (!regdate) {
-        	$("#remainingTime-" + pnum).html("낙찰 또는 시간 만료 상품");
+        	$("#remainingTime-" + pnum).html("즉시구매 된 상품입니다.");
 
             return;
         }

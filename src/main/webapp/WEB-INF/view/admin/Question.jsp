@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,17 +32,16 @@
        
         window.open('${pageContext.request.contextPath}/single/temp.jsp?filename='+fileName, '', 'left=100,top=100,width=320,height=320')
     }
-    function toggleTextExpansion(elementId) {
-        var element = document.getElementById(elementId);
-        element.classList.toggle('expanded');
-    }
+    
+    
     
 </script>
 
 <script>
-    function AnswerForm(name, subject) {
+    function AnswerForm(num) {
         // AnswerForm 함수 내에서 팝업을 띄우는 로직을 추가
-        window.open('${pageContext.request.contextPath}/admin/AnswerForm.jsp?name=' + name + '&subject=' + subject, "_blank", "width=400, height=400");
+        var contextPath = '${pageContext.request.contextPath}';
+        window.open(contextPath + '/admin/AnswerForm?num=' + num ,"_blank", "width=400, height=400");
     }
 </script>
 
@@ -186,16 +186,15 @@
         <tr>
             <td>${q.name}</td>
             <td>${q.subject}</td>
-            <td class="content-preview" id="contentPreview_${q.content}" onclick="toggleTextExpansion('contentPreview_${q.content}')">
-    ${q.content}
-</td>
+           <td class="content-preview" id="contentPreview_${q.content}">
+           <a href="${pageContext.request.contextPath}/admin/answerinfo?num=${q.num}">${q.content}</a> 
             <td><a href="#" 
             onclick="checkFile('${q.id}', '${q.file1}')">${q.file1}</a></td>
             <td>${q.regdate}</td> 
             <td>
      <form action="${pageContext.request.contextPath}/admin/AnswerForm" method="post">
-    <input type="hidden" name="answer" value="${q.name},${q.subject}">
-    <button class="btn btn-danger" type="button" onclick="AnswerForm('${q.name}', '${q.subject}')">답변</button>
+    <input type="hidden" name="answer" value="${q.num}">
+    <button class="btn btn-danger" type="button" onclick="AnswerForm('${q.num}')">답변</button>
 </form>
 
 </td>

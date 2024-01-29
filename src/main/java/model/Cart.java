@@ -3,9 +3,9 @@ package model;
 import java.util.Date;
 
 public class Cart {
-	private int pnum;
-    private String userid;
-    private int itemid;
+	
+    private String id;
+    private int pnum;
 	private String pname;
     private String price;
     private String file1;
@@ -14,23 +14,18 @@ public class Cart {
     private String subject;
     private String ser;
 	private String prompt;
-	public int getPnum() {
-		return pnum;
-	}
-	public void setPnum(int pnum) {
-		this.pnum = pnum;
-	}
+
 	public String getUserid() {
-		return userid;
+		return id;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserid(String id) {
+		this.id = id;
 	}
 	public int getItemid() {
-		return itemid;
+		return pnum;
 	}
-	public void setItemid(int itemid) {
-		this.itemid = itemid;
+	public void setItemid(int pnum) {
+		this.pnum = pnum;
 	}
 	public String getPname() {
 		return pname;
@@ -82,7 +77,7 @@ public class Cart {
 	}
 	@Override
 	public String toString() {
-		return "Cart [pnum=" + pnum + ", userid=" + userid + ", itemid=" + itemid + ", pname=" + pname + ", price="
+		return "Cart [pnum=" + pnum + ", id=" + id + ", pnum=" + pnum + ", pname=" + pname + ", price="
 				+ price + ", file1=" + file1 + ", regdate=" + regdate + ", readcnt=" + readcnt + ", subject=" + subject
 				+ ", ser=" + ser + ", prompt=" + prompt + "]";
 	}

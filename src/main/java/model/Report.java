@@ -10,10 +10,18 @@ public class Report {
 	private Date regdate ;
 	private int pnum;
 	
+	private int reportcount;//신고당한 횟수
+	
 	private String reportedid;//신고당한사람
 	
 	
 	 
+	public int getReportcount() {
+		return reportcount;
+	}
+	public void setReportcount(int reportcount) {
+		this.reportcount = reportcount;
+	}
 	public String getReportid() {
 		return reportid;
 	}
@@ -53,10 +61,9 @@ public class Report {
 	@Override
 	public String toString() {
 		return "Report [reportid=" + reportid + ", reportpnum=" + reportpnum + ", content=" + content + ", regdate="
-				+ regdate + ", pnum=" + pnum + ", reportedid=" + reportedid + "]";
+				+ regdate + ", pnum=" + pnum + ", reportcount=" + reportcount + ", reportedid=" + reportedid + "]";
 	}
-	
-	
+
 	
 	
 	

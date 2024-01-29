@@ -61,7 +61,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("noticePro") 
-	public String noticePro(@RequestParam("f") MultipartFile multipartFile, Notice notice) throws Exception {
+	public String noticePro(@RequestParam("f") MultipartFile multipartFile, Notice notice,@RequestParam(name = "isPublic", defaultValue = "N") String ispublic) throws Exception {
 		
 		
 		String path =
@@ -76,6 +76,7 @@ public class NoticeController {
 		
 		notice.setBoardid(boardid);
 		notice.setName(name);
+		 notice.setIsPublic(ispublic);
 		
 		if(!multipartFile.isEmpty()) {
 			File file = new File(path,multipartFile.getOriginalFilename());
@@ -166,20 +167,38 @@ public class NoticeController {
 }
 	
 	@RequestMapping("noticeInfo") 
-	public String noticeInfo(int num) throws Exception {
-		// TODO Auto-generated method stub
-						
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		req.setAttribute("amem", mem);
-		Notice notice = nc.oneNotice(num);
-		
-		req.setAttribute("notice", notice);	
-		String Tier = cd.tier(login); 
-		req.setAttribute("Tier", Tier);
-		
-		return "notice/noticeInfo";
-	}
+	   public String noticeInfo(int num) throws Exception {
+	      // TODO Auto-generated method stub
+	                  
+	      String login = (String) session.getAttribute("id");
+	      Amem mem = md.oneMember(login);
+	      
+	      req.setAttribute("amem", mem);
+	      Notice notice = nc.oneNotice(num);
+	      
+	        String msg = "";
+	          String url = "";
+	      
+	      
+	      if (notice.getIsPublic().equals("Y")|| notice.getName().equals(login)) {
+	      //공개된 글이면 정보 전달
+	      req.setAttribute("notice", notice);   
+	      String Tier = cd.tier(login); 
+	      req.setAttribute("Tier", Tier);
+	      
+	      return "notice/noticeInfo";
+	      } else {
+	       msg = "비공개 설정";
+	       url = "/notice/noticeList";
+	          
+	      }
+	      
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      
+	      return "alert";
+	   }
+
 	
 	@RequestMapping("noticeUpdateForm") 
 	public String noticeUpdateForm(int num) throws Exception {

@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -78,8 +80,43 @@ public class AdminController  {
       
       
    }
+
+@RequestMapping("AnswerForm")
+   public String AnswerForm(@RequestParam("num") String num, Model model) {
+       // name과 subject 값을 사용하는 로직 추가
+       // ...
+      model.addAttribute("num", num);
+       return "admin/AnswerForm";
+   }
    
-     
+   
+   @RequestMapping("AnswerPro")
+   public String AnswerPro(@RequestParam(name = "num", required = true) int num, @RequestParam("answer") String answer) {
+       // num과 answer를 사용하여 DAO를 통해 업데이트 수행
+      
+       int adminnotice = ad.updateAnswer(num, answer);
+       
+
+       String msg = "답변 등록 완료";
+       
+
+       request.setAttribute("msg", msg);
+   
+       return "adminalert";
+   
+   }
+
+   @RequestMapping("answerinfo")
+   public String Answerinfo(Model model,@RequestParam int num) throws UnsupportedEncodingException, SQLException {
+       // contentReport 메서드 호출
+	   Notice answerinfo = nc.contentanswer(num);
+
+       // 모델에 데이터 추가
+       model.addAttribute("answerinfo", answerinfo);
+
+       // 뷰 이름 반환
+       return "admin/answerinfo";
+   }
   
    
    @RequestMapping("ReportForm")
@@ -200,14 +237,7 @@ public class AdminController  {
          System.out.println(selectedMembers);
        return "admin/MemberList";
    }
-   
-   @RequestMapping("AnswerForm")
-   public String AnswerForm(@RequestParam("name") String name, @RequestParam("subject") String subject) {
-       // name과 subject 값을 사용하는 로직 추가
-       // ...
 
-       return "admin/AnswerForm";
-   }
    
    }
    

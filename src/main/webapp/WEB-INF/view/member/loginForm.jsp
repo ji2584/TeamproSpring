@@ -55,10 +55,30 @@ padding:10px 40px 10px 40px;
 					</div><p>
 					<div class="mb-1"></div>
 					<button class="lo" type="submit">Login</button>
+					<div class="mb-1"></div>
+               
+               <button class="lo" type="submit" onclick="findId()">아이디찾기</button>
+               <div class="mb-1"></div>
+               <button class="lo" type="submit" onclick="findPassword()">비밀번호찾기</button>
+					
 				</form>
 			</div>
 		</div>
 	</div>
+	<script>
+ function findId() {
+       alert("아이디를 찾습니다.");
+       window.location.href = "${pageContext.request.contextPath}/member/findIdForm"; // 변경된 부분
+       
+   }
+
+        function findPassword() {
+            // 비밀번호 찾기 동작을 구현하는 코드 추가
+            alert("비밀번호를 찾습니다.");
+            window.location.href = "${pageContext.request.contextPath}/member/findPasswordForm";
+        }
+    </script>
+	
 	<script> 
         window.addEventListener('load', () => { 
             const forms = document.getElementsByClassName('validation-form'); 

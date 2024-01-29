@@ -24,14 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
 
-
-
+import dao.AdminMybatisDao;
 import dao.BoardMybatisDao;
 import dao.CartMybatisDao;
 import dao.MemberMybatisDao;
 
 
 import model.Comment;
+import model.Report;
 import model.Amem;
 import model.Auction;
 
@@ -46,7 +46,9 @@ public class BoardController  {
 	HttpSession session;
 	HttpServletRequest req;
 	@Autowired
-	CartMybatisDao cd;  
+	CartMybatisDao cd; 
+	@Autowired
+	AdminMybatisDao ad;
 
 	
 	@ModelAttribute
@@ -223,7 +225,7 @@ public class BoardController  {
 	}
 	
 	@RequestMapping("boardInfo")
-	public String boardInfo(int num) throws Exception {
+	public String boardInfo(int num,Model model) throws Exception {
 		// TODO Auto-generated method stub
 		
 
@@ -233,16 +235,19 @@ public class BoardController  {
 	
 		String Tier = cd.tier(login); 
 		req.setAttribute("Tier", Tier);
-				
+		bd.cntBoard(num);		
 		Auction board = bd.oneBoard(num);
 		
+		 List<Report> reportcountlist = ad.selectReportCount();
+	       model.addAttribute("reportcountlist", reportcountlist);
 		
-		
+		System.out.println(reportcountlist);
 		List<Comment> commentLi = bd.commentList(num);
 		int count = commentLi.size();
 		req.setAttribute("commentLi", commentLi);
 		req.setAttribute("board", board); 
 		req.setAttribute("count", count);
+		req.setAttribute("reportcountlist", reportcountlist);
 
 		return "board/boardInfo";
 	}
@@ -252,6 +257,8 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
+		
+		
 		
 	
 		String Tier = cd.tier(login); 
@@ -273,7 +280,7 @@ public class BoardController  {
 	    board.setPnum(pnum);
 	    board.setBuy(buy);
 	    board.setBuyid(buyid);
-
+	    
 	    int result = bd.updateBuy(board);
 
 	    String msg;
@@ -354,7 +361,31 @@ public class BoardController  {
 		return "alert";
 
 	}
+	
 
+@RequestMapping("reservComm")
+   @ResponseBody
+   public String reservComm(@RequestParam("ser") int ser) throws Exception {
+       System.out.println(ser);
+           bd.upcnt(ser);
+       int upcnt = bd.getUpcnt(ser);
+       System.out.println(upcnt);
+       return ""+upcnt;
+   }
+
+	
+	@RequestMapping("cntList")
+	   public String cntList(Model model, String pname) throws Exception {      
+	      System.out.println(pname);
+	      
+	      
+	      List<Auction>  li = bd.cntList(pname);
+	      
+	      model.addAttribute("li",li);
+	      System.out.println(li);
+	          
+	      return "member/index";
+	   } 
 	@RequestMapping("boardDeleteForm")
 	public String boardDeleteForm() throws Exception {
 		// TODO Auto-generated method stub
@@ -456,8 +487,12 @@ public class BoardController  {
 	       return "alert";
 	   }
 
-
-
+	@RequestMapping("naver")
+	public String naver() throws Exception {
+		// TODO Auto-generated method stub
+		return "/board/naver";
+	}
+	
 
 
 	

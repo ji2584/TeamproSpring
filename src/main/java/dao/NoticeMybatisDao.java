@@ -93,6 +93,12 @@ public List<Notice> mynotice(int pageInt, int limit, String boardid, String id) 
      
   
       }
+
+public Notice contentanswer(int num) throws UnsupportedEncodingException, SQLException {
+    
+		
+    return sqlSession.selectOne(NS+"contentanswer",num);
+}
 	  
 	 
 }

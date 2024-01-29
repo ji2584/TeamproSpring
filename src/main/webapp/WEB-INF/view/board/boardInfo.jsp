@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,7 +19,7 @@
 }
 
 .text-details {
-	margin: 0px  30px;
+	margin: 0px 30px;
 	text-align: center;
 }
 
@@ -35,7 +36,7 @@
 	padding: 2px;
 	width: 420px;
 	text-align: center;
-	margin:10px;
+	margin: 10px;
 	color: white;
 	font-weight: bold;
 }
@@ -45,19 +46,40 @@
 	height: 25px; /* 원하는 높이 설정 */
 	resize: none; /* 크기 조절 비활성화 */
 }
+
 li {
-    list-style-type: none; /* 점 없애기 */
+	list-style-type: none; /* 점 없애기 */
 }
- .com{
-    color: black; /* 원하는 텍스트 색상으로 설정 (예: black, red, #00ff00) */
-    /* 기타 스타일 속성들을 원하는 대로 설정할 수 있습니다. */
+
+.com {
+	color: black; /* 원하는 텍스트 색상으로 설정 (예: black, red, #00ff00) */
+	/* 기타 스타일 속성들을 원하는 대로 설정할 수 있습니다. */
 }
+
+  .cart button,#paymentButton {
+        background-color: #2A2A2A; /* 버튼 배경색을 원하는 색상으로 지정 */
+        color: white; /* 글자색을 흰색으로 지정 */
+        /* padding: 0px 20px; 내부 여백을 조절하여 크기를 변경할 수 있습니다. */
+        font-size: 15px; /* 글자 크기를 조절할 수 있습니다. */
+        border: none; /* 테두리 제거 */
+        cursor: pointer;
+    }
+
+    .cart button:hover,
+#paymentButton:hover {
+        background-color: #45a049; /* 마우스를 올렸을 때 버튼의 배경색 변경 */
+    }
 </style>
+
 <script>
+
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(regdate) {
         if (!regdate) {
-        	$("#remainingTime").html("낙찰 또는 시간 만료 상품");
+            $("#remainingTime").html("즉시구매 된 상품입니다.");
+            // 즉시구매 된 상품입니다. 메시지가 표시되었을 때 결제 버튼을 보이게 설정
+            $("#paymentButton").show();
+            $(".cart button").hide();
             return;
         }
 
@@ -65,18 +87,22 @@ li {
         var expirationTime = new Date(regdate).getTime() + (7 * 24 * 60 * 60 * 1000);
 
         var remainingTime = expirationTime - currentTime;
-
         if (remainingTime <= 0) {
             $("#remainingTime").text("시간이 만료된 상품입니다.");
+            // 시간이 만료된 상품입니다. 메시지가 표시되었을 때 결제 버튼을 보이게 설정
+            $("#paymentButton").show();
+            $(".cart button").hide(); 
             return;
         }
-
+        $(".cart button").show();
         var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
         var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
         $("#remainingTime").text(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");
+        // 남은 시간이 표시되는 경우 결제 버튼 감추기
+        $("#paymentButton").hide();
     }
 
     // 페이지 로드 후 초기 업데이트
@@ -88,6 +114,7 @@ li {
     setInterval(function () {
         updateRemainingTime("${board.regdate}");
     }, 1000); // 1초마다 업데이트
+    
 </script>
 
 <script> 
@@ -120,6 +147,7 @@ li {
 	
 	
 		</script>
+
 </head>
 <body>
 
@@ -135,36 +163,51 @@ li {
 				<div id="remainingTime"></div>
 				<span style="color: black; font-weight: bold; font-size: 50px;">${board.pname}</span>
 				<div>
-					<span style="color: black; font-weight: bold; font-size: 20px;">즉시구매가:</span>		
+					<span style="color: black; font-weight: bold; font-size: 20px;">즉시구매가:</span>
 					<span style="color: black; font-weight: bold; font-size: 30px;">
-						<fmt:formatNumber value="${board.prompt}" pattern="#,##0" />원</span><br> 
-					
-					
-					<span style="color: black; font-weight: bold; font-size: 20px;">시작경매가:</span>
+						<fmt:formatNumber value="${board.prompt}" pattern="#,##0" />원
+					</span><br> <span
+						style="color: black; font-weight: bold; font-size: 20px;">시작경매가:</span>
 					<span style="color: blue; font-weight: bold; font-size: 30px;">
-						<fmt:formatNumber value="${board.price}" pattern="#,##0" />원</span><br> 
-						
-						
-					<span style="color: black; font-weight: bold; font-size: 20px;">마지막입찰가:</span>
+						<fmt:formatNumber value="${board.price}" pattern="#,##0" />원
+					</span><br> <span
+						style="color: black; font-weight: bold; font-size: 20px;">입찰가:</span>
 					<span style="color: red; font-weight: bold; font-size: 30px;">
-						<fmt:formatNumber value="${board.buy}" pattern="#,##0" />원</span><br>
-					
-					<span style="color: black; font-weight: bold; font-size: 20px;">마지막입찰자:</span>
-					<span style="color: black; font-weight: bold; font-size: 20px;">${board.buyid} 님</span><br>
+						<fmt:formatNumber value="${board.buy}" pattern="#,##0" />원
+					</span><br> <span
+						style="color: black; font-weight: bold; font-size: 20px;">입찰자:</span>
+					<span style="color: black; font-weight: bold; font-size: 20px;">${board.buyid}
+						님</span><br>${amem.id }
 				</div>
 
 				<p>
 				<form class="cart" method="post" enctype='multipart/form-data'>
 
-		
+
 					<button onclick="openPurchasePopup()">입찰하기</button>
-					 <button onclick="buyNow()">즉시구매</button>
+					<button onclick="buyNow()">즉시구매</button>
+					
 				</form>
-			
-
-
+				
+					
+					<button id="paymentButton" >결제하기</button>
 
 <script>
+
+
+    const paymentButton = document.getElementById("paymentButton");
+    const boardBuyId = "${board.buyid}";
+    const loggedInUserId = "${amem.id}";
+
+    if (boardBuyId === loggedInUserId) {
+      paymentButton.style.display = "block";
+    }
+  });
+
+</script>
+
+
+				<script>
 
 function buyNow() {
     if (confirm("즉시구매를 하시겠습니까?")) {
@@ -196,8 +239,8 @@ function buyNow() {
 
 			</div>
 		</div>
-<!-- 구매(입찰) 버튼 클릭 시 이벤트 처리 -->
-<script>
+		<!-- 구매(입찰) 버튼 클릭 시 이벤트 처리 -->
+		<script>
 function openPurchasePopup() {
     // 이전 입찰 또는 즉시구매가 가져오기
     var currentBid = ${board.buy};
@@ -246,13 +289,17 @@ function openPurchasePopup() {
 						<tbody>
 							<tr>
 								<th>작성자 ID</th>
-							
+
 								<td>${board.userid }님</td>
 							</tr>
 							<tr>
 								<th>경매등록일시</th>
 								<td><fmt:formatDate value="${board.idate}"
 										pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" /></td>
+							</tr>
+							<tr>
+								<th>조회수</th>
+								<td>${board.readcnt}</td>
 							</tr>
 							<tr>
 								<th>제품상세</th>
@@ -262,29 +309,38 @@ function openPurchasePopup() {
 								<th>상세내용</th>
 								<td>${board.content}</td>
 							</tr>
-							<tr><c:if test = "${sessionScope.id!=null}">
-								<td colspan="2" class="text-right"><a
-									class="btn btn-primary"
-									href="${pageContext.request.contextPath}/board/boardUpdateForm?num=${board.pnum}">변경</a>
-									<a class="btn btn-primary"
-									href="${pageContext.request.contextPath}/board/boardDeleteForm?num=${board.pnum}">삭제</a>
-									<a class="btn btn-primary"
-									href="${pageContext.request.contextPath}/board/products">목록</a>
-									 <a class="btn btn-primary"
-                     href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">신고</a>
-									</td> </c:if>
-									
+					<c:forEach var="report" items="${reportcountlist}">
+    <tr>
+        <th>신고당한횟수</th>
+        <td>${report.reportcount}</td>
+    </tr>
+</c:forEach>
+                    <tr>
+								<c:if test="${sessionScope.id!=null}">
+									<td colspan="2" class="text-right"><a
+										class="btn btn-primary"
+										href="${pageContext.request.contextPath}/board/boardUpdateForm?num=${board.pnum}">변경</a>
+										<a class="btn btn-primary"
+										href="${pageContext.request.contextPath}/board/boardDeleteForm?num=${board.pnum}">삭제</a>
+										<a class="btn btn-primary"
+										href="${pageContext.request.contextPath}/board/products">목록</a>
+										<a class="btn btn-primary"
+										href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">신고</a>
+									</td>
+								</c:if>
+
 							</tr>
 						</tbody>
-					</table><c:if test = "${sessionScope.id==null}">
-            <li><a href="${pageContext.request.contextPath}/member/loginForm"></li>
-            </c:if>
+					</table>
+					<c:if test="${sessionScope.id==null}">
+						<li><a href="${pageContext.request.contextPath}/member/loginForm"></a></li>
+					</c:if>
 				</div>
 			</div>
 		</div>
 
 
-<script>
+		<script>
 function checkInput(pnum) {
     var commentInput = document.getElementById("comment");
     var saveButton = document.getElementById("saveButton");
@@ -305,19 +361,34 @@ function checkAndShowLoginForm() {
         }
     }
 }
-
+function reserv(ser, index) {
+	   alert("")
+	   fetch('${pageContext.request.contextPath}/board/reservComm?ser='+ser)
+	   .then(response => response.text())
+	    .then(data => {
+	        // 서버에서 받은 데이터(data)를 사용하여 작업 수행
+	        document.querySelector("#r"+index).innerHTML=data // 새로고침하지않아도 데이터가 업데이트가됨
+	        alert(data);
+	        
+	    })
+	    .catch(error => {
+	        // 오류가 발생한 경우 처리
+	        console.error('Fetch error:', error);
+	    });
+}
 </script>
 		<!-- 댓글영역 start -->
-		<div class="example-div" >
+		<div class="example-div">
 			<div class="">댓글</div>
-			<span class="" id="id">작성자:${amem.id}</span> <input
-				type="hidden" id="hiddenUserId" name="userid" value="${amem.id}">
+			<span class="" id="id">작성자:${amem.id}</span> <input type="hidden"
+				id="hiddenUserId" name="userid" value="${amem.id}">
 			<div class="col-sm-10">
-    <input type="text" class="form-control" id="comment" 
-        onclick="checkAndShowLoginForm()" onkeyup="checkInput('${board.pnum}')" >
-    <button class="btn btn-primary" id="saveButton" 
-        onclick="commentPro('${board.pnum}')" disabled>저장</button>
-</div>
+				<input type="text" class="form-control" id="comment"
+					onclick="checkAndShowLoginForm()"
+					onkeyup="checkInput('${board.pnum}')">
+				<button class="btn btn-primary" id="saveButton"
+					onclick="commentPro('${board.pnum}')" disabled>저장</button>
+			</div>
 			<div class="col-sm-1"></div>
 		</div>
 		<div class="example-div" id="commentList">
@@ -327,7 +398,7 @@ function checkAndShowLoginForm() {
 				<div class="col-sm-12">
 					<div class="row">
 						<div class="col-sm-10">${sercount}번째
-							댓글 <br>${c.userid}님 작성시간 ${board.idate}
+							댓글 <br>${c.userid}님 작성시간 ${c.regdate}
 							<p>&nbsp; ${c.content}
 							<p>
 							<form
@@ -335,7 +406,10 @@ function checkAndShowLoginForm() {
 								method="post">
 								<input type="hidden" name="ser" value="${c.ser}">
 								<button type="submit">삭제</button>
+								
 							</form>
+							<button type="button" onclick="reserv('${c.ser}', '${status.index}')"  
+                        >추천 [<span id="r${status.index}" >${c.upcnt}</span>]</button> 
 						</div>
 					</div>
 
@@ -346,11 +420,12 @@ function checkAndShowLoginForm() {
 
 
 
+
 		<!-- 댓글영역 end-->
 
 	</div>
 
-	
+
 
 
 </body>

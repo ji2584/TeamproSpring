@@ -71,7 +71,10 @@ li {
   </c:forEach>
  
   <li class="page-item <c:if test="${end>=maxPage}"> disabled  </c:if>"> <a class="page-link" href="${pageContext.request.contextPath}/notice/noticeList?pageNum=${start+bottomLine}">Next</a></li>
-     <li><a class="btn btn-primary"  href="noticeForm">게시판입력</a></li>
+    
+ <c:if test="${amem.adminchk==1}">
+    <li><a class="btn btn-primary" href="noticeForm">게시판입력</a></li>
+</c:if>
 </ul>
 </div>
 </body>
