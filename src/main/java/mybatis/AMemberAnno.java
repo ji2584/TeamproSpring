@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Update;
 import model.Amem;
 
 public interface AMemberAnno {
-   @Insert("insert into amem (id, nickname,pass,name,tel,email,address,bank,account,numberid) values (#{id}, #{nickname},#{pass},#{name},#{tel},#{email},#{address},#{bank},#{account},#{numberid})")
+   @Insert("insert into amem (id, nickname,pass,name,tel,email,address,bank,account,numberid,status) values (#{id}, #{nickname},#{pass},#{name},#{tel},#{email},#{address},#{bank},#{account},#{numberid},#{status})")
    int insertMember(Amem amem);
 
    @Select("select*from amem where id =#{id}")
@@ -41,5 +41,13 @@ public interface AMemberAnno {
    
    @Select("select * from amem where id = #{id} and name = #{name} and email = #{email}")
    Amem findMemberByIdAndNameAndEmail(Map<String, String> map);
+   
+   
+   @Update("UPDATE amem SET status = 'BANNED', banreason = #{banreason} WHERE id = #{id}")
+   int banmember(@Param("id") String id, @Param("banreason") String banreason);
+   
+   @Update("UPDATE amem SET status = 'ACTIVE', banreason = NULL WHERE id = #{id}")
+   int UnbanMember(String id);
+   
 
 }

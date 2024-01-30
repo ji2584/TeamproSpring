@@ -225,31 +225,39 @@ public class BoardController  {
 	}
 	
 	@RequestMapping("boardInfo")
-	public String boardInfo(int num,Model model) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public String boardInfo(int num, Model model) throws Exception {
+	    String login = (String) session.getAttribute("id");
+	    Amem mem = md.oneMember(login);
+	    req.setAttribute("amem", mem);
 
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		req.setAttribute("amem", mem);
-	
-		String Tier = cd.tier(login); 
-		req.setAttribute("Tier", Tier);
-		bd.cntBoard(num);		
-		Auction board = bd.oneBoard(num);
-		
-		 List<Report> reportcountlist = ad.selectReportCount();
-	       model.addAttribute("reportcountlist", reportcountlist);
-		
-		System.out.println(reportcountlist);
-		List<Comment> commentLi = bd.commentList(num);
-		int count = commentLi.size();
-		req.setAttribute("commentLi", commentLi);
-		req.setAttribute("board", board); 
-		req.setAttribute("count", count);
-		req.setAttribute("reportcountlist", reportcountlist);
+	    String Tier = cd.tier(login);
+	    req.setAttribute("Tier", Tier);
 
-		return "board/boardInfo";
+	    // Check if the user is 'banned' and show alert if true
+	    if (mem != null && "BANNED".equals(mem.getStatus())) {  
+	    	String msg = "경매기능 사용이 정지된 계정입니다." + "정지사유:"+ mem.getBanreason() + "1대1문의를 이용해주세요";
+			String url = "/member/index";
+	    	
+	        req.setAttribute("msg", msg);
+	        req.setAttribute("url", url);
+	        return "alert";
+	    }
+
+	    bd.cntBoard(num);
+ 
+	    Auction board = bd.oneBoard(num);
+
+	    // 신고 횟수 가져오기
+	    int reportcount = ad.selectReportCount(board.getUserid());
+	    model.addAttribute("reportcount", reportcount);
+
+	    List<Comment> commentLi = bd.commentList(num);
+	    int count = commentLi.size();
+	    req.setAttribute("commentLi", commentLi);
+	    req.setAttribute("board", board);
+	    req.setAttribute("count", count);
+
+	    return "board/boardInfo";
 	}
 	
 	@RequestMapping("boardUpdateForm")

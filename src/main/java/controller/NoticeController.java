@@ -163,6 +163,9 @@ public class NoticeController {
 		req.setAttribute("amem", mem);
 		String Tier = cd.tier(login); 
 		req.setAttribute("Tier", Tier);
+		
+		
+		
 		return "notice/noticeList";
 }
 	

@@ -309,12 +309,12 @@ function openPurchasePopup() {
 								<th>상세내용</th>
 								<td>${board.content}</td>
 							</tr>
-					<c:forEach var="report" items="${reportcountlist}">
+				
     <tr>
-        <th>신고당한횟수</th>
-        <td>${report.reportcount}</td>
+        <th>아이디 신고 횟수</th>
+        <td>${reportcount}</td>
     </tr>
-</c:forEach>
+
                     <tr>
 								<c:if test="${sessionScope.id!=null}">
 									<td colspan="2" class="text-right"><a

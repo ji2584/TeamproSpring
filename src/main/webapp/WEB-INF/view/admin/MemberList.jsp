@@ -157,6 +157,8 @@
                                             <th>전화번호:</th>
                                             <th>이메일:</th>
                                             <th>주소:</th>
+                                            <th>상태:</th>
+                                            <th>정지사유:</th>
                                             
                                         </tr>
                                     </thead>
@@ -172,10 +174,25 @@
                     <td>${ml.tel}</td> 
                     <td>${ml.email} </td>
                    <td>${ml.address}</td>
+                   <td>${ml.status}</td>
+                   <td>${ml.banreason}</td>
+                   
+              <td>
+    <form action="banreasonform" method="post">
+        <input type="hidden" name="id" value="${ml.id}">
+        <button class="btn btn-danger" type="submit" onclick="return confirm('정지하겠습니까?')">사용정지</button>
+    </form>
+</td>
+<td>
+    <form action="Unbanmember" method="post">
+        <input type="hidden" name="id" value="${ml.id}">
+        <button class="btn btn-danger" type="submit" onclick="return confirm('해제하겠습니까?')">정지해제</button>
+    </form>
+</td>
                                            
                 </tr>
             </c:forEach>
-            </tbody>
+            </tbody> 
                                     
                                     
                                 </table>

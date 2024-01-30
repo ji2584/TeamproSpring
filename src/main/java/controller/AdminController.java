@@ -237,7 +237,30 @@ public class AdminController  {
          System.out.println(selectedMembers);
        return "admin/MemberList";
    }
+   
+   @RequestMapping("banreasonform")
+   public String banreasonform(String id, Model model) {
+	   
+	   model.addAttribute("id", id);
+       return "/admin/banreasonform";
+   }
+   
+   @RequestMapping("banmember")
+   public String banmember(@RequestParam("id") String id, @RequestParam("banreason") String banreason) {
+       ad.banMember(id, banreason);
+       
+       return "redirect:/admin/MemberList";
+   }
 
+   @RequestMapping("Unbanmember")
+   public String UnbanMember(@RequestParam("id") String id) {
+	   
+	   
+	    ad.UnbanMember(id);
+     
+       
+	   return "redirect:/admin/MemberList";
+   }
    
    }
    
