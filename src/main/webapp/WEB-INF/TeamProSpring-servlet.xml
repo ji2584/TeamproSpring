@@ -94,7 +94,7 @@
 			<bean class="interceptor.AdminInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/view/***" />
+			
 			<mvc:mapping path="/admin/ReportForm" />
 			<ref bean="login" />
 		</mvc:interceptor>

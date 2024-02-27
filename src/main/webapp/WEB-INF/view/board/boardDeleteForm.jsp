@@ -52,7 +52,7 @@ padding:10px 40px 10px 40px;
 						</div><p>
 					</div><p>
 					<div class="mb-1"></div>
-					<button class="lo" type="submit">Login</button>
+					<button class="lo" type="submit">삭제하기</button>
 				</form>
 			</div>
 		</div>

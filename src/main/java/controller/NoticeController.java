@@ -61,7 +61,8 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("noticePro") 
-	public String noticePro(@RequestParam("f") MultipartFile multipartFile, Notice notice,@RequestParam(name = "isPublic", defaultValue = "N") String ispublic) throws Exception {
+	public String noticePro(@RequestParam("f") MultipartFile multipartFile,
+			Notice notice,@RequestParam(name = "isPublic", defaultValue = "N") String ispublic) throws Exception {
 		
 		
 		String path =
@@ -76,7 +77,7 @@ public class NoticeController {
 		
 		notice.setBoardid(boardid);
 		notice.setName(name);
-		 notice.setIsPublic(ispublic);
+		notice.setIsPublic(ispublic);
 		
 		if(!multipartFile.isEmpty()) {
 			File file = new File(path,multipartFile.getOriginalFilename());
@@ -163,9 +164,6 @@ public class NoticeController {
 		req.setAttribute("amem", mem);
 		String Tier = cd.tier(login); 
 		req.setAttribute("Tier", Tier);
-		
-		
-		
 		return "notice/noticeList";
 }
 	
@@ -181,17 +179,16 @@ public class NoticeController {
 	      
 	        String msg = "";
 	          String url = "";
-	      
-	      
-	      if (notice.getIsPublic().equals("Y")|| notice.getName().equals(login)) {
+	      if (notice.getIsPublic().equals("Y")||notice.getName().equals(login)) {
 	      //공개된 글이면 정보 전달
 	      req.setAttribute("notice", notice);   
 	      String Tier = cd.tier(login); 
 	      req.setAttribute("Tier", Tier);
 	      
-	      return "notice/noticeInfo";
-	      } else {
-	       msg = "비공개 설정";
+	      return  "/notice/noticeInfo";
+	      } else { 
+	    	 
+	    	  msg = "비공개 설정";
 	       url = "/notice/noticeList";
 	          
 	      }

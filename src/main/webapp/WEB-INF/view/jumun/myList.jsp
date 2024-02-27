@@ -32,13 +32,13 @@
                     <tr>
                         <td>${j.pnum}</td>
                         <td><img src="${j.prompt}" alt="이미지" style="max-width: 50px; max-height: 50px;"></td>
-                        <td><a href="">${j.pname}</a></td>
+                        <td><a href="${pageContext.request.contextPath}/board/boardInfo?num=${j.pnum}">${j.pname}</a></td>
                         <td>${j.file1}</td>
                         <td>${j.subject}</td>
                         <td>${j.price}</td>
                         <td>${j.readcnt}</td>
                         <td>${j.regdate}</td>
-                        <td> <a href="${pageContext.request.contextPath}/board/boardDeleteForm?num=${board.pnum}" class="btn btn-danger mx-2">삭제</a></td>
+                        <td></td>
                     </tr>
                 </c:forEach>
             </tbody>

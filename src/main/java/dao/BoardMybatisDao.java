@@ -17,9 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import mybatis.MybatisConnection;
+import model.AddbuyList;
 import model.Amem;
+import model.Apay;
 import model.Auction;
+import model.Cart;
 import model.Comment;
+
 
 @Repository
 public class BoardMybatisDao {
@@ -36,7 +40,11 @@ public class BoardMybatisDao {
 	public int buyNow(Map<String, Object> params) throws UnsupportedEncodingException, SQLException {
 		return sqlSession.update(ns + "buyNow", params);
 	}
+	 public List<Auction> buyList(String id) throws SQLException {
+	      
+	      return sqlSession.selectList(ns+"buyList", id);
 
+	      }
 	public List<Auction> searchBoards(String pname) throws UnsupportedEncodingException, SQLException {
 		return sqlSession.selectList(ns + "searchBoards", pname);
 	}
@@ -132,5 +140,28 @@ public class BoardMybatisDao {
 	public Comment oneComment(int ser) throws UnsupportedEncodingException, SQLException {
 		return sqlSession.selectOne(ns + "oneComment", ser);
 	}
+	
+	
+	 public int apay(Apay apay) throws SQLException {
+		  
+	     return sqlSession.insert(ns+"apay", apay); }
+	 
+	
+	
+	  public int addTobuyList(AddbuyList addbuyList) throws SQLException {
+	  
+	     return sqlSession.insert(ns+"addTobuyList", addbuyList); }
+	 
 
+	
+	  public List<AddbuyList> List(int pnum) throws UnsupportedEncodingException, SQLException {
+
+			return sqlSession.selectList(ns + "List", pnum);
+		}
+	  
+	  public int maxbuycnt(int pnum) {
+			return sqlSession.selectOne(ns + "maxbuycnt", pnum);
+		}
+
+	
 }

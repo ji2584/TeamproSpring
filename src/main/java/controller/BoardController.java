@@ -2,6 +2,7 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,11 @@ import dao.MemberMybatisDao;
 
 import model.Comment;
 import model.Report;
+import model.AddbuyList;
 import model.Amem;
+import model.Apay;
 import model.Auction;
+import model.Cart;
 
 
 @Controller
@@ -46,10 +50,9 @@ public class BoardController  {
 	HttpSession session;
 	HttpServletRequest req;
 	@Autowired
-	CartMybatisDao cd; 
+	CartMybatisDao cd;  
 	@Autowired
-	AdminMybatisDao ad;
-
+    AdminMybatisDao ad;
 	
 	@ModelAttribute
 	protected void service(HttpServletRequest request) throws ServletException, IOException {
@@ -57,7 +60,26 @@ public class BoardController  {
 		this.session = request.getSession();
 		this.req=request;
 	}
-	
+	@RequestMapping("buyList")
+	   
+	   public String buyList() throws Exception {
+	      
+	      String login = (String) session.getAttribute("id");
+	      
+	      Amem mem = md.oneMember(login);   
+	      req.setAttribute("amem", mem);
+	      
+	      String Tier = cd.tier(login); 
+	      req.setAttribute("Tier", Tier);
+	      
+	        String id = (String) session.getAttribute("id");
+	        List<Auction>  li = bd.buyList(id);
+
+	        System.out.println(li);
+	      req.setAttribute("li", li);
+	      
+	      return "board/buyList";
+	   }  
 	@RequestMapping("searchauction")
 	   public String searchauction(Model model, String pname) throws Exception {
 	      System.out.println("======== searchauction");
@@ -223,41 +245,125 @@ public class BoardController  {
 		return "board/products";
 
 	}
+	@RequestMapping("checkout")
+	public String checkout(int num) throws Exception {
+		// TODO Auto-generated method stub
+
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
 	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);		
+			
+		Auction board = bd.oneBoard(num);
+		req.setAttribute("board", board); 
+	
+		 
+		return "/board/checkout";
+	}
+	
+
+	
+	
+	@RequestMapping("checkoutpro")
+	public String checkoutpro(Apay apay,int num, String memo) throws Exception {
+		// TODO Auto-generated method stub
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
+	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
+		bd.cntBoard(num);		
+		Auction board = bd.oneBoard(num);
+		req.setAttribute("board", board);
+		
+	
+		System.out.println(apay);
+		System.out.println(memo);
+	
+	
+	    req.setAttribute("apay", apay);
+	    req.setAttribute("memo", memo);
+	
+	    
+	    
+	    
+	    apay.setMemo(memo);
+	    num = bd.apay(apay);
+	    
+		return "/board/success";
+		
+	
+	}
+	@RequestMapping("success")
+	   public String success(int num) throws Exception {
+	      // TODO Auto-generated method stub
+
+		
+	      return "/board/success";
+	   }
+
 	@RequestMapping("boardInfo")
-	public String boardInfo(int num, Model model) throws Exception {
-	    String login = (String) session.getAttribute("id");
-	    Amem mem = md.oneMember(login);
-	    req.setAttribute("amem", mem);
+	public String boardInfo(int num,Model model) throws Exception {
+		// TODO Auto-generated method stub
+		
 
-	    String Tier = cd.tier(login);
-	    req.setAttribute("Tier", Tier);
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
+	
+		String Tier = cd.tier(login); 
+		req.setAttribute("Tier", Tier);
+		
+		
 
-	    // Check if the user is 'banned' and show alert if true
-	    if (mem != null && "BANNED".equals(mem.getStatus())) {  
-	    	String msg = "경매기능 사용이 정지된 계정입니다." + "정지사유:"+ mem.getBanreason() + "1대1문의를 이용해주세요";
-			String url = "/member/index";
-	    	
-	        req.setAttribute("msg", msg);
-	        req.setAttribute("url", url);
-	        return "alert";
-	    }
+		// 사용자가 '정지' 상태인지 확인하고, 정지된 경우 경고 표시
+		if (mem != null && "BANNED".equals(mem.getStatus())) {  
+		    // 사용자가 정지된 경우 정지 사유를 포함한 경고 메시지 생성
+		    String msg = "경매기능 사용이 정지된 계정입니다. 정지사유: " + mem.getBanreason() + " 1대1문의를 이용해주세요";
+		    String url = "/member/index";
+		    
+		    // 경고 메시지와 리다이렉트 URL 설정
+		    req.setAttribute("msg", msg);
+		    req.setAttribute("url", url);
+		    
+		    // 경고 페이지로 리다이렉트
+		    return "alert";
+		}
 
-	    bd.cntBoard(num);
- 
-	    Auction board = bd.oneBoard(num);
+	       
+	       
+		bd.cntBoard(num);	
+		
+		Auction board = bd.oneBoard(num);
+		
+		 // 신고 횟수 가져오기
+	       int reportcount = ad.selectReportCount(board.getUserid());
+	       model.addAttribute("reportcount", reportcount);
 
-	    // 신고 횟수 가져오기
-	    int reportcount = ad.selectReportCount(board.getUserid());
-	    model.addAttribute("reportcount", reportcount);
-
-	    List<Comment> commentLi = bd.commentList(num);
-	    int count = commentLi.size();
-	    req.setAttribute("commentLi", commentLi);
-	    req.setAttribute("board", board);
-	    req.setAttribute("count", count);
-
-	    return "board/boardInfo";
+		
+		
+		List<AddbuyList> AddbuyList  =  bd.List(num);
+		System.out.println(AddbuyList);
+		
+		
+		
+		 int maxbuy = bd.maxbuycnt(num);
+		 System.out.println(maxbuy);
+	     model.addAttribute("maxbuy", maxbuy);
+		
+		
+		
+		List<Comment> commentLi = bd.commentList(num);
+		int count = commentLi.size();
+		req.setAttribute("commentLi", commentLi);
+		req.setAttribute("board", board); 
+		req.setAttribute("count", count);
+		req.setAttribute("ab", AddbuyList);
+	
+		return "board/boardInfo";
 	}
 	
 	@RequestMapping("boardUpdateForm")
@@ -265,8 +371,6 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
-		
 		
 	
 		String Tier = cd.tier(login); 
@@ -278,7 +382,7 @@ public class BoardController  {
 	}
 
 	@RequestMapping("buyPro")
-	public String buyPro(int pnum, String buy, String buyid) throws Exception {
+	public String buyPro(int pnum, String buy, String buyid, String id, Date buydate) throws Exception {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
@@ -291,6 +395,17 @@ public class BoardController  {
 	    
 	    int result = bd.updateBuy(board);
 
+	    
+	    // -- 기록 test	
+		  AddbuyList ab = new AddbuyList();
+		  ab.setPnum(pnum);
+		  ab.setBuyid(buyid);
+		  ab.setBuy(buy);
+		  ab.setBuydate(buydate);
+		  
+		  bd.addTobuyList(ab);
+		 
+        
 	    String msg;
 	    String url;
 
@@ -417,11 +532,11 @@ public class BoardController  {
 	      String msg = "삭제 불가합니다";
 	      String url = "/board/boardDeleteForm?num=" + pnum;
 	      
-	      if (mem.getPass().equals(pass)) {
+	      if (board.getPass().equals(pass)) {
 	         int count = bd.boardDelete(pnum);
 	         if (count > 0) {
 	            msg = "게시글이 삭제 되었습니다";
-	            url = "/board/products";
+	            url = "/jumun/myList";
 	         }
 
 	      } else {
@@ -495,13 +610,8 @@ public class BoardController  {
 	       return "alert";
 	   }
 
-	@RequestMapping("naver")
-	public String naver() throws Exception {
-		// TODO Auto-generated method stub
-		return "/board/naver";
-	}
 	
-
-
+	
+	
 	
 }

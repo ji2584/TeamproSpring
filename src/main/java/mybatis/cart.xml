@@ -52,20 +52,39 @@ delete from aproducts where pnum = #{pnum}
  SELECT Tier FROM
     (
         SELECT
-            COUNT(pnum) as total_pnum,
+            SUM(BUY) as total_AMOUNT,
             CASE
-                WHEN COUNT(pnum) &lt; 3 THEN 'Silver'
-                WHEN COUNT(pnum) BETWEEN 4 AND 6 THEN 'Gold'
-                WHEN COUNT(pnum) BETWEEN 7 AND 10 THEN 'Platinum'
+                WHEN SUM(BUY) &lt; 10000 THEN 'Silver'
+                WHEN SUM(BUY) BETWEEN 50000 AND 100000 THEN 'Gold'
+                WHEN SUM(BUY) BETWEEN 100001 AND 300000 THEN 'Platinum'
                 ELSE 'Diamond'
             END AS Tier
         FROM
             auction
         WHERE
-            userid = #{userid}
+            BUYID = #{BUYID}
         GROUP BY
-            userid
+           BUYID
     ) 
     </select>
     
+    
+
+   
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

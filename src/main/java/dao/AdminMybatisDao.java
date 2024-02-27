@@ -95,20 +95,20 @@ public class AdminMybatisDao {
 	    System.out.println(selectedMembers);
 	    sqlSession.getMapper(AMemberAnno.class).deleteMembers(selectedMembers);
 	}
+	public int selectReportCount(String reportedid) {
+		return sqlSession.getMapper(AReportAnno.class).selectReportCount(reportedid);
+	}
 	
-	
-	  public int selectReportCount(String reportedid) { 
-	  return sqlSession.getMapper(AReportAnno.class).selectReportCount(reportedid); }
-	 
-	
-
 	  public int banMember(String id, String banreason) { 
-		    return sqlSession.getMapper(AMemberAnno.class).banmember(id, banreason); 
-		}
-	  
+          return sqlSession.getMapper(AMemberAnno.class).banmember(id, banreason); 
+      }
+     
 
-	  public int UnbanMember(String id) { 
-	  return sqlSession.getMapper(AMemberAnno.class).UnbanMember(id); }
+     public int UnbanMember(String id) { 
+     return sqlSession.getMapper(AMemberAnno.class).UnbanMember(id); }
+
+
+	
 	
 	
 	}

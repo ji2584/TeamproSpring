@@ -66,20 +66,21 @@ public class AdminController  {
 	  
       
    }
-   
+   @RequestMapping("answerinfo")
+   public String Answerinfo(Model model,@RequestParam int num) throws UnsupportedEncodingException, SQLException {
+       // contentReport 메서드 호출
+      Notice answerinfo = nc.contentanswer(num);
 
-   @RequestMapping("AdminReport")
-   public String AdminReport() throws Exception {
-	
-	   
-	   
-	   
-      return "admin/AdminReport";
-      
-      
-      
-      
+       // 모델에 데이터 추가
+       model.addAttribute("answerinfo", answerinfo);
+
+       // 뷰 이름 반환
+       return "admin/answerinfo";
    }
+
+
+
+  
 
 @RequestMapping("AnswerForm")
    public String AnswerForm(@RequestParam("num") String num, Model model) {
@@ -94,7 +95,7 @@ public class AdminController  {
    public String AnswerPro(@RequestParam(name = "num", required = true) int num, @RequestParam("answer") String answer) {
        // num과 answer를 사용하여 DAO를 통해 업데이트 수행
       
-       int adminnotice = ad.updateAnswer(num, answer);
+        ad.updateAnswer(num, answer);
        
 
        String msg = "답변 등록 완료";
@@ -106,17 +107,7 @@ public class AdminController  {
    
    }
 
-   @RequestMapping("answerinfo")
-   public String Answerinfo(Model model,@RequestParam int num) throws UnsupportedEncodingException, SQLException {
-       // contentReport 메서드 호출
-	   Notice answerinfo = nc.contentanswer(num);
-
-       // 모델에 데이터 추가
-       model.addAttribute("answerinfo", answerinfo);
-
-       // 뷰 이름 반환
-       return "admin/answerinfo";
-   }
+     
   
    
    @RequestMapping("ReportForm")
@@ -238,10 +229,11 @@ public class AdminController  {
        return "admin/MemberList";
    }
    
+   
    @RequestMapping("banreasonform")
    public String banreasonform(String id, Model model) {
-	   
-	   model.addAttribute("id", id);
+      
+      model.addAttribute("id", id);
        return "/admin/banreasonform";
    }
    
@@ -254,13 +246,15 @@ public class AdminController  {
 
    @RequestMapping("Unbanmember")
    public String UnbanMember(@RequestParam("id") String id) {
-	   
-	   
-	    ad.UnbanMember(id);
+      
+      
+       ad.UnbanMember(id);
      
        
-	   return "redirect:/admin/MemberList";
+      return "redirect:/admin/MemberList";
    }
+
+
    
    }
    

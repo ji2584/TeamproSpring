@@ -53,14 +53,17 @@ padding:10px 40px 10px 40px;
 							<input type="password" class="form-control" id="pass" placeholder="PASSWORD" value="" name="pass" required>
 						</div><p>
 					</div><p>
+					             <!-- 아이디 찾기 링크 -->
+<a href="javascript:void(0)" onclick="findId()">아이디 찾기</a>
+
+<!-- 비밀번호 찾기 링크 -->
+<a href="javascript:void(0)" onclick="findPassword()">비밀번호 찾기</a>
 					<div class="mb-1"></div>
 					<button class="lo" type="submit">Login</button>
 					<div class="mb-1"></div>
                
-               <button class="lo" type="submit" onclick="findId()">아이디찾기</button>
-               <div class="mb-1"></div>
-               <button class="lo" type="submit" onclick="findPassword()">비밀번호찾기</button>
-					
+
+
 				</form>
 			</div>
 		</div>

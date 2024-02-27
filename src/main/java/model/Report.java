@@ -10,10 +10,8 @@ public class Report {
 	private Date regdate ;
 	private int pnum;
 	
-	private int reportcount;//신고당한 횟수
-	
 	private String reportedid;//신고당한사람
-	
+	private int reportcount;
 	
 	 
 	public int getReportcount() {
@@ -61,9 +59,11 @@ public class Report {
 	@Override
 	public String toString() {
 		return "Report [reportid=" + reportid + ", reportpnum=" + reportpnum + ", content=" + content + ", regdate="
-				+ regdate + ", pnum=" + pnum + ", reportcount=" + reportcount + ", reportedid=" + reportedid + "]";
+				+ regdate + ", pnum=" + pnum + ", reportedid=" + reportedid + ", reportcount=" + reportcount + "]";
 	}
-
+	
+	
+	
 	
 	
 	

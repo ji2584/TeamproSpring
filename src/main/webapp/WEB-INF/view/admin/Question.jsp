@@ -28,14 +28,11 @@
     </style>
       <script>
     function checkFile(fileId, fileName) {
-        // fileId와 fileName을 사용하여 서버에 파일 다운로드 요청
+        // fileId와 fileName을 사용하여 파일 불러오기,팝업창으로 이미지를 불러와서 확인가능
        
         window.open('${pageContext.request.contextPath}/single/temp.jsp?filename='+fileName, '', 'left=100,top=100,width=320,height=320')
     }
-    
-    
-    
-</script>
+     </script>
 
 <script>
     function AnswerForm(num) {

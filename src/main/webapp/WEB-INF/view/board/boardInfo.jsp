@@ -10,6 +10,31 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <style>
+   /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
 .example-div {
 	width: 100%;
 	margin: 0 auto;
@@ -75,14 +100,21 @@ li {
 
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(regdate) {
-        if (!regdate) {
-            $("#remainingTime").html("즉시구매 된 상품입니다.");
-            // 즉시구매 된 상품입니다. 메시지가 표시되었을 때 결제 버튼을 보이게 설정
-            $("#paymentButton").show();
-            $(".cart button").hide();
-            return;
-        }
+    	  var loggedInUserId = "${amem.id}";
+          var boardBuyId = "${board.buyid}";
 
+          if (!regdate) {
+              $("#remainingTime").html("즉시구매 된 상품입니다.");
+              $(".cart button").hide(); // 입찰 및 즉시구매 버튼 숨기기
+
+              // 즉시구매된 상품이고 로그인한 사용자가 입찰자와 같은 경우 결제 버튼 표시
+              if (loggedInUserId === boardBuyId) {
+                  $("#paymentButton").show();
+              } else {
+                  $("#paymentButton").hide();
+              }
+              return;
+          }
         var currentTime = new Date().getTime();
         var expirationTime = new Date(regdate).getTime() + (7 * 24 * 60 * 60 * 1000);
 
@@ -162,7 +194,7 @@ li {
 			<div class="text-details" style="margin-left: 150px;">
 				<div id="remainingTime"></div>
 				<span style="color: black; font-weight: bold; font-size: 50px;">${board.pname}</span>
-				<div>
+				<div style="text-align:left; padding-left:30px;">
 					<span style="color: black; font-weight: bold; font-size: 20px;">즉시구매가:</span>
 					<span style="color: black; font-weight: bold; font-size: 30px;">
 						<fmt:formatNumber value="${board.prompt}" pattern="#,##0" />원
@@ -173,7 +205,7 @@ li {
 					</span><br> <span
 						style="color: black; font-weight: bold; font-size: 20px;">입찰가:</span>
 					<span style="color: red; font-weight: bold; font-size: 30px;">
-						<fmt:formatNumber value="${board.buy}" pattern="#,##0" />원
+						    <fmt:formatNumber value="${board.buy}" pattern="#,##0" />원
 					</span><br> <span
 						style="color: black; font-weight: bold; font-size: 20px;">입찰자:</span>
 					<span style="color: black; font-weight: bold; font-size: 20px;">${board.buyid}
@@ -188,9 +220,8 @@ li {
 					<button onclick="buyNow()">즉시구매</button>
 					
 				</form>
-				
-					
-					<button id="paymentButton" >결제하기</button>
+						
+					<a href="${pageContext.request.contextPath}/board/checkout?num=${board.pnum}"><button id="paymentButton" >결제하기</button></a>
 
 <script>
 
@@ -272,6 +303,7 @@ function openPurchasePopup() {
     }
 }
 
+
 </script>
 
 
@@ -306,16 +338,24 @@ function openPurchasePopup() {
 								<td>${board.subject}</td>
 							</tr>
 							<tr>
-								<th>상세내용</th>
+								<th>상세내용</th> 
 								<td>${board.content}</td>
 							</tr>
-				
-    <tr>
-        <th>아이디 신고 횟수</th>
-        <td>${reportcount}</td>
-    </tr>
-
-                    <tr>
+							
+						     
+						    <tr>
+						        <th>아이디 신고 횟수</th>
+						        <td>${reportcount}</td>
+						    </tr>
+							
+												
+							<tr>
+                        <th>입찰수</th>
+                        <td>
+                        <a class="btn btn-primary"  onclick="openModal('${board.pnum}')"
+                              href="#"> ${maxbuy} 기록</a></td>
+                     </tr>
+							<tr>
 								<c:if test="${sessionScope.id!=null}">
 									<td colspan="2" class="text-right"><a
 										class="btn btn-primary"
@@ -333,14 +373,54 @@ function openPurchasePopup() {
 						</tbody>
 					</table>
 					<c:if test="${sessionScope.id==null}">
-						<li><a href="${pageContext.request.contextPath}/member/loginForm"></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/member/loginForm"></a></li>
 					</c:if>
 				</div>
 			</div>
 		</div>
-
-
+<!-- modal을 이용한거 -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        
+        <table class="table table-bordered">
+<thead>
+      <tr>
+        <th>일시</th>
+        <th>입찰자</th>
+        <th>입찰금액</th>
+      </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="ab" items="${ab}">   
+      <tr>
+        <td><fmt:formatDate value="${ab.buydate}"
+										pattern="yyyy년 MM월 dd일 HH시 mm분 " /></td>
+        <td>${ab.buyid}</td>
+        <td><fmt:formatNumber value="${ab.buy}" pattern="#,##0" /></td>
+      </tr>
+      </c:forEach>  
+    </tbody>
+  </table>
+        
+    </div>
+</div>
 		<script>
+		  // 모달 열기
+	    function openModal() {
+	        document.getElementById('myModal').style.display = 'block';
+	    }
+
+	    // 모달 닫기
+	    function closeModal() {
+	        document.getElementById('myModal').style.display = 'none';
+	    }
+	    //--end
+	    
+	    
+	    
+
 function checkInput(pnum) {
     var commentInput = document.getElementById("comment");
     var saveButton = document.getElementById("saveButton");

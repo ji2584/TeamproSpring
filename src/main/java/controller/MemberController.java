@@ -57,6 +57,7 @@ public class MemberController {
 		String Tier = cd.tier(login); 
 		req.setAttribute("Tier", Tier);
 		
+	
 		
 	List<Auction> li = bd.mainList();	
 		
@@ -201,7 +202,7 @@ public class MemberController {
 	      if(mem != null ) { //id 존재할때
 	         if (pass.equals(mem.getPass())) { //login ok
 	            session.setAttribute("id", id);
-	            if (mem.getAdminchk().equals("1")) {
+	            if (mem.getAdminchk().equals("1")) {//관리자로 로그인시 관리자페이지로 바로연결
 	               session.setAttribute("admin", id);
 	            msg = "관리자로 로그인하셧습니다.";
 	            url = "/admin/main";
@@ -223,7 +224,7 @@ public class MemberController {
 	public String memberPro(Amem amem) throws Exception {
 		
 		
-		
+	//apay	
 		
 
 		

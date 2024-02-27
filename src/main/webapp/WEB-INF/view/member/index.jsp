@@ -145,16 +145,14 @@ li {
 			<input type="text" placeholder="상품 검색" name="pname">
 			<button class="search" type="submit">검색</button>
 			<div class="dropdown">
-				<button class="menuList" type="button" name="menuList"
-					id="dropdownMenuButton" data-bs-toggle="dropdown"
-					aria-haspopup="true" aria-expanded="false">메뉴</button>
+			
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<!-- Dropdown menu items -->
 					<a class="dropdown-item"
-						href="${pageContext.request.contextPath}/board/cntList?pname=readcnt">조회순</a>
+						href="${pageContext.request.contextPath}/board/cntList?pname=readcnt">조회순</a>/
 					<a class="dropdown-item"
 						href="${pageContext.request.contextPath}/board/cntList?pname=priced">가격
-						높은순</a> <a class="dropdown-item"
+						높은순</a>/ <a class="dropdown-item"
 						href="${pageContext.request.contextPath}/board/cntList?pname=price">가격
 						낮은순</a>
 				</div>
@@ -162,7 +160,7 @@ li {
 		</form>
 	</div>
 	<div class="container">
-		<h5 class="text-center">최신상품 [${li.size()}]개의 상품이 있습니다</h5>
+		<h5 class="text-center">최신상품 [${li.size()}]개의 상품이 있습니다${sum }</h5> 
 
 
 		<c:forEach var="b" items="${li}">
@@ -185,7 +183,7 @@ li {
 							</a>
 
 							<div class="remaining-time" id="remainingTime-${b.pnum}"></div>
-							<span class="price" style="font-size: 15px;"><fmt:formatNumber value="${b.price}"
+							<span class="price" style="font-size: 15px;"><fmt:formatNumber value="${b.buy}"
 									pattern="#,##0" />원</span> 
 							
 								<span style="font-size: 13px;"> 조회수:${b.readcnt}

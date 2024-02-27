@@ -24,8 +24,8 @@ picture varchar(200));
 	private String account;
 	private String numberid;
 	private String adminchk;
-	private String status;
 	private String banreason;
+	private String status;
 	
 	
 	public String getBanreason() {
@@ -116,10 +116,9 @@ picture varchar(200));
 	public String toString() {
 		return "Amem [id=" + id + ", nickname=" + nickname + ", pass=" + pass + ", name=" + name + ", tel=" + tel
 				+ ", email=" + email + ", address=" + address + ", bank=" + bank + ", account=" + account
-				+ ", numberid=" + numberid + ", adminchk=" + adminchk + ", status=" + status + ", banreason="
-				+ banreason + "]";
+				+ ", numberid=" + numberid + ", adminchk=" + adminchk + ", banreason=" + banreason + ", status="
+				+ status + "]";
 	}
-	
 	
 	
 

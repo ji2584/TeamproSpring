@@ -17,6 +17,10 @@ select * from(
          		 where rnum between #{start} and #{end} 
 
 </select>
+<select id = "contentanswer" resultType="notice" parameterType="int">
+
+select * from anotice where boardid = 3 and num=#{num}
+</select>
 <update id = "updateAnswer"  parameterType="map">
 
  UPDATE anotice SET answer = #{answer} WHERE num = #{num}
@@ -60,15 +64,5 @@ SELECT a.num, a.name, a.subject, a.regdate, a.readcnt, a.file1
         WHERE a.boardid = 3 AND m.id = #{loggedInUserId}
         ORDER BY a.num DESC 
 </select>
-
-
-<select id = "contentanswer" resultType="notice" parameterType="int">
-
-select * from anotice where boardid = 3 and num=#{num}
-
-
-
-</select>
-
 
 </mapper>

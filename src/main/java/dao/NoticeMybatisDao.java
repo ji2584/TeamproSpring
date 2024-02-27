@@ -34,7 +34,14 @@ public class NoticeMybatisDao {
 	         return sqlSession.insert(NS+"insertNotice",notice);
 	                  
 	   }
-	 
+
+public Notice contentanswer(int num) throws UnsupportedEncodingException, SQLException {
+    
+      
+    return sqlSession.selectOne(NS+"contentanswer",num);
+}
+     
+
 	 public List<Notice> noticeList(int pageInt, int limit, String boardid) throws UnsupportedEncodingException, SQLException {
 		 
 		 	Map map = new HashMap();
@@ -93,12 +100,6 @@ public List<Notice> mynotice(int pageInt, int limit, String boardid, String id) 
      
   
       }
-
-public Notice contentanswer(int num) throws UnsupportedEncodingException, SQLException {
-    
-		
-    return sqlSession.selectOne(NS+"contentanswer",num);
-}
 	  
 	 
 }
