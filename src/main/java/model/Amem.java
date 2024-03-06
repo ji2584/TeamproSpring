@@ -14,8 +14,7 @@ picture varchar(200));
  */
 	
 	private String id;
-	private String nickname;
-	private String pass;
+		private String pass;
 	private String name;
 	private String tel;
 	private String email;
@@ -58,12 +57,7 @@ picture varchar(200));
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+	
 	public String getPass() {
 		return pass;
 	}
@@ -114,7 +108,7 @@ picture varchar(200));
 	}
 	@Override
 	public String toString() {
-		return "Amem [id=" + id + ", nickname=" + nickname + ", pass=" + pass + ", name=" + name + ", tel=" + tel
+		return "Amem [id=" + id + ",  pass=" + pass + ", name=" + name + ", tel=" + tel
 				+ ", email=" + email + ", address=" + address + ", bank=" + bank + ", account=" + account
 				+ ", numberid=" + numberid + ", adminchk=" + adminchk + ", banreason=" + banreason + ", status="
 				+ status + "]";
