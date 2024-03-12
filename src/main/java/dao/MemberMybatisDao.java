@@ -32,11 +32,8 @@ public class MemberMybatisDao {
 	}
 
 	
-	public Amem oneMember(String id) throws SQLException {
-
-	
+	public Amem oneMember(String id) throws SQLException {	
 		return sqlSession.getMapper(AMemberAnno.class).oneMember(id);
-
 	}
 
 
@@ -47,6 +44,8 @@ public Amem findMemberByNameAndEmail(String name, String email) throws SQLExcept
        
        return sqlSession.getMapper(AMemberAnno.class).findMemberByNameAndEmail(map);
    }
+
+
    public Amem findMemberByIdAndNameAndEmail(String id, String name, String email) throws SQLException {
        Map<String, String> map = new HashMap<>();
        map.put("id", id);
@@ -78,6 +77,9 @@ public Amem findMemberByNameAndEmail(String name, String email) throws SQLExcept
 
 		return sqlSession.getMapper(AMemberAnno.class).passMember(map);
 
+	}
+	public boolean isIdDuplicated(String id) throws SQLException {
+	    return sqlSession.getMapper(AMemberAnno.class).oneMember(id) != null;
 	}
 
 }// class end

@@ -10,7 +10,7 @@
     <div class="container">
         <div class="input-form-backgroud row">
             <div class="input-form col-md-12 mx-auto">
-                <h4 class="mb-3">신고사유</h4>
+                <h4 class="mb-3">게시판</h4>
                 <table class="table">
                     <tr>
                         <td>내용:</td>
@@ -20,7 +20,11 @@
                             <td>${report.content}</td>
                         </tr>
                     </c:forEach>
-                    
+                    <tr>
+                        <td colspan="2" class="text-right">
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">신고</a>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

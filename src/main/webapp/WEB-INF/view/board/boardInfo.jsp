@@ -6,12 +6,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="/js/jquery.alerts.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/common/css/jquery.alerts.css"
+	type="text/css">
+
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <style>
-   /* 모달 스타일 */
-        .modal {
+  .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -28,6 +33,7 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
+            
         }
         .close-btn {
             position: absolute;
@@ -35,120 +41,99 @@
             right: 10px;
             cursor: pointer;
         }
-.example-div {
-	width: 100%;
-	margin: 0 auto;
-	padding: 20px;
+#remainingTime {
+	font-size: 18px;
+	text-align: center;
 	color: black;
 	font-weight: bold;
+	background-color:yellow;
+	color:black;
+	padding: 5px;
+		border-radius: 10px;
 }
 
-.text-details {
-	margin: 0px 30px;
-	text-align: center;
-}
-
-.text-container {
-	width: 80%;
-	margin: 0 auto;
-	padding: 0px;
-}
-
-#remainingTime {
-	background-color: #2A2A2A;
-	font-size: 25px;
-	border-radius: 10px;
-	padding: 2px;
-	width: 420px;
-	text-align: center;
-	margin: 10px;
-	color: white;
-	font-weight: bold;
-}
-
-#comment {
-	width: 50%; /* 원하는 너비 설정 */
-	height: 25px; /* 원하는 높이 설정 */
-	resize: none; /* 크기 조절 비활성화 */
-}
-
-li {
-	list-style-type: none; /* 점 없애기 */
-}
-
-.com {
-	color: black; /* 원하는 텍스트 색상으로 설정 (예: black, red, #00ff00) */
-	/* 기타 스타일 속성들을 원하는 대로 설정할 수 있습니다. */
-}
-
-  .cart button,#paymentButton {
-        background-color: #2A2A2A; /* 버튼 배경색을 원하는 색상으로 지정 */
-        color: white; /* 글자색을 흰색으로 지정 */
-        /* padding: 0px 20px; 내부 여백을 조절하여 크기를 변경할 수 있습니다. */
-        font-size: 15px; /* 글자 크기를 조절할 수 있습니다. */
-        border: none; /* 테두리 제거 */
-        cursor: pointer;
-    }
-
-    .cart button:hover,
-#paymentButton:hover {
-        background-color: #45a049; /* 마우스를 올렸을 때 버튼의 배경색 변경 */
-    }
 </style>
-
 <script>
 
-    // Ajax 호출하여 남은 시간 업데이트
-    function updateRemainingTime(regdate) {
-    	  var loggedInUserId = "${amem.id}";
-          var boardBuyId = "${board.buyid}";
+	// Ajax 호출하여 남은 시간 업데이트
+	function updateRemainingTime(regdate) {
+		var loggedInUserId = "${amem.id}";
+		var boardBuyId = "${board.buyid}";
 
-          if (!regdate) {
-              $("#remainingTime").html("즉시구매 된 상품입니다.");
-              $(".cart button").hide(); // 입찰 및 즉시구매 버튼 숨기기
+		if (!regdate) {
+			$("#remainingTime").html("즉시구매 된 상품입니다.");
+			$(".det_btns a").hide(); // 입찰 및 즉시구매 버튼 숨기기
 
-              // 즉시구매된 상품이고 로그인한 사용자가 입찰자와 같은 경우 결제 버튼 표시
-              if (loggedInUserId === boardBuyId) {
-                  $("#paymentButton").show();
-              } else {
-                  $("#paymentButton").hide();
-              }
-              return;
-          }
-        var currentTime = new Date().getTime();
-        var expirationTime = new Date(regdate).getTime() + (7 * 24 * 60 * 60 * 1000);
+			// 즉시구매된 상품이고 로그인한 사용자가 입찰자와 같은 경우 결제 버튼 표시
+			if (loggedInUserId === boardBuyId) {
+				$("#paymentButton").show();
+			} else {
+				$("#paymentButton").hide();
+			}
+			return;
+		}
+		var currentTime = new Date().getTime();
+		var expirationTime = new Date(regdate).getTime()
+				+ (7 * 24 * 60 * 60 * 1000);
 
-        var remainingTime = expirationTime - currentTime;
-        if (remainingTime <= 0) {
-            $("#remainingTime").text("시간이 만료된 상품입니다.");
-            // 시간이 만료된 상품입니다. 메시지가 표시되었을 때 결제 버튼을 보이게 설정
-            $("#paymentButton").show();
-            $(".cart button").hide(); 
-            return;
-        }
-        $(".cart button").show();
-        var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+		var remainingTime = expirationTime - currentTime;
+		if (remainingTime <= 0) {
+			$("#remainingTime").text("시간이 만료된 상품입니다.");
+			
+			$(".det_btns a").hide();
+			
+			// 즉시구매된 상품이고 로그인한 사용자가 입찰자와 같은 경우 결제 버튼 표시
+			if (boardBuyId === null) {
+				$("#paymentButton").hide();
+			} else {
+				$("#paymentButton").hide();
+			}
+			return;
+		}
+		$(".cart button").show();
+		var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+		var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24))
+				/ (1000 * 60 * 60));
+		var minutes = Math.floor((remainingTime % (1000 * 60 * 60))
+				/ (1000 * 60));
+		var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-        $("#remainingTime").text(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");
-        // 남은 시간이 표시되는 경우 결제 버튼 감추기
-        $("#paymentButton").hide();
-    }
+		$("#remainingTime").text(
+				days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");
+		// 남은 시간이 표시되는 경우 결제 버튼 감추기
+		$("#paymentButton").hide();
+	}
 
-    // 페이지 로드 후 초기 업데이트
-    $(document).ready(function () {
-        updateRemainingTime("${board.regdate}");
-    });
+	// 페이지 로드 후 초기 업데이트
+	$(document).ready(function() {
+		updateRemainingTime("${board.regdate}");
+	});
 
-    // 일정 간격으로 업데이트
-    setInterval(function () {
-        updateRemainingTime("${board.regdate}");
-    }, 1000); // 1초마다 업데이트
-    
+	// 일정 간격으로 업데이트
+	setInterval(function() {
+		updateRemainingTime("${board.regdate}");
+	}, 1000); // 1초마다 업데이트
+	
+	
 </script>
+<script>
+	window.onload = function() {
+		// 시작 시간을 파싱합니다. 예시: "2023-03-01T12:00:00"
+		var startDate = new Date("${board.idate}");
 
+		// 시작 시간에 7일을 더합니다.
+		var endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+		// 종료 시간을 "yyyy년 MM월 dd일 HH시 mm분 ss초" 형태로 포맷합니다.
+		var endDateStr = endDate.getFullYear() + "년 "
+				+ (endDate.getMonth() + 1) + "월 " + endDate.getDate() + "일 "
+				+ endDate.getHours() + "시 " + endDate.getMinutes() + "분 "
+				+ endDate.getSeconds() + "초";
+
+		// 포맷된 종료 시간을 웹 페이지에 표시합니다.
+		document.getElementById("endTime").innerHTML = endDateStr;
+	};
+</script>
 <script> 
 		let count = ${count}
 		function enterkey(pnum, userid) {
@@ -183,47 +168,145 @@ li {
 </head>
 <body>
 
-	<div class="container">
-		<div class="product" style="display: flex;">
-			<div class="images">
+	<div id="mypage">
 
-				<img
-					src="${pageContext.request.contextPath}/image/board/${board.file1}"
-					width="420px" height="680px" alt="Product Image">
-			</div>
-			<div class="text-details" style="margin-left: 150px;">
-				<div id="remainingTime"></div>
-				<span style="color: black; font-weight: bold; font-size: 50px;">${board.pname}</span>
-				<div style="text-align:left; padding-left:30px;">
-					<span style="color: black; font-weight: bold; font-size: 20px;">즉시구매가:</span>
-					<span style="color: black; font-weight: bold; font-size: 30px;">
-						<fmt:formatNumber value="${board.prompt}" pattern="#,##0" />원
-					</span><br> <span
-						style="color: black; font-weight: bold; font-size: 20px;">시작경매가:</span>
-					<span style="color: blue; font-weight: bold; font-size: 30px;">
-						<fmt:formatNumber value="${board.price}" pattern="#,##0" />원
-					</span><br> <span
-						style="color: black; font-weight: bold; font-size: 20px;">입찰가:</span>
-					<span style="color: red; font-weight: bold; font-size: 30px;">
-						    <fmt:formatNumber value="${board.buy}" pattern="#,##0" />원
-					</span><br> <span
-						style="color: black; font-weight: bold; font-size: 20px;">입찰자:</span>
-					<span style="color: black; font-weight: bold; font-size: 20px;">${board.buyid}
-						님</span><br>${amem.id }
+
+
+		<form action="" id="detail_frm" method="post" accept-charset="utf-8">
+			<div class="pro_detail_box">
+				<div class="pro_d_img">
+					<div id="sec_img">
+						<div class="img_k">
+							<img
+								src="${pageContext.request.contextPath}/image/board/${board.file1}"
+								id="big_img" alt="">
+						</div>
+
+					</div>
+
 				</div>
 
-				<p>
-				<form class="cart" method="post" enctype='multipart/form-data'>
+				<div class="pro_d_info">
+
+					<!--161208 경매용어 레이어-->
+
+					<!--경매용어 레이어 fin.-->
+					<div class="pro_d_top">
+						<span class="prd_id">상품번호 : ${board.pnum }</span> <span
+							class="id_number"></span>
+
+					</div>
+					<div class="pro_d_tit" id="trans_after_subject">${board.pname}</div>
+					<div class="pro_d_detail">
+						<div class="pro_dd_up">
+							<div class="item top first">
+								<span class="pro_dd_tit">입찰건수</span> <span class="pro_dd_nbig"
+									style="font-size: 15px;"> <a class="btn btn-primary"
+									onclick="openModal('${board.pnum}')" href="#"> ${maxbuy}
+										기록보기</a>
+								</span>
+							</div>
+							<div class="item top sec">
+								<span class="pro_dd_tit">남은시간</span>
+								<div id="remainingTime"></div>
+
+								<!-- <span class="pro_dd_nbig">2일 +10:56:14</span> -->
+							</div>
+
+							<div class="item bottom first">
+								<span class="pro_dd_tit">시작시간</span> <span class="pro_dd_gray"><fmt:formatDate
+										value="${board.idate}" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" /></span>
+							</div>
+							<div class="item bottom sec">
+								<span class="pro_dd_tit">종료시간</span> <span class="pro_dd_gray"
+									id="endTime"></span>
+							</div>
+						</div>
+						&nbsp;
+
+						<div class="pro_dd_up">
+							<div class="item top first">
+								<span class="pro_dd_tit">시작가격</span> <span class="pro_dd_gray"
+									style="font-size: 20px; color: black; font-weight: bold;"><fmt:formatNumber
+										value="${board.price}" pattern="#,##0" /> 원</span>
+							</div>
+							<div class="item top sec">
+								<span class="pro_dd_tit">즉시구매가</span> <span class="pro_dd_nbig"
+									style="font-size: 20px; color: red; font-weight: bold;"><fmt:formatNumber
+										value="${board.prompt}" pattern="#,##0" /> 원</span>
+							</div>
 
 
-					<button onclick="openPurchasePopup()">입찰하기</button>
-					<button onclick="buyNow()">즉시구매</button>
-					
-				</form>
-						
-					<a href="${pageContext.request.contextPath}/board/checkout?num=${board.pnum}"><button id="paymentButton" >결제하기</button></a>
-
-<script>
+							<div class="item bottom first">
+								<span class="pro_dd_tit">현재가</span> <span class="pro_dd_gray"
+									style="font-size: 20px; color: blue; font-weight: bold;"><fmt:formatNumber
+										value="${board.buy}" pattern="#,##0" /> 원</span>
+							</div>
+							<div class="item bottom sec">
+								<span class="pro_dd_nbig" style="font-size: 12px;"> ※
+									현재가와 상관없이 낙찰이 되며 경매가 종료됩니다. ※</span>
+							</div>
+							<div class="item bottom ">현재 입찰자 ID : ${board.buyid }</div>
+						</div>
+						<div class="pro_dd_btn">
+							<script> <!-- 입찰하기 스크립트 -->
+				function openPurchasePopup() {
+				    // 이전 입찰 또는 즉시구매가 가져오기
+				    var currentBid = ${board.buy};
+				    var startPrice = currentBid ? currentBid : ${board.price};
+				    var promptPrice = ${board.prompt};
+				    // 숫자를 3자리마다 쉼표로 포맷팅
+				    var formattedStartPrice = startPrice.toLocaleString();
+				    var formattedPromptPrice = promptPrice.toLocaleString();
+				    // 두 번째 입찰부터는 이전 입찰가를 기준으로 범위 설정
+				    var bidRangeStart = currentBid ? currentBid : ${board.price};
+				    var buyAmount = prompt("구매 또는 입찰하려는 금액을 입력하세요.\n" + formattedStartPrice + 
+				    		"~" + formattedPromptPrice + "사이의 금액을 입력하세요", "0");
+				    if (buyAmount !== null) {
+				        // 입력값이 숫자인지 확인
+				        if (!isNaN(buyAmount)) {
+				            // 입력값이 범위에 있는지 확인
+				            if (parseInt(buyAmount) >= parseInt(bidRangeStart) && parseInt(buyAmount) <= parseInt(promptPrice)) {
+				                // 올바른 범위에 속한 경우 서버로 전송
+				                window.location.href = "${pageContext.request.contextPath}/board/buyPro?pnum=${board.pnum}&buy=" 
+				                		+ buyAmount + "&buyid=${amem.id}";
+				            } else {
+				                alert("입력한 금액이 올바른 범위에 속하지 않습니다.");
+				            }
+				        } else {
+				            alert("숫자를 입력하세요.");
+				        }
+				    }
+				}
+		</script>
+							<script> <!--즉시구매 스크립트-->
+			function buyNow() {
+			    if (confirm("즉시구매를 하시겠습니까?")) {
+			        var pnum = ${board.pnum};
+			        var userid = "${amem.id}";
+			        var prompt= ${board.prompt};
+			
+			        $.ajax({
+			            type: "POST",
+			            url: "${pageContext.request.contextPath}/board/buyNowPro",
+			            data: {
+			                "pnum": pnum,
+			                "userid": userid,
+			                "prompt": prompt
+			            },
+			            success: function(response) {
+			                // 성공 처리
+			                alert(response);
+			                window.location.reload();
+			            },
+			            error: function(error) {
+			                console.error("Error during buyNowPro request:", error);
+			            }
+			        });
+			    }
+			}
+	</script>
+							<script>
 
 
     const paymentButton = document.getElementById("paymentButton");
@@ -238,148 +321,132 @@ li {
 </script>
 
 
-				<script>
-
-function buyNow() {
-    if (confirm("즉시구매를 하시겠습니까?")) {
-        var pnum = ${board.pnum};
-        var userid = "${amem.id}";
-        var prompt= ${board.prompt};
-
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/board/buyNowPro",
-            data: {
-                "pnum": pnum,
-                "userid": userid,
-                "prompt": prompt
-            },
-            success: function(response) {
-                // 성공 처리
-                alert(response);
-            },
-            error: function(error) {
-                console.error("Error during buyNowPro request:", error);
-            }
-        });
-    }
-}
-
-</script>
+							<div class="pro_dd_btn_box det_btns"></div>
 
 
-			</div>
-		</div>
-		<!-- 구매(입찰) 버튼 클릭 시 이벤트 처리 -->
-		<script>
-function openPurchasePopup() {
-    // 이전 입찰 또는 즉시구매가 가져오기
-    var currentBid = ${board.buy};
-    var startPrice = currentBid ? currentBid : ${board.price};
-    var promptPrice = ${board.prompt};
+							<c:if test="${sessionScope.id==null}">
 
-    // 숫자를 3자리마다 쉼표로 포맷팅
-    var formattedStartPrice = startPrice.toLocaleString();
-    var formattedPromptPrice = promptPrice.toLocaleString();
+								<div class="pro_dd_btn_txt" style="font-size: 15px;">
+									경매참여 희망 시 로그인이 필요합니다. <a
+										href="${pageContext.request.contextPath}/member/loginForm"
+										style="color: red;"> > 로그인 하러가기 < </a>
+								</div>
 
-    // 두 번째 입찰부터는 이전 입찰가를 기준으로 범위 설정
-    var bidRangeStart = currentBid ? currentBid : ${board.price};
+							</c:if>
+						</div>
 
-    var buyAmount = prompt("구매 또는 입찰하려는 금액을 입력하세요.\n" + formattedStartPrice + "~" + formattedPromptPrice + "사이의 금액을 입력하세요", "0");
-
-    if (buyAmount !== null) {
-        // 입력값이 숫자인지 확인
-        if (!isNaN(buyAmount)) {
-            // 입력값이 범위에 있는지 확인
-            if (parseInt(buyAmount) >= parseInt(bidRangeStart) && parseInt(buyAmount) <= parseInt(promptPrice)) {
-                // 올바른 범위에 속한 경우 서버로 전송
-                window.location.href = "${pageContext.request.contextPath}/board/buyPro?pnum=${board.pnum}&buy=" + buyAmount + "&buyid=${amem.id}";
-            } else {
-                alert("입력한 금액이 올바른 범위에 속하지 않습니다.");
-            }
-        } else {
-            alert("숫자를 입력하세요.");
-        }
-    }
-}
+						<c:if test="${sessionScope.id!=null}">
 
 
-</script>
+							<div class="pro_dd_btn_box det_btns">
+								<a class="black" onclick="openPurchasePopup()" id="auction_send"
+									title="바로입찰" href="javascript:;" style="font-weight: bold;">입찰하기</a>
+								<a class="red" onclick="buyNow()"
+									style="background-color: red; font-weight: bold; border: 0px solid red; color: white;"
+									onclick=";" href="javascript:;" rel="btn_compare"> 즉시구매 </a>
+							</div>
+
+
+							<!-- 기존의 <button> 태그를 사용하지 않고 <a> 태그만 사용 -->
+							<a
+								href="${pageContext.request.contextPath}/board/checkout?num=${board.pnum}"
+								id="paymentButton"
+								style="text-align: center; font-size: 15px; margin-left:240px; height: 20px; width: 200px; display: inline-block; background-color: red; color: white; text-decoration: none; padding: 10px 20px; font-weight: bold; border-radius: 5px;">결제하기</a>
+
+
+							<div class="pro_dd_btn_txt">입찰 및 낙찰시에는 취소가 되지 않으니 상품 문의 시에는
+								입찰전 고객센터를 통해 문의후 입찰 부탁드립니다.</div>
+						</c:if>
+					</div>
+
+
+					<div class="pro_dd_price">
+						<!-- <div class="item top" id="select_quantity"> -->
+
+
+						<div class="pro_dd_re">
+							<div class="pro_dd_re_chart">
+								<div class="item first">
+									<span class="rec_tit">제품상세</span> <span class="gray"><span
+										id="trans_after_status">${board.subject }</span></span>
+								</div>
+								<div class="item">
+									<span class="rec_tit">판매자 정보</span> <span class="gray"></span>
+								</div>
+								<div></div>
+								<div></div>
+								<div class="item first">
+									<span class="rec_tit">반품가능여부</span> <span class="gray"><span
+										id="trans_after_return_info">반품 불가</span></span>
+								</div>
+								<div class="item">
+									<span class="rec_tit"> <img
+										src="${pageContext.request.contextPath}/image/renew220916/id_icon.png"
+										alt="아이콘">아이디
+									</span> <span> <span class="black">${board.userid } </span>
+									</span>
+								</div>
+
+
+							</div>
+						</div>
 
 
 
-		<div class="example-div">
-			<div class="">
-				<div class="">
-					<table>
-						<colgroup>
-							<col width="150px">
-							<col width="340px">
-							<col width="150px">
-							<col width="*">
-						</colgroup>
-						<tbody>
-							<tr>
-								<th>작성자 ID</th>
 
-								<td>${board.userid }님</td>
-							</tr>
-							<tr>
-								<th>경매등록일시</th>
-								<td><fmt:formatDate value="${board.idate}"
-										pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" /></td>
-							</tr>
-							<tr>
-								<th>조회수</th>
-								<td>${board.readcnt}</td>
-							</tr>
-							<tr>
-								<th>제품상세</th>
-								<td>${board.subject}</td>
-							</tr>
-							<tr>
-								<th>상세내용</th> 
-								<td>${board.content}</td>
-							</tr>
-							
-						     
-						    <tr>
-						        <th>아이디 신고 횟수</th>
-						        <td>${reportcount}</td>
-						    </tr>
-							
-												
-							<tr>
-                        <th>입찰수</th>
-                        <td>
-                        <a class="btn btn-primary"  onclick="openModal('${board.pnum}')"
-                              href="#"> ${maxbuy} 기록</a></td>
-                     </tr>
-							<tr>
-								<c:if test="${sessionScope.id!=null}">
-									<td colspan="2" class="text-right"><a
-										class="btn btn-primary"
-										href="${pageContext.request.contextPath}/board/boardUpdateForm?num=${board.pnum}">변경</a>
-										<a class="btn btn-primary"
-										href="${pageContext.request.contextPath}/board/boardDeleteForm?num=${board.pnum}">삭제</a>
-										<a class="btn btn-primary"
-										href="${pageContext.request.contextPath}/board/products">목록</a>
-										<a class="btn btn-primary"
-										href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">신고</a>
-									</td>
-								</c:if>
+					</div>
 
-							</tr>
-						</tbody>
-					</table>
-					<c:if test="${sessionScope.id==null}">
-						<li><a
-							href="${pageContext.request.contextPath}/member/loginForm"></a></li>
-					</c:if>
+
+
 				</div>
 			</div>
+		</form>
+
+	</div>
+
+
+
+	<div class="pro_content">
+		<!-- 상품상세정보 -->
+		<a id="tab1"></a>
+		<div class="pro_con_menu">
+			<ul>
+				<li><a class="on" onclick="javascript:move_scroll('#tab2');">상품상세정보</a>
+				</li>
+				<li><a onclick="javascript:move_scroll('#tab2');">판매자 질문/답변</a></li>
+
+			</ul>
 		</div>
-<!-- modal을 이용한거 -->
+		<div class="pro_con_in">
+			<div class="pro_de_info">
+				<div class="pro_de_info_txt">
+					<span class="pro_de_tit"> 해당 상품은 판매자가 직접 발송되는 상품입니다. </span><br>
+					<br> <span class="pro_de_txt"> 배송기간은 주문후 7~14일(영업일
+						기준)정도 소요될 수 있습니다.<br> (도서산간의 경우 배송이 2~3일 더 지연될 수 있습니다)<br>
+						
+					</span><br> <span class="blue"> 당 사이트의 결제금액에는 관부가세가 포함되어 있지
+						않습니다. </span>
+				</div>
+				<div class="pro_de_right">
+					<div class="up">
+						<span><img src="/images/renew220916/up_icon.png" alt=""></span>
+						<span> 이 제품은 경매를 통하여 유통되는 제품입니다.<br> 이 제품은 '전기용품 및
+							생활용품 안전관리법'에 따른 안전관리<br> 대상 제품입니다.
+						</span>
+					</div>
+					<div class="down">
+						<span><img src="/images/renew220916/down_icon.png" alt=""></span>
+						<span> 아래의 글이나 이미지는 판매자가 직접 판매상품을 올려놓고<br> 
+							설명해 놓은것으로, 실물과 다르거나 내용이 정확하지 않을 수<br> 있으니 반드시 <span
+							class="red">판매자 문의</span>를 통해 확인하시기 바랍니다.<br> 다른 문의에 대해 궁금한 사항은 <span
+							class="red">고객센터, 게시판</span> 등을 통해 문의후 입찰해<br> 주시기 바랍니다.
+						</span>
+					</div>
+				</div>
+			</div>
+
+
+
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -457,56 +524,107 @@ function reserv(ser, index) {
 	    });
 }
 </script>
-		<!-- 댓글영역 start -->
-		<div class="example-div">
-			<div class="">댓글</div>
-			<span class="" id="id">작성자:${amem.id}</span> <input type="hidden"
-				id="hiddenUserId" name="userid" value="${amem.id}">
-			<div class="col-sm-10">
-				<input type="text" class="form-control" id="comment"
-					onclick="checkAndShowLoginForm()"
-					onkeyup="checkInput('${board.pnum}')">
-				<button class="btn btn-primary" id="saveButton"
-					onclick="commentPro('${board.pnum}')" disabled>저장</button>
+			<table>
+				<tbody>
+					<tr>
+						<td id="translate_detail"
+							style="font-size: 15px; overflow: hidden; color: #000000; text-align: center;"><span
+							id="trans_after_content">
+							
+							<img
+					src="${pageContext.request.contextPath}/image/board/${board.file1}"
+					width="680px" height="680px" alt="Product Image"><br>
+							
+							${board.content}
+							
+							
+							
+							
+								<ul style="MARGIN-TOP: 50PX;">
+									<table class="KOSI">
+										<caption>배송방법과 배송료</caption>
+										<colgroup>
+											<col width="200PX;">
+											<col width="">
+										</colgroup>
+										<tbody>
+											<tr id="">
+												<td>배송 부담</td>
+												<td id="">낙찰자</td>
+											</tr>
+											<tr id="">
+												<td>발송원</td>
+												<td id="">
+													<dl class="ProductProcedure__dataTable">
+														<div class="ProductProcedure__tableRow">
+															<dt class="ProductProcedure__dataTitle">발송원</dt>
+															<dd>카나가와현</dd>
+														</div>
+													</dl>
+												</td>
+											</tr>
+											<tr id="">
+												<td>발송 개시</td>
+												<td id="">지불절차로부터 3～7일 만에 발송</td>
+											</tr>
+											<tr id="">
+												<td>해외 발송</td>
+												<td id="">구매대행</td>
+											</tr>
+											<tr id="DPRICE_TR">
+												<td>배송비</td>
+												<td id="DPRICE">220엔</td>
+											</tr>
+										</tbody>
+									</table>
+								</ul>
+						</span></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<!-- //상품상세정보 -->
+
+		<!-- 판매자 질문/답변 -->
+		<div class="pro_qna_box">
+			<div class="pro_qna_btn">
+				판매자 질문/답변 게시판은 해당 판매자가 질문자의 질문에 답변을 등록할 경우에만 리스트에 표시가 됩니다.<br>
+				해당 판매자에게 문의사항이 있을 경우 입찰전 판매자에게 질문하기 기능으로 질문을 요청 해 주십시오.
+				<ul>
+					<li><a class="black"
+						onclick="put_cancel_preview('w1127531150');">질문하기</a></li>
+					<li><a onclick="qna_list();">새로고침</a></li>
+				</ul>
 			</div>
-			<div class="col-sm-1"></div>
-		</div>
-		<div class="example-div" id="commentList">
-			<br>
-			<c:set var="sercount" value="${count}" />
-			<c:forEach var="c" items="${commentLi}">
-				<div class="col-sm-12">
-					<div class="row">
-						<div class="col-sm-10">${sercount}번째
-							댓글 <br>${c.userid}님 작성시간 ${c.regdate}
-							<p>&nbsp; ${c.content}
-							<p>
-							<form
-								action="${pageContext.request.contextPath}/board/commentDeleteForm"
-								method="post">
-								<input type="hidden" name="ser" value="${c.ser}">
-								<button type="submit">삭제</button>
-								
-							</form>
-							<button type="button" onclick="reserv('${c.ser}', '${status.index}')"  
-                        >추천 [<span id="r${status.index}" >${c.upcnt}</span>]</button> 
-						</div>
-					</div>
-
+			<div class="pro_qna" id="qna_list">
+				<div class="tit" style="margin-bottom: 80px;">
+					<div class="black">등록된 질문/답변 내용이 없습니다.</div>
+					우측상단의 ‘새로고침’ 버튼을 클릭하시면 내용을 확인하실 수 있습니다.
 				</div>
-				<c:set var="sercount" value="${sercount - 1}" />
-			</c:forEach>
+
+			</div>
 		</div>
-
-
-
-
-		<!-- 댓글영역 end-->
+		<!-- //상품고시 -->
 
 	</div>
 
 
 
 
+
+
+
+
+	<!-- 즉시구매 안내 레이어 팝업 -->
+
+
+
+
+
+
+
+
 </body>
+
 </html>

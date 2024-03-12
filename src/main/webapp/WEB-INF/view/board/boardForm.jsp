@@ -41,7 +41,7 @@ function previewImage(input) {
 			<div class="form-group">
 				<div class="col-md-3 mb-3">
 
-					<h4 class="text-center">카테고리:&nbsp;${boardPname}</h4>
+			
 					<div class="form-group">
 						<label for="userid">작성자:</label> <input type="text" readonly
 							class="form-control" value="${amem.id }" id="userid"
@@ -49,7 +49,15 @@ function previewImage(input) {
 					</div>
 					<p>&nbsp;
 					<p>
-
+  <div class="form-group">
+        <label for="boardCategory">카테고리 선택:</label>
+        <select class="form-control" id="boardCategory" name="boardid">
+            <option value="1">가전</option>
+            <option value="2">의류</option>
+            <option value="3">도서</option>
+            <option value="4">기타</option>
+        </select>
+    </div>
 
 						    <label for="id">미리보기</label> 
           <img src="" width="100px" height="120px" id="pic"> 

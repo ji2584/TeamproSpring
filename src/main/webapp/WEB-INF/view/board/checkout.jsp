@@ -140,44 +140,45 @@ function prepareAndSendData() {
 							</tr>
 						</tbody>
 			<tbody>
-							<tr>
-								<td><span style="font-size: 25px; font-weight: bold;">낙찰상품</span><br>
-									<div style="display: flex; align-items: flex-start;">
-										<a href="boardInfo?num=${board.pnum}"> <img
-											src="${pageContext.request.contextPath}/image/board/${board.file1}"
-											style="width: 200px; height: 200px;" alt="">
-										</a>
-										<div
-											style="margin-left: 80px; margin-top: 10px; font-weight: bold;">
-											<div style="font-size: 30px;">${board.pname}</div>
-											판매자:${board.userid}<br> 상품정보:${board.subject}<br>
-											등록일시:
-											<fmt:formatDate value="${board.idate}"
-												pattern="yyyy년 MM월 dd일 HH시" />
-											<br> <span
-												style="color: blue; font-weight: bold; font-size: 20px;">
-												<fmt:formatNumber value="${board.buy}" pattern="#,##0" />원
-											</span>
-										</div>
-									</div></td>
+                     <tr>
+                        <td><span style="font-size: 25px; font-weight: bold;">낙찰상품</span><br>
+                           <div style="display: flex; align-items: flex-start;">
+                              <a href="boardInfo?num=${board.pnum}"> <img
+                                 src="${pageContext.request.contextPath}/image/board/${board.file1}"
+                                 style="width: 200px; height: 200px;" alt="">
+                              </a>
+                              <div
+                                 style="margin-left: 80px; margin-top: 10px; font-weight: bold;">
+                                 <div style="font-size: 30px;">${board.pname}</div>
+                                 판매자:${board.userid}<br> 상품정보:${board.subject}<br>
+                                 등록일시:
+                                 <fmt:formatDate value="${board.idate}"
+                                    pattern="yyyy년 MM월 dd일 HH시" />
+                                 <span id="buy"   style="display: none;">${board.buy}</span>
+                                 <br> <span   
+                                    style="color: blue; font-weight: bold; font-size: 20px;">
+                                    <fmt:formatNumber value="${board.buy}" pattern="#,##0" />
+                                 </span>원
+                              </div>
+                           </div></td>
 
-							</tr>
-						</tbody>
+                     </tr>
+                  </tbody> 
 
 
-						<tbody>
+					<tbody>
 
-							<tr>
-								<td><span style="font-size: 25px; font-weight: bold;">마일리지
-										사용</span> <span style="font-size: 15px; font-weight: bold;">마일리지:</span>
-									<br> <input type="text">
-								<button>사용하기</button>
-									<p>
-										&nbsp;<br> <span
-											style="font-size: 15px; font-weight: bold;">총 결제금액: </span></td>
-							</tr>
+                     <tr>
+                        <td><span style="font-size: 25px; font-weight: bold;">마일리지 
+                              사용</span> 마일리지:<span style="font-size: 15px; font-weight: bold;" id="bal2">${sum}</span>
+                           <br> <input type="text" value="0" id="sp">
+                        <button type="button" onclick="calc()">사용하기</button>
+                           <p>
+                              &nbsp;<br> 총 결제금액:<span
+                                 style="font-size: 15px; font-weight: bold;"  id="bal">${board.buy}</span></td>
+                     </tr>
 
-						</tbody>
+                  </tbody> 
 
 
 
@@ -217,13 +218,12 @@ function prepareAndSendData() {
 	<script>
       const button = document.getElementById("payment-button");
       const coupon = document.getElementById("coupon-box");
+   
       const generateRandomString = () =>
         window.btoa(Math.random()).slice(0, 20);
       const amount = ${board.buy};
-      // ------  결제위젯 초기화 ------
-      // TODO: clientKey는 개발자센터의 결제위젯 연동 키 > 클라이언트 키로 바꾸세요.
-      // TODO: 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요. 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
-      // @docs https://docs.tosspayments.com/reference/widget-sdk#sdk-설치-및-초기화
+     
+
       const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
       const customerKey = generateRandomString();
       const paymentWidget = PaymentWidget(widgetClientKey, customerKey); // 회원 결제
@@ -249,23 +249,23 @@ function prepareAndSendData() {
         if (coupon.checked) {
           paymentMethodWidget.updateAmount(amount - 5000);
         } else {
-          paymentMethodWidget.updateAmount(amount);
+          paymentMethodWidget.updateAmount(bal);
         }
       });
-
+    
       // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
       // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
       button.addEventListener("click", function () {
         // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
         // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-        let memo = document.querySelector("#customMemoInput").value
-     
-        
-   	  	paymentWidget.requestPayment({
+        let memo = document.querySelector("#customMemoInput").value    
+        let sp = document.querySelector("#sp").value
+       
+           paymentWidget.requestPayment({
             orderId: generateRandomString(),
             orderName: "${board.pname}",
          
-            successUrl: window.location.origin + "${pageContext.request.contextPath}/board/checkoutpro?num=${board.pnum}&pnum=${board.pnum}&name=${amem.name}&tel=${amem.tel}&address=${amem.address}&buy=${board.buy}&memo="+memo,
+            successUrl: window.location.origin + "${pageContext.request.contextPath}/board/checkoutpro?num=${board.pnum}&pnum=${board.pnum}&name=${amem.name}&tel=${amem.tel}&address=${amem.address}&id=${amem.id}&memo="+memo+"&sp="+sp+"&buy="+bal,
             failUrl: window.location.origin + "${pageContext.request.contextPath}/board/fail",
             customerEmail: "customer123@gmail.com",
             customerName: "김토스",
@@ -273,6 +273,24 @@ function prepareAndSendData() {
             
           });
       });
+                 
+      function calc() {
+          let sum = document.querySelector("#bal2").innerHTML
+           let sp = document.querySelector("#sp").value
+           let buy=${board.buy}
+           console.log(sum, sp, buy)
+           sum=parseInt(sum)
+           sp=parseInt(sp)
+           
+           bal = buy - sp
+           bal2 = sum - sp
+           
+           paymentMethodWidget.updateAmount(bal);
+          
+           
+           document.querySelector("#bal").innerHTML=bal
+           document.querySelector("#bal2").innerHTML=bal2
+       }
     </script>
 </body>
 

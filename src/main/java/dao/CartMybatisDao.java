@@ -49,6 +49,14 @@ public class CartMybatisDao {
         return sqlSession.selectOne(ns + "Tier", id);
 
      } 
+	public String sum(String id) throws UnsupportedEncodingException, SQLException {
+	      Long result = sqlSession.selectOne(ns + "sum", id);
+	      return result != null ? result.toString() : "0";
+	   }
 
+	   public String sum2(String id) throws UnsupportedEncodingException, SQLException {
+	      Long result = sqlSession.selectOne(ns + "sum2", id);
+	      return result != null ? result.toString() : "0";
+	   }
 	}
 

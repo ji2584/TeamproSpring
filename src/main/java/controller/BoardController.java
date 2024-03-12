@@ -30,7 +30,6 @@ import dao.BoardMybatisDao;
 import dao.CartMybatisDao;
 import dao.MemberMybatisDao;
 
-
 import model.Comment;
 import model.Report;
 import model.AddbuyList;
@@ -39,10 +38,9 @@ import model.Apay;
 import model.Auction;
 import model.Cart;
 
-
 @Controller
 @RequestMapping("/board/")
-public class BoardController  {
+public class BoardController {
 	@Autowired
 	BoardMybatisDao bd;
 	@Autowired
@@ -50,71 +48,83 @@ public class BoardController  {
 	HttpSession session;
 	HttpServletRequest req;
 	@Autowired
-	CartMybatisDao cd;  
+	CartMybatisDao cd;
 	@Autowired
-    AdminMybatisDao ad;
-	
+	AdminMybatisDao ad;
+
 	@ModelAttribute
 	protected void service(HttpServletRequest request) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		this.session = request.getSession();
-		this.req=request;
+		this.req = request;
 	}
-	@RequestMapping("buyList")
-	   
-	   public String buyList() throws Exception {
-	      
-	      String login = (String) session.getAttribute("id");
-	      
-	      Amem mem = md.oneMember(login);   
-	      req.setAttribute("amem", mem);
-	      
-	      String Tier = cd.tier(login); 
-	      req.setAttribute("Tier", Tier);
-	      
-	        String id = (String) session.getAttribute("id");
-	        List<Auction>  li = bd.buyList(id);
 
-	        System.out.println(li);
-	      req.setAttribute("li", li);
-	      
-	      return "board/buyList";
-	   }  
+	@RequestMapping("buyList")
+
+	public String buyList() throws Exception {
+
+		String login = (String) session.getAttribute("id");
+
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
+
+		String Tier = cd.tier(login);
+		req.setAttribute("Tier", Tier);
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
+
+		String id = (String) session.getAttribute("id");
+		List<Auction> li = bd.buyList(id);
+
+		System.out.println(li);
+		req.setAttribute("li", li);
+
+		return "board/buyList";
+	}
+
 	@RequestMapping("searchauction")
-	   public String searchauction(Model model, String pname) throws Exception {
-	      System.out.println("======== searchauction");
-	      System.out.println(pname);
-	      String login = (String) session.getAttribute("id");
-			Amem mem = md.oneMember(login);
-			req.setAttribute("amem", mem);
-			
-			String Tier = cd.tier(login); 
-			req.setAttribute("Tier", Tier);
-	      
-	      List<Auction>  li = bd.searchBoards(pname);
-	      model.addAttribute("li",li);
-	      System.out.println(li);
-	   
-	      
-	      return "member/index";
-	   } 
-	
+	public String searchauction(Model model, String pname) throws Exception {
+		System.out.println("======== searchauction");
+		System.out.println(pname);
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
+
+		String Tier = cd.tier(login);
+		req.setAttribute("Tier", Tier);
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
+		List<Auction> li = bd.searchBoards(pname);
+		model.addAttribute("li", li);
+		System.out.println(li);
+
+		return "member/index";
+	}
+
 	@RequestMapping("boardForm")
 	public String boardForm(String boardid, String pageNum) throws Exception {
 		// TODO Auto-generated method stub
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
-		String Tier = cd.tier(login); 
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
+		String Tier = cd.tier(login);
 		req.setAttribute("Tier", Tier);
 		if (req.getParameter("boardid") != null) { // ? boardid = 3
-			session.setAttribute("boardid",boardid);
+			session.setAttribute("boardid", boardid);
 			session.setAttribute("pageNum", "1");
 		}
-		
-	    boardid = (String) session.getAttribute("boardid");
-		if (boardid == null) boardid = "1";
+
+		boardid = (String) session.getAttribute("boardid");
+		if (boardid == null)
+			boardid = "1";
 		String boardPname = "";
 		switch (boardid) {
 		case "1":
@@ -136,28 +146,27 @@ public class BoardController  {
 	}
 
 	@RequestMapping("boardPro")
-	public String boardPro(@RequestParam("f") MultipartFile multipartFile, Auction board) throws Exception {
+	public String boardPro(@RequestParam("f") MultipartFile multipartFile, Auction board,String boardid) throws Exception {
 
 		String path = req.getServletContext().getRealPath("/") + "image/board/";
 		String filename = null;
 		String msg = "게시물 등록 실패";
 		String url = "/board/boardForm";
 
-		String boardid = (String) session.getAttribute("boardid");
-		if (boardid == null)				boardid = "1";
-	    board.setBoardid(boardid);
 		
-	    if(!multipartFile.isEmpty()) {
-			File file = new File(path,multipartFile.getOriginalFilename());
+		board.setBoardid(boardid);
+
+		if (!multipartFile.isEmpty()) {
+			File file = new File(path, multipartFile.getOriginalFilename());
 			filename = multipartFile.getOriginalFilename();
 			try {
 				multipartFile.transferTo(file);
 				board.setFile1(filename);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		int num = bd.insertBoard(board);
 		if (num > 0) {
 			msg = "게시물 등록 성공";
@@ -174,17 +183,22 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-	
-		String Tier = cd.tier(login); 
+
+		String Tier = cd.tier(login);
 		req.setAttribute("Tier", Tier);
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
 		// board session 처리한다.
 		if (boardid != null) { // ? boardid = 3
 			session.setAttribute("boardid", boardid);
 			session.setAttribute("pageNum", "1");
 		}
-		
+
 		boardid = (String) session.getAttribute("boardid");
-		if (boardid == null) boardid = "1";
+		if (boardid == null)
+			boardid = "1";
 		String boardPname = "";
 		switch (boardid) {
 		case "1":
@@ -194,21 +208,32 @@ public class BoardController  {
 			boardPname = "의류";
 			break;
 		case "3":
-			boardPname = "기타";
+			boardPname = "프라모델";
 			break;
 		case "4":
-			boardPname = "도서";
+			boardPname = "골동품";
 			break;
-	
+		case "5":
+			boardPname = "악기";
+			break;
+		case "6":
+			boardPname = "명품시계";
+			break;
+		case "7":
+			boardPname = "악세사리";
+			break;
+		case "8":
+			boardPname = "레저";
+			break;
 
 		}
 
 		// page 설정
 		if (pagePnum != null) {
-		    session.setAttribute("pagePnum", pagePnum);
+			session.setAttribute("pagePnum", pagePnum);
 		}
 
-		pageNum = (String) session.getAttribute("pagePnum"); 
+		pageNum = (String) session.getAttribute("pagePnum");
 		if (pagePnum == null) {
 			pagePnum = "1";
 		}
@@ -228,7 +253,7 @@ public class BoardController  {
 		int maxPage = (boardCount + limit - 1) / limit;
 
 		if (end > maxPage) {
-		    end = maxPage;
+			end = maxPage;
 		}
 
 		req.setAttribute("bottomLine", bottomLine);
@@ -241,10 +266,11 @@ public class BoardController  {
 		req.setAttribute("boardPname", boardPname);
 		req.setAttribute("boardCount", boardCount);
 		req.setAttribute("boardNum", boardNum);
-		
+
 		return "board/products";
 
 	}
+
 	@RequestMapping("checkout")
 	public String checkout(int num) throws Exception {
 		// TODO Auto-generated method stub
@@ -252,130 +278,119 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-	
-		String Tier = cd.tier(login); 
-		req.setAttribute("Tier", Tier);		
-			
-		Auction board = bd.oneBoard(num);
-		req.setAttribute("board", board); 
-	
-		 
-		return "/board/checkout";
-	}
-	
 
-	
-	
-	@RequestMapping("checkoutpro")
-	public String checkoutpro(Apay apay,int num, String memo) throws Exception {
-		// TODO Auto-generated method stub
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		req.setAttribute("amem", mem);
-	
-		String Tier = cd.tier(login); 
+		String Tier = cd.tier(login);
 		req.setAttribute("Tier", Tier);
-		bd.cntBoard(num);		
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
 		Auction board = bd.oneBoard(num);
 		req.setAttribute("board", board);
-		
-	
-		System.out.println(apay);
-		System.out.println(memo);
-	
-	
-	    req.setAttribute("apay", apay);
-	    req.setAttribute("memo", memo);
-	
-	    
-	    
-	    
-	    apay.setMemo(memo);
-	    num = bd.apay(apay);
-	    
-		return "/board/success";
-		
-	
-	}
-	@RequestMapping("success")
-	   public String success(int num) throws Exception {
-	      // TODO Auto-generated method stub
 
-		
+		return "/board/checkout";
+	}
+
+	@RequestMapping("checkoutpro")
+	   public String checkoutpro(Apay apay,int num, String memo, int sp, String bal) throws Exception {
+	      // TODO Auto-generated method stub
+	      Auction board = bd.oneBoard(num);
+	      req.setAttribute("board", board); 
+	      String login = (String) session.getAttribute("id");
+	      Amem mem = md.oneMember(login);
+	      req.setAttribute("amem", mem);
+	      String sum = cd.sum(login);
+	       req.setAttribute("sum", sum);
+	       String sum2 = cd.sum2(login);
+	      req.setAttribute("sum2", sum2);
+	      
+	      num = bd.apay(apay); 
+	      
+	      System.out.println(apay);
+	      System.out.println(memo);
+	      
+	              
+	       req.setAttribute("apay", apay);
+	       req.setAttribute("memo", memo);
+	       req.setAttribute("sp", sp);
+	       req.setAttribute("bal", bal);
+	       
+	      // apay.setMemo(memo1);
+	      // apay.setSp(sp);
+	      // apay.setBuy(bal);
+	       
 	      return "/board/success";
+	      
+	   
 	   }
+	@RequestMapping("success")
+	public String success(int num) throws Exception {
+		// TODO Auto-generated method stub
+
+		return "/board/success";
+	}
 
 	@RequestMapping("boardInfo")
-	public String boardInfo(int num,Model model) throws Exception {
+	public String boardInfo(int num, Model model) throws Exception {
 		// TODO Auto-generated method stub
-		
 
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-	
-		String Tier = cd.tier(login); 
-		req.setAttribute("Tier", Tier);
-		
-		
 
-		// 사용자가 '정지' 상태인지 확인하고, 정지된 경우 경고 표시
-		if (mem != null && "BANNED".equals(mem.getStatus())) {  
-		    // 사용자가 정지된 경우 정지 사유를 포함한 경고 메시지 생성
-		    String msg = "경매기능 사용이 정지된 계정입니다. 정지사유: " + mem.getBanreason() + " 1대1문의를 이용해주세요";
-		    String url = "/member/index";
-		    
-		    // 경고 메시지와 리다이렉트 URL 설정
-		    req.setAttribute("msg", msg);
-		    req.setAttribute("url", url);
-		    
-		    // 경고 페이지로 리다이렉트
-		    return "alert";
+		String Tier = cd.tier(login);
+		req.setAttribute("Tier", Tier);
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
+		// Check if the user is 'banned' and show alert if true
+		if (mem != null && "BANNED".equals(mem.getStatus())) {
+			String msg = "경매기능 사용이 정지된 계정입니다." + "정지사유:" + mem.getBanreason() + "1대1문의를 이용해주세요";
+			String url = "/member/index";
+
+			req.setAttribute("msg", msg);
+			req.setAttribute("url", url);
+			return "alert";
 		}
 
-	       
-	       
-		bd.cntBoard(num);	
-		
-		Auction board = bd.oneBoard(num);
-		
-		 // 신고 횟수 가져오기
-	       int reportcount = ad.selectReportCount(board.getUserid());
-	       model.addAttribute("reportcount", reportcount);
+		bd.cntBoard(num);
 
-		
-		
-		List<AddbuyList> AddbuyList  =  bd.List(num);
+		Auction board = bd.oneBoard(num);
+	
+		// 신고 횟수 가져오기
+		int reportcount = ad.selectReportCount(board.getUserid());
+		model.addAttribute("reportcount", reportcount);
+
+		List<AddbuyList> AddbuyList = bd.List(num);
 		System.out.println(AddbuyList);
-		
-		
-		
-		 int maxbuy = bd.maxbuycnt(num);
-		 System.out.println(maxbuy);
-	     model.addAttribute("maxbuy", maxbuy);
-		
-		
-		
+
+		int maxbuy = bd.maxbuycnt(num);
+		System.out.println(maxbuy);
+		model.addAttribute("maxbuy", maxbuy);
+
 		List<Comment> commentLi = bd.commentList(num);
 		int count = commentLi.size();
 		req.setAttribute("commentLi", commentLi);
-		req.setAttribute("board", board); 
+		req.setAttribute("board", board);
 		req.setAttribute("count", count);
 		req.setAttribute("ab", AddbuyList);
-	
+		
 		return "board/boardInfo";
 	}
-	
+
 	@RequestMapping("boardUpdateForm")
 	public String boardUpdateForm(int num) throws Exception {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
-	
-		String Tier = cd.tier(login); 
+
+		String Tier = cd.tier(login);
 		req.setAttribute("Tier", Tier);
-		
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
 		Auction board = bd.oneBoard(num);
 		req.setAttribute("board", board);
 		return "board/boardUpdateForm";
@@ -386,85 +401,84 @@ public class BoardController  {
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
-		
+
 		Auction board = new Auction();
-	    board.setPnum(pnum);
-	    board.setBuy(buy);
-	    board.setBuyid(buyid);
-	    
-	    int result = bd.updateBuy(board);
+		board.setPnum(pnum);
+		board.setBuy(buy);
+		board.setBuyid(buyid);
 
-	    
-	    // -- 기록 test	
-		  AddbuyList ab = new AddbuyList();
-		  ab.setPnum(pnum);
-		  ab.setBuyid(buyid);
-		  ab.setBuy(buy);
-		  ab.setBuydate(buydate);
-		  
-		  bd.addTobuyList(ab);
-		 
-        
-	    String msg;
-	    String url;
+		int result = bd.updateBuy(board);
 
-	    if (result > 0) {
-	        msg = "입찰이 완료되었습니다.";
-	        url = "/board/boardInfo?num=" + pnum;
-	    } else {
-	        msg = "입찰에 실패하였습니다.";
-	        url = "/board/products";  // 실패 시 돌아갈 페이지를 정의해야 합니다.
-	    }
+		// -- 기록 test
+		AddbuyList ab = new AddbuyList();
+		ab.setPnum(pnum);
+		ab.setBuyid(buyid);
+		ab.setBuy(buy);
+		ab.setBuydate(buydate);
 
-	    req.setAttribute("msg", msg);
-	    req.setAttribute("url", url);
-	    System.out.println("pnum: " + pnum + ", buy: " + buy + ", buyid: " + buyid);
-	    return "alert";
+		bd.addTobuyList(ab);
+
+		String msg;
+		String url;
+
+		if (result > 0) {
+			msg = "입찰이 완료되었습니다.";
+			url = "/board/boardInfo?num=" + pnum;
+		} else {
+			msg = "입찰에 실패하였습니다.";
+			url = "/board/products"; // 실패 시 돌아갈 페이지를 정의해야 합니다.
+		}
+
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		System.out.println("pnum: " + pnum + ", buy: " + buy + ", buyid: " + buyid);
+		return "alert";
 	}
+
 	@RequestMapping("buyNowPro")
 	public String buyNowPro(int pnum, String userid, String prompt) throws Exception {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("pnum", pnum);
-	    params.put("userid", userid);
-	    params.put("prompt", prompt);
-	    
-	    System.out.println("pnum: " + pnum + ", userid: " + userid + ", prompt: " + prompt);
-	    int result = bd.buyNow(params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("pnum", pnum);
+		params.put("userid", userid);
+		params.put("prompt", prompt);
 
-	    String msg;
-	    String url;
+		System.out.println("pnum: " + pnum + ", userid: " + userid + ", prompt: " + prompt);
+		int result = bd.buyNow(params);
 
-	    if (result > 0) {
-	        msg = "즉시구매가 완료되었습니다.";
-	        url = "/board/boardInfo?num=" + pnum;
-	    } else {
-	        msg = "즉시구매에 실패하였습니다.";
-	        url = "/board/boardInfo?num=" + pnum; // 실패 시 돌아갈 페이지를 정의해야 합니다.
-	    }
+		String msg;
+		String url;
 
-	    req.setAttribute("msg", msg);
-	    req.setAttribute("url", url);
-	    return "alert";
+		if (result > 0) {
+			msg = "즉시구매가 완료되었습니다.";
+			url = "/board/boardInfo?num=" + pnum;
+		} else {
+			msg = "즉시구매에 실패하였습니다.";
+			url = "/board/boardInfo?num=" + pnum; // 실패 시 돌아갈 페이지를 정의해야 합니다.
+		}
+
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "alert";
 	}
+
 	@RequestMapping("boardUpdatePro")
 	public String boardUpdatePro(@RequestParam("f") MultipartFile multipartFile, Auction board) throws Exception {
 
 		String path = req.getServletContext().getRealPath("/") + "image/board/";
 		String filename = null;
-        Auction originboard = bd.oneBoard(board.getPnum());
-		
+		Auction originboard = bd.oneBoard(board.getPnum());
+
 		String msg = "게시물 수정 실패";
 		String url = "/board/boardForm?num=" + originboard.getPnum();
 		if (originboard.getPass().equals(board.getPass())) {
 
-			if(!multipartFile.isEmpty()) {
-				File file = new File(path,multipartFile.getOriginalFilename());
+			if (!multipartFile.isEmpty()) {
+				File file = new File(path, multipartFile.getOriginalFilename());
 				filename = multipartFile.getOriginalFilename();
 				try {
 					multipartFile.transferTo(file);
 					board.setFile1(filename);
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
@@ -484,134 +498,129 @@ public class BoardController  {
 		return "alert";
 
 	}
-	
 
-@RequestMapping("reservComm")
-   @ResponseBody
-   public String reservComm(@RequestParam("ser") int ser) throws Exception {
-       System.out.println(ser);
-           bd.upcnt(ser);
-       int upcnt = bd.getUpcnt(ser);
-       System.out.println(upcnt);
-       return ""+upcnt;
-   }
+	@RequestMapping("reservComm")
+	@ResponseBody
+	public String reservComm(@RequestParam("ser") int ser) throws Exception {
+		System.out.println(ser);
+		bd.upcnt(ser);
+		int upcnt = bd.getUpcnt(ser);
+		System.out.println(upcnt);
+		return "" + upcnt;
+	}
 
-	
 	@RequestMapping("cntList")
-	   public String cntList(Model model, String pname) throws Exception {      
-	      System.out.println(pname);
-	      
-	      
-	      List<Auction>  li = bd.cntList(pname);
-	      
-	      model.addAttribute("li",li);
-	      System.out.println(li);
-	          
-	      return "member/index";
-	   } 
+	public String cntList(Model model, String pname) throws Exception {
+		System.out.println(pname);
+
+		List<Auction> li = bd.cntList(pname);
+
+		model.addAttribute("li", li);
+		System.out.println(li);
+
+		return "member/index";
+	}
+
 	@RequestMapping("boardDeleteForm")
 	public String boardDeleteForm() throws Exception {
 		// TODO Auto-generated method stub
 		String login = (String) session.getAttribute("id");
-	    Amem mem = md.oneMember(login);
-	    req.setAttribute("amem", mem);
-		String Tier = cd.tier(login); 
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
+		String Tier = cd.tier(login);
 		req.setAttribute("Tier", Tier);
+	    String sum = cd.sum(login);
+	     req.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    req.setAttribute("sum2", sum2);
 		req.setAttribute("pnum", req.getParameter("num"));
 		return "board/boardDeleteForm";
 	}
-	
+
 	@RequestMapping("boardDeletePro")
-	   public String boardDeletePro(HttpServletRequest req, int pnum,String pass) throws Exception {
-	      
-	      String login = (String) session.getAttribute("id");
-	       Amem mem = md.oneMember(login);
-	       req.setAttribute("amem", mem);
-	       
-	      Auction board = bd.oneBoard(pnum);
-	      String msg = "삭제 불가합니다";
-	      String url = "/board/boardDeleteForm?num=" + pnum;
-	      
-	      if (board.getPass().equals(pass)) {
-	         int count = bd.boardDelete(pnum);
-	         if (count > 0) {
-	            msg = "게시글이 삭제 되었습니다";
-	            url = "/jumun/myList";
-	         }
+	public String boardDeletePro(HttpServletRequest req, int pnum, String pass) throws Exception {
 
-	      } else {
-	         msg = "비밀번호 확인하세요";
-	      }
-	      req.setAttribute("msg", msg);
-	      req.setAttribute("url", url);
-	      return "alert";
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
 
-	   }
-	
-	
-	
-	
+		Auction board = bd.oneBoard(pnum);
+		String msg = "삭제 불가합니다";
+		String url = "/board/boardDeleteForm?num=" + pnum;
+
+		if (board.getPass().equals(pass)) {
+			int count = bd.boardDelete(pnum);
+			if (count > 0) {
+				msg = "게시글이 삭제 되었습니다";
+				url = "/jumun/myList";
+			}
+
+		} else {
+			msg = "비밀번호 확인하세요";
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "alert";
+
+	}
+
 	@RequestMapping("boardCommentPro")
-	   public View boardCommentPro(String comment, int boardnum) throws Exception {
-	       String userid = (String) session.getAttribute("id");
-	      bd.insertComment(comment, boardnum,userid );
-	       Comment c = new Comment();       
-	       c.setNum(boardnum);
-	       c.setContent(comment);
-	       req.setAttribute("c", c);
-	       req.setAttribute("userid", userid);  // 수정된 부분
-	       req.setAttribute("count", req.getParameter("count"));
-	       return new InternalResourceView("/single/boardCommentPro.jsp");
-	       }
-	@RequestMapping("commentDeleteForm")
-	   public String commentDeleteForm(Integer ser) throws Exception {
-	      // TODO Auto-generated method stub
-	      System.out.println(ser+"============");
-	      String login = (String) session.getAttribute("id");
-	      Amem mem = md.oneMember(login);
-	      req.setAttribute("amem", mem);
-	      req.setAttribute("ser", ser);
-	      req.setAttribute("pnum", req.getParameter("pnum"));
-	      return "/board/commentDeleteForm";
-	   }
+	public View boardCommentPro(String comment, int boardnum) throws Exception {
+		String userid = (String) session.getAttribute("id");
+		bd.insertComment(comment, boardnum, userid);
+		Comment c = new Comment();
+		c.setNum(boardnum);
+		c.setContent(comment);
+		req.setAttribute("c", c);
+		req.setAttribute("userid", userid); // 수정된 부분
+		req.setAttribute("count", req.getParameter("count"));
+		return new InternalResourceView("/single/boardCommentPro.jsp");
+	}
 
+	@RequestMapping("commentDeleteForm")
+	public String commentDeleteForm(Integer ser) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println(ser + "============");
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
+		req.setAttribute("ser", ser);
+		req.setAttribute("pnum", req.getParameter("pnum"));
+		return "/board/commentDeleteForm";
+	}
 
 	@RequestMapping("commentDeletePro")
-	   public String commentDeletePro(HttpServletRequest req, Integer ser, String pass) throws Exception {
-	       System.out.println(ser);
-	       String login = (String) session.getAttribute("id");
-	       Amem mem = md.oneMember(login);
-	       req.setAttribute("amem", mem);
+	public String commentDeletePro(HttpServletRequest req, Integer ser, String pass) throws Exception {
+		System.out.println(ser);
+		String login = (String) session.getAttribute("id");
+		Amem mem = md.oneMember(login);
+		req.setAttribute("amem", mem);
 
-	       Comment comment = bd.oneComment(ser);
-	       String msg = "삭제 불가합니다";
-	       String url = "/board/commentDeleteForm?ser=" + ser;
+		Comment comment = bd.oneComment(ser);
+		String msg = "삭제 불가합니다";
+		String url = "/board/commentDeleteForm?ser=" + ser;
 
-	       if (mem.getPass().equals(pass)) {
-	           int count = bd.commentDelete(ser);
-	           System.out.println("Comment Delete Result: " + count);
-	           System.out.println("Login ID: " + login);
-	           System.out.println("User Password: " + mem.getPass());
-	           System.out.println("Entered Password: " + pass);
-	           if (count > 0) {
-	               msg = "댓글이 삭제 되었습니다";
-	               int boardNum = comment.getNum();
-	               url = "/board/boardInfo?num="+ boardNum; 
-	           }
-	       } else {
-	           msg = "비밀번호 확인하세요";
-	       }
+		if (mem.getPass().equals(pass)) {
+			int count = bd.commentDelete(ser);
+			System.out.println("Comment Delete Result: " + count);
+			System.out.println("Login ID: " + login);
+			System.out.println("User Password: " + mem.getPass());
+			System.out.println("Entered Password: " + pass);
+			if (count > 0) {
+				msg = "댓글이 삭제 되었습니다";
+				int boardNum = comment.getNum();
+				url = "/board/boardInfo?num=" + boardNum;
+			}
+		} else {
+			msg = "비밀번호 확인하세요";
+		}
 
-	       // 수정 시작
-	       req.setAttribute("msg", msg);
-	       req.setAttribute("url", url);
-	       req.setAttribute("comment", comment);  // comment 정보를 모델에 추가
+		// 수정 시작
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		req.setAttribute("comment", comment); // comment 정보를 모델에 추가
 
-	       return "alert";
-	   }
+		return "alert";
+	}
 
-	
-	
-	
-	
 }

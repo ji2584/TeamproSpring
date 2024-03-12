@@ -14,7 +14,7 @@ public class Apay {
 	    private Date regdate;
 	    private String buy;
 	    private int sp = 0;
-	    private int point = 0;
+	    private String id;
 		public String getName() {
 			return name;
 		}
@@ -63,18 +63,21 @@ public class Apay {
 		public void setSp(int sp) {
 			this.sp = sp;
 		}
-		public int getPoint() {
-			return point;
+		public String getId() {
+			return id;
 		}
-		public void setPoint(int point) {
-			this.point = point;
+		public void setId(String id) {
+			this.id = id;
 		}
 		@Override
 		public String toString() {
-			return "Customer [name=" + name + ", tel=" + tel + ", address=" + address + ", memo=" + memo + ", pnum="
-					+ pnum + ", regdate=" + regdate + ", buy=" + buy + ", sp=" + sp + ", point=" + point + "]";
+			return "Apay [name=" + name + ", tel=" + tel + ", address=" + address + ", memo=" + memo + ", pnum=" + pnum
+					+ ", regdate=" + regdate + ", buy=" + buy + ", sp=" + sp + ", id=" + id + "]";
 		}
-
+	    
+	    
+	   
+	
 		
 	    
 	    

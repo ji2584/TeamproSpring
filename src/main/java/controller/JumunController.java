@@ -58,17 +58,13 @@ public class JumunController {
 		this.req=request;
 	}
 	@RequestMapping("jumunAdd") 
-	public String jumunadd(int pnum) throws Exception {
-        
+	public String jumunadd(int pnum) throws Exception {        
 		String login = (String) session.getAttribute("id");
 		Amem mem = md.oneMember(login);
 		req.setAttribute("amem", mem);
-		
-      
-        String id = (String) session.getAttribute("id");
-	
 
-       
+		String id = (String) session.getAttribute("id");
+    
         Cart c = new Cart();
         c.setUserid(id);
         c.setItemid(pnum);       

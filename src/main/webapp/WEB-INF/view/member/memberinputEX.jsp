@@ -75,7 +75,7 @@ function win_upload(){
                    <div class="col-md-6 mb-3">
                      <label for="bank">은행</label> <input type="text"
                         class="form-control" id="bank" placeholder="bank" value="" required  name="bank">
-                     <div class="invalid-feedback">bank 입력해주세요d.</div>
+                     <div class="invalid-feedback">bank 입력해주세요</div>
                   </div>
                    <div class="col-md-6 mb-3">
                      <label for="nickname">닉네임</label> <input type="text"

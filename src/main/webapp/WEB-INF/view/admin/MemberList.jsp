@@ -201,25 +201,20 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     function deleteMembers() {
-        // 사용자에게 알림
-        alert("ok");
-
-        // 체크된 체크박스에서 선택한 회원 ID들을 가져옴
+       alert("ok")
         var selectedMembers = $(".selectedMembersCheckbox:checked").map(function() {
             return $(this).val();
         }).get();
 
-        // 선택된 회원이 없으면 알림 후 종료
         if (selectedMembers.length === 0) {
             alert('삭제할 회원을 선택하세요.');
             return;
         }
-
-        // 선택된 회원 ID들을 서버로 전송하여 삭제 요청
-        console.log(selectedMembers);
+        console.log(selectedMembers)
         $.ajax({
             type: 'GET',
-            url: '${pageContext.request.contextPath}/admin/deleteMembers?selectedMembers=' + selectedMembers,
+            url: '${pageContext.request.contextPath}/admin/deleteMembers?selectedMembers='+selectedMembers, // 실제 컨트롤러 매핑에 맞게 수정
+           // data: selectedMembers,
             success: function(response) {
                 // 서버로부터의 응답 처리
                 alert('선택한 회원이 삭제되었습니다.');
@@ -230,9 +225,21 @@
             }
         });
     }
-</script>
+    </script>
  
+<script>
+    function deleteSelectedMembers() {
+        var checkboxes = document.getElementsByName('selectedMembers');
+        var checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
 
+        if (checkedCheckboxes.length === 0) {
+            alert('삭제할 회원을 선택하세요.');
+            return;
+        }
+
+        document.getElementById('deleteForm').submit();
+    }
+</script>
                             </div>
                         </div>
                     </div>

@@ -42,8 +42,7 @@ public interface AReportAnno {
     @Delete("DELETE FROM auction WHERE pnum = #{reportpnum}")
     int deleteReport(int reportpnum);
 
-    //areport 테이블에서 특정 사용자가 신고당한 횟수를 조회하는 쿼리
-    @Select("SELECT nvl(COUNT(*), 0) reportedid FROM areport WHERE reportedid = #{value}")
+    @Select("SELECT nvl(COUNT(*),0) reportedid  FROM areport where  reportedid = #{value}")
     int selectReportCount(String reportedid);
 }
     

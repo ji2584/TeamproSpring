@@ -1,14 +1,371 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
-<head>
 
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
+<style>
+.list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	
+}
+
+.list {
+	margin: 2px 2px auto; /* 상하 0, 좌우 10px 간격 지정 */
+	margin-left: 6px;
+	padding: 0 0px;
+	border-radius: 5px;
+	float: left;
+	position: relative;
+	text-align: center; /* 내용 중앙 정렬 */
+}
+.remaining-time {
+
+	font-weight: bold; /* 굵기 설정 */
+	font-size: 15px; /* 크기 설정 */
+	color: red; /* 글자 색상 설정 */
+}
+.now_best{
+margin-bottom:700px;
+}
+.product{
+	font-weight: bold; /* 굵기 설정 */
+	font-size: 15px; /* 크기 설정 */
+	color: black; /* 글자 색상 설정 */
+}
+</style>
+
+
+<body>
+	<div class="wrap">
+		<div class="main">
+			<!-- 상단 슬라이드 사진 start -->
+
+			<div
+				class="main-rolling mySwiper swiper-initialized swiper-horizontal swiper-pointer-events">
+				<ul class="swiper-wrapper" id="swiper-wrapper-2c1ef87784aa5cfe"
+					aria-live="off"
+					style="transition-duration: 0ms; transform: translate3d(-2113.54px, 0px, 0px);">
+					<li
+						class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev"
+						data-swiper-slide-index="0" role="group" aria-label="1 / 10">
+						<a href="" target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">유명브랜드 골프클럽</div>
+								<div class="main_roll_txt">BRAND GOLF CLUB</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/art.png"
+									alt="골프클럽">
+							</div>
+					</a>
+					</li>
+					<li
+						class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
+						data-swiper-slide-index="1" role="group" aria-label="2 / 10">
+						<a
+						href="/hey/search?keyword=%ED%94%BC%EA%B7%9C%EC%96%B4&amp;type=buy
+"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">세상에서 가장 핫한 피규어</div>
+								<div class="main_roll_txt">WORLD HOTTEST FIGURES</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/ell.png"
+									alt="피규어">
+							</div>
+					</a>
+					</li>
+					<li
+						class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
+						data-swiper-slide-index="2" role="group" aria-label="3 / 10">
+						<a href="" target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">정교함의 극치! 프라모델</div>
+								<div class="main_roll_txt">HIGH END QUALITY PLAMODEL</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/pramodel.png"
+									alt="프라모델">
+							</div>
+					</a>
+					</li>
+					<li class="swiper-slide swiper-slide-duplicate"
+						data-swiper-slide-index="3" role="group" aria-label="4 / 10">
+						<a
+						href="/hey/search?keyword=%EC%BA%A0%ED%95%91%EC%9A%A9%ED%92%88&amp;type=buy
+"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">스타일리쉬 감성 캠핑기어</div>
+								<div class="main_roll_txt">STYLISH CAMPING GEAR</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/goods.png"
+									alt="캠핑용품">
+							</div>
+					</a>
+					</li>
+					<li class="swiper-slide swiper-slide-duplicate"
+						data-swiper-slide-index="4" role="group" aria-label="5 / 10">
+						<a
+						href="/hey/search?keyword=%EB%82%9A%EC%8B%9C%EC%9A%A9%ED%92%88&amp;type=buy"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">매니아 강추! 브랜드 낚시용품</div>
+								<div class="main_roll_txt">FISHING GEAR SHIMANO / DAIWA</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/shoes.png"
+									alt="낚시용품">
+							</div>
+					</a>
+					</li>
+					<li class="swiper-slide" data-swiper-slide-index="1" role="group"
+						aria-label="4 / 10"><a
+						href="/hey/search?keyword=%EC%BA%A0%ED%95%91%EC%9A%A9%ED%92%88&amp;type=buy
+"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">스타일리쉬 감성 캠핑기어</div>
+								<div class="main_roll_txt">STYLISH CAMPING GEAR</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/art.png"
+									alt="캠핑용품">
+							</div>
+					</a></li>
+					<li class="swiper-slide" data-swiper-slide-index="2" role="group"
+						aria-label="4 / 10"><a
+						href="/hey/search?keyword=%EC%BA%A0%ED%95%91%EC%9A%A9%ED%92%88&amp;type=buy
+"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">스타일리쉬 감성 캠핑기어</div>
+								<div class="main_roll_txt">STYLISH CAMPING GEAR</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/ell.png"
+									alt="캠핑용품">
+							</div>
+					</a></li>
+
+					<li class="swiper-slide" data-swiper-slide-index="3" role="group"
+						aria-label="4 / 10"><a
+						href="/hey/search?keyword=%EC%BA%A0%ED%95%91%EC%9A%A9%ED%92%88&amp;type=buy
+"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">스타일리쉬 감성 캠핑기어</div>
+								<div class="main_roll_txt">STYLISH CAMPING GEAR</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/pramodel.png"
+									alt="캠핑용품">
+							</div>
+					</a></li>
+					<li class="swiper-slide" data-swiper-slide-index="4" role="group"
+						aria-label="5 / 10"><a
+						href="/hey/search?keyword=%EB%82%9A%EC%8B%9C%EC%9A%A9%ED%92%88&amp;type=buy"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">매니아 강추! 브랜드 낚시용품</div>
+								<div class="main_roll_txt">FISHING GEAR SHIMANO / DAIWA</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/goods.png"
+									alt="낚시용품">
+							</div>
+					</a></li>
+					<li class="swiper-slide" data-swiper-slide-index="5" role="group"
+						aria-label="6 / 10"><a
+						href="/hey/search?keyword=%EC%95%85%EA%B8%B0&amp;type=buy"
+						target="_self" data-b_type="slider" data-b_loc="1"
+						data-b_sloc="24">
+							<div class="main_roll_text">
+								<div class="main_roll_tit">당신의 음악생활을 도와드리는</div>
+								<div class="main_roll_txt">MUSICAL INSTRUMENTS</div>
+							</div>
+							<div class="main_roll_img">
+								<img src="${pageContext.request.contextPath}/image/shoes.png"
+									alt="악기">
+							</div>
+					</a></li>
+
+
+
+				</ul>
+				<div class="swiper-pagination"></div>
+				<span class="swiper-notification" aria-live="assertive"
+					aria-atomic="true"></span>
+			</div>
+		</div>
+		<script>
+			var main_rolling = new Swiper(".main-rolling ", {
+				autoplay : {
+					delay : 3500,
+					disableOnInteraction : false,
+				},
+				centeredSlides : true,
+				slidesPerView : "auto",
+				spaceBetween : 0,
+				loop : true,
+				loopAdditionalSlides : 1,
+				speed : 3000,
+			});
+		</script>
+		<!-- 상단 슬라이드 사진 end -->
+
+		<!-- 중단 영역 스타트 -->
+
+		<div class="conent_box">
+			<div class="main_show_up_list">
+				<h3 class="hd3">경매 카테고리</h3>
+				<ul>
+					<li><a
+						href="/hey/search?keyword=%EC%95%85%EA%B8%B0&amp;type=buy"
+						target="_self" data-b_type="img" data-b_idx="712">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">가슴속 깊은곳 연주자의 꿈</div>
+								<div class="msul_tit">악기</div>
+							</div>
+					</a></li>
+					<li><a href="/hey/search?keyword=j-pop&amp;type=buy"
+						target="_self" data-b_type="img" data-b_idx="713">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="J-POP">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">소프트팝의 영향을 받아 감미로운</div>
+								<div class="msul_tit">J-POP</div>
+							</div>
+					</a></li>
+					<li><a
+						href="/hey/search?keyword=%EC%B9%B4%EB%A9%94%EB%9D%BC%EB%A0%8C%EC%A6%88&amp;type=buy
+"
+						target="_self" data-b_type="img" data-b_idx="714">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="카메라 렌즈">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">뛰어난 색표현과 고해상도 이미지 실현</div>
+								<div class="msul_tit">카메라 렌즈</div>
+							</div>
+					</a></li>
+					<li><a
+						href="/hey/search?keyword=%EB%AA%85%ED%92%88%EC%8B%9C%EA%B3%84&amp;type=buy
+"
+						target="_self" data-b_type="img" data-b_idx="715">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="명품 시계">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">시간이 흘러도 변치않는 품격</div>
+								<div class="msul_tit">명품 시계</div>
+							</div>
+					</a></li>
+					<li><a href="/hey/search?keyword=ps5&amp;type=buy
+"
+						target="_self" data-b_type="img" data-b_idx="716">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="PS 5">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">최고의 게임, 최고의 일상</div>
+								<div class="msul_tit">PS 5</div>
+							</div>
+					</a></li>
+					<li><a
+						href="/hey/search?keyword=%EB%8B%8C%ED%85%90%EB%8F%84%EC%8A%A4%EC%9C%84%EC%B9%98&amp;type=buy
+"
+						target="_self" data-b_type="img" data-b_idx="717">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="닌텐도 스위치">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">별의 커비 / 마리오 / 젤다의 전설</div>
+								<div class="msul_tit">닌텐도 스위치</div>
+							</div>
+					</a></li>
+					<li><a
+						href="/hey/search?keyword=%EC%95%A0%EB%8B%88%20dvd&amp;type=buy
+"
+						target="_self" data-b_type="img" data-b_idx="718">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="애니 DVD">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">최애의 아이, 귀칼, 샬롯의 거미줄</div>
+								<div class="msul_tit">애니 DVD</div>
+							</div>
+					</a></li>
+					<li><a
+						href="/hey/search?keyword=%ED%8E%9C%EB%8D%94%EA%B8%B0%ED%83%80&amp;type=buy
+"
+						target="_self" data-b_type="img" data-b_idx="719">
+							<div class="msul_img">
+								<img src="${pageContext.request.contextPath}/image/lens.png"
+									alt="악기" alt="펜더 기타">
+							</div>
+							<div class="msul_text">
+								<div class="msul_txt">오랜 경력의 장인들이 핸드메이드로 만드는</div>
+								<div class="msul_tit">펜더 기타</div>
+							</div>
+					</a></li>
+					<li><a
+						href="/hey/search?keyword=%EB%A0%88%EA%B3%A0&amp;type=buy&amp;type2=undefined&amp;type3=1"
+						target="_self" data-b_type="img" data-b_idx="720">
+							<div class="msul_img">
+								<img src="/banner/d07d6fa8e146ef7a72c8312d920ad928.png"
+									alt="레고 월드">
+							</div>
+							<div class="msul_text">
+								<div class="msul_tit">레고 월드</div>
+								<div class="msul_txt">
+									당신의 초능력을<br>깨워 보아요!
+								</div>
+							</div>
+					</a></li>
+				</ul>
+			</div>
+
+			<script>
+				var swiper = new Swiper(".spex_roll", {
+					slidesPerView : 9,
+					loop : true,
+					autoplay : {
+						delay : 2500,
+						disableOnInteraction : true,
+					},
+					navigation : {
+						nextEl : ".special_ex .swiper-button-next",
+						prevEl : ".special_ex .swiper-button-prev",
+					},
+				});
+			</script>
+			<script>
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(pnum, regdate) {
         if (!regdate) {
@@ -47,206 +404,14 @@
         </c:forEach>
     }, 1000); // 1초마다 업데이트
 </script>
+			<!-- 하단 영역 스타트 -->
 
-<style>
-ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
+		</div>
 
-li {
-	margin: 0 0px; /* 상하 0, 좌우 10px 간격 지정 */
-	padding: 0 0px;
-	border-radius: 5px;
-	float: left;
-	position: relative;
-	text-align: center; /* 내용 중앙 정렬 */
-}
 
-.custom-border {
-	width: 200px; /* 상자의 너비 설정 */
-	height: 350px; /* 상자의 높이 설정 */
-	border: 5px solid #ddd; /* 테두리 스타일 정의 */
-	border-radius: 10px; /* 테두리 둥글게 처리 */
-	margin-right: 20px;
-	margin-bottom: 20px; /* 아래쪽 간격을 20px로 설정 */
-	text-align: center; /* 텍스트를 중앙 정렬 */
-	/* 추가적인 스타일 정의 가능 */
-	font-weight: bold; /* 굵기 설정 */
-	font-size: 12px; /* 크기 설정 */
-	color: black; /* 글자 색상 설정 */
-	position: relative;
-	overflow: hidden;
-	transition: border 0.3s ease-in-out;
-}
 
-.custom-border:hover {
-	border: 1px solid white; /* 마우스 오버시 테두리 색상 변경 */
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 마우스 오버시 그림자 효과 추가 */
-}
 
-.remaining-time {
-	background-color: #2A2A2A;
-	padding: 15px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	/* 텍스트 굵기 및 크기 설정 */
-	font-weight: bold; /* 굵기 설정 */
-	font-size: 12px; /* 크기 설정 */
-	color: white; /* 글자 색상 설정 */
-}
-
-.product-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-}
-
-.category-list {
-	position: fixed;
-	top: 10px; /* 상단 여백 조절 */
-	left: 230px; /* 좌측 여백 조절 */
-	background-color: #fff;
-	padding: 20px; /* 내부 여백 조절 */
-	border: 5px solid #ddd; /* 테두리 스타일 정의 */
-	border-radius: 10px; /* 테두리 둥글게 처리 */
-	transition: top 0.3s ease-in-out;
-}
-
-@media screen and (max-width: 1668px) {
-	.category-list {
-		display: none;
-	}
-}
-
-.order {
-	width: 60%;
-	margin: 0 auto;
-}
-
-.search {
-	background-color: #2A2A2A;
-	color: white;
-}
-
-.qwe {
-	display: right;
-}
-</style>
-</head>
-<body>
-	<div class="order">
-		<form action="${pageContext.request.contextPath}/board/searchauction"
-			method="GET">
-			<input type="text" placeholder="상품 검색" name="pname">
-			<button class="search" type="submit">검색</button>
-			<div class="dropdown">
-			
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<!-- Dropdown menu items -->
-					<a class="dropdown-item"
-						href="${pageContext.request.contextPath}/board/cntList?pname=readcnt">조회순</a>/
-					<a class="dropdown-item"
-						href="${pageContext.request.contextPath}/board/cntList?pname=priced">가격
-						높은순</a>/ <a class="dropdown-item"
-						href="${pageContext.request.contextPath}/board/cntList?pname=price">가격
-						낮은순</a>
-				</div>
-			</div>
-		</form>
+		<!-- 배너 끝 -->
+		<!-- 페이지 내용 끝 -->
 	</div>
-	<div class="container">
-		<h5 class="text-center">최신상품 [${li.size()}]개의 상품이 있습니다${sum }</h5> 
-
-
-		<c:forEach var="b" items="${li}">
-			<div class="product-item">
-				<ul class="products">
-					<li class="first product custom-border">
-				
-						<div class="product-content">
-						
-                                 &nbsp;<br> &nbsp;
-							<h4>${b.pname }</h4>
-
-
-
-							<a
-								href="${pageContext.request.contextPath}/board/boardInfo?num=${b.pnum}">
-								<img
-								src="${pageContext.request.contextPath}/image/board/${b.file1}"
-								style="width: 120px; height: 140px;" alt="">
-							</a>
-
-							<div class="remaining-time" id="remainingTime-${b.pnum}"></div>
-							<span class="price" style="font-size: 15px;"><fmt:formatNumber value="${b.buy}"
-									pattern="#,##0" />원</span> 
-							
-								<span style="font-size: 13px;"> 조회수:${b.readcnt}
-							</span>
-							<a
-								href="${pageContext.request.contextPath}/jumun/jumunAdd?pnum=${b.pnum}">
-								<span style="font-size: 15px;"><i class="fas fa-heart"></i></span>
-							</a>
-			
-							
-						</div>
-					</li>
-				</ul>
-			</div>
-		</c:forEach>
-		<ul class="pagination justify-content-center text-center">
-
-		</ul>
-
-	</div>
-	<div class="category-list">
-		<h5>Category</h5>
-		<ul>
-			<!-- 카테고리 목록 아이템들을 동적으로 생성할 수 있습니다. -->
-			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=1">가전</a></li>
-			<p>
-			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=2">의류</a></li>
-			<p>
-			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=3">도서</a></li>
-			<p>
-			<li><a
-				href="${pageContext.request.contextPath}/board/products?boardid=4">기타</a></li>
-		</ul>
-	</div>
-	<script>
-    var categoryList = document.querySelector('.category-list');
-    var headerHeight = document.querySelector('.site-header').offsetHeight; // 헤더의 높이
-    var initialTop = 300; // 초기 top 값
-
-    function updateCategoryListPosition() {
-        var scrollTop = window.scrollY;
-
-        // 스크롤이 헤더 아래로 내려갔을 때 고정
-        if (scrollTop > headerHeight) {
-            categoryList.style.top = '70px'; // 원하는 값으로 조절
-        } else {
-            // 스크롤이 맨 위로 올라갈 때 초기 위치로 고정
-            categoryList.style.top = initialTop + 'px';
-        }
-    }
-
-    // 페이지 로드 후 초기 업데이트
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCategoryListPosition();
-    });
-
-    // 스크롤 이벤트에 따라 카테고리 목록의 위치를 조절
-    document.addEventListener('scroll', updateCategoryListPosition);
-</script>
-
-
-</body>
 </html>

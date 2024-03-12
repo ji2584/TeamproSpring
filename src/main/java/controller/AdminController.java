@@ -80,7 +80,18 @@ public class AdminController  {
 
 
 
-  
+   @RequestMapping("AdminReport")
+   public String AdminReport() throws Exception {
+	
+	   
+	   
+	   
+      return "admin/AdminReport";
+      
+      
+      
+      
+   }
 
 @RequestMapping("AnswerForm")
    public String AnswerForm(@RequestParam("num") String num, Model model) {
@@ -95,7 +106,7 @@ public class AdminController  {
    public String AnswerPro(@RequestParam(name = "num", required = true) int num, @RequestParam("answer") String answer) {
        // num과 answer를 사용하여 DAO를 통해 업데이트 수행
       
-        ad.updateAnswer(num, answer);
+       int adminnotice = ad.updateAnswer(num, answer);
        
 
        String msg = "답변 등록 완료";

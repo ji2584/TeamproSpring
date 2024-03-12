@@ -1,13 +1,240 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-<html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+.uls {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.lis {
+	margin: 10px 10px; /* 상하 0, 좌우 10px 간격 지정 */
+	padding: 0 10px;
+	float: left;
+	position: relative;
+	text-align: left; /* 내용 중앙 정렬 */
+	border: 1px solid #ddd; /* 기본 테두리 스타일 */
+	transition: background-color 0.3s ease; /* 배경색 변화를 부드럽게 만듦 */
+	height: 390px;
+}
+
+li:hover {
+	background-color: rgba(0, 0, 0, 0.1); /* 마우스를 가져다 대면 배경색이 흐릿하게 변함 */
+}
+</style>
+</head>
+<div id="mypage">
+
+
+
+
+	<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+	<link rel="stylesheet" href="/css/jquery.alerts.css" type="text/css">
+
+
+
+
+	<div class="content sub ">
+		<div class="new_catagory">
+			<div class="tab_cont">
+				<div class="cata_menu one on">
+					<div class="menu_guide_sub">
+				
+					</div>
+					<div class="menu_detail">
+						<div class="mdbox_in">
+							<div class="md_in md_tit">카테고리</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=1">
+										<span class="zozo_category" alt="wrist-watch"> 가전 </span> <span
+										id="zozo_wrist-watch"></span>
+									</a>
+								</div>
+							</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=2">
+										<span class="zozo_category" alt="wrist-watch"> 의류 </span> <span
+										id="zozo_wrist-watch"></span>
+									</a>
+								</div>
+							</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=3">
+										<span class="zozo_category" alt="table-clocks"> 프라모델 </span>
+										<span id="zozo_table-clocks"></span>
+									</a>
+								</div>
+							</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=4">
+										<span class="zozo_category" alt="wall-clock"> 골동품 </span> <span
+										id="zozo_wall-clock"></span>
+									</a>
+								</div>
+							</div>
+											<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=5">
+										<span class="zozo_category" alt="wrist-watch"> 악기 </span> <span
+										id="zozo_wrist-watch"></span>
+									</a>
+								</div>
+							</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=6">
+										<span class="zozo_category" alt="wrist-watch"> 명품시계 </span> <span
+										id="zozo_wrist-watch"></span>
+									</a>
+								</div>
+							</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=7">
+										<span class="zozo_category" alt="table-clocks"> 악세사리 </span>
+										<span id="zozo_table-clocks"></span>
+									</a>
+								</div>
+							</div>
+							<div class="md_in">
+								<div>
+									<a
+										href="${pageContext.request.contextPath}/board/products?boardid=8">
+										<span class="zozo_category" alt="wall-clock"> 레저 </span> <span
+										id="zozo_wall-clock"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+
+
+	<!-- 페이징 시 스크롤 위치 처리용 -->
+	<div id="list_topper"></div>
+
+
+
+
+	<div class="shop_box_de">
+		<input type="hidden" name="sort" id="sort" value="">
+		<div class="shop_one">
+			<div class="one_first">
+				<span style="font-size:20px; font-weight:bold;">${boardPname}</span>
+				
+			</div>
+
+			<div class="shop_sel_box">
+
+
+				<div class="shop_top">
+					<div class="shop_sel_first"></div>
+
+					<div class="shop_sel_sec"></div>
+					<div class="shop_sel_thir">
+						<ul style="margin-left: 140px;">
+							<li><input class="input_7" type="text" placeholder=""
+								name="low" id="low" value=""> 원</li>
+							<li><span>~</span></li>
+							<li><input class="input_7" type="text" placeholder=""
+								name="high" id="high" value=""> 원</li>
+							<li class="seth_btn" onclick="search();"><a>검색</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="shop_bottom">
+				
+					<div class="under_box">
+						<select class="popular" id="sort_opt">
+							<option value="0" id="sort_opt_0" selected="">인기상품순</option>
+							<option value="1" id="sort_opt_1">신상품순</option>
+							<option value="2" id="sort_opt_2">낮은가격순</option>
+							<option value="3" id="sort_opt_3">높은가격순</option>
+						</select> <span> <img src="/images/list_change.png" id="list_img1"
+							alt="" usemap="#list_change"> <map name="list_change">
+								<area shape="rect" coords="0,0,25,26" alt="skin_gallery"
+									href="javascript:change_skin('skin_gallery');">
+								<area shape="rect" coords="25,0,51,26" alt="skin_list"
+									href="javascript:change_skin('skin_list');">
+							</map>
+						</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<table>
+
+		<tbody>
+
+
+			<tr>
+				<td id="contents">
+					<div class="shop_list one new">
+						<c:forEach var="b" items="${li}">
+							<ul class="uls">
+								<li class="lis">
+									<div class="remaining-time" id="remainingTime-${b.pnum}"
+										style="margin-top: 13px; font-size: 15px; font-weight: bold; color: black; text-align:center;"></div>
+
+									<div class="shop_img" style="text-align:center;">
+
+										<a href="boardInfo?num=${b.pnum}"> <img
+											src="${pageContext.request.contextPath}/image/board/${b.file1}"
+											style="width: 200px; height: 200px; margin-top: 20px;"></a>
+									</div>
+									&nbsp;<br>
+									<div style="font-size: 20px;  color: black; font-weight:bold; text-align:center;">&nbsp;${b.pname }</div>
+									
+									<div style="font-size: 15px;  color: black;">&nbsp;&nbsp;입찰시작가:<fmt:formatNumber value="${b.price}" pattern="#,##0" />원</div>
+									
+									<div style="font-size: 15px;  color: black;">&nbsp;&nbsp;현재입찰가:<fmt:formatNumber value="${b.buy}" pattern="#,##0" />원</div>
+									<div style="font-size: 15px;  color: black;">&nbsp;&nbsp;즉시구매가:<fmt:formatNumber value="${b.prompt}" pattern="#,##0" />원</div>
+						
+									<div style="font-size: 15px; color: black;">&nbsp;&nbsp;판매자:${b.userid }<br>
+							<div style="text-align:center;"><a href="${pageContext.request.contextPath}/jumun/jumunAdd?pnum=${b.pnum}"><i class="material-icons">favorite</i></a></div>
+									</div>
+								</li>
+
+							</ul>
+						</c:forEach>
+					</div>
+
+
+
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+	<script>
     // Ajax 호출하여 남은 시간 업데이트
     function updateRemainingTime(pnum, regdate) {
         if (!regdate) {
@@ -48,174 +275,4 @@
     }, 1000); // 1초마다 업데이트
 </script>
 
-<style>
-ul {
-   list-style: none;
-   margin: 0;
-   padding: 0;
-}
-
-li {
-   margin: 0 0px; /* 상하 0, 좌우 10px 간격 지정 */
-   padding: 0 0px;
-   border-radius: 5px;
-   float: left;
-   position: relative;
-   text-align: center; /* 내용 중앙 정렬 */
-}
-
-.custom-border {
-   width: 200px; /* 상자의 너비 설정 */
-   height: 330px; /* 상자의 높이 설정 */
-   border: 5px solid #ddd; /* 테두리 스타일 정의 */
-   border-radius: 10px; /* 테두리 둥글게 처리 */
-   margin-right: 20px;
-   margin-bottom: 20px; /* 아래쪽 간격을 20px로 설정 */
-   text-align: center; /* 텍스트를 중앙 정렬 */
-   /* 추가적인 스타일 정의 가능 */
-   font-weight: bold; /* 굵기 설정 */
-   font-size: 12px; /* 크기 설정 */
-   color: black; /* 글자 색상 설정 */
-   position: relative;
-   overflow: hidden;
-   transition: border 0.3s ease-in-out;
-}
-
-.custom-border:hover {
-   border: 1px solid white; /* 마우스 오버시 테두리 색상 변경 */
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 마우스 오버시 그림자 효과 추가 */
-}
-
-.remaining-time {
-   background-color: #2A2A2A;
-   padding: 15px;
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   /* 텍스트 굵기 및 크기 설정 */
-   font-weight: bold; /* 굵기 설정 */
-   font-size: 12px; /* 크기 설정 */
-   color: white; /* 글자 색상 설정 */
-}
-
-
-.product-content {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   text-align: center;
-}
-
-   .category-list {
-        position: fixed;
-        top: 10px; /* 상단 여백 조절 */
-        left: 230px; /* 좌측 여백 조절 */
-        background-color: #fff;
-        padding: 20px; /* 내부 여백 조절 */
-        border: 5px solid #ddd; /* 테두리 스타일 정의 */
-        border-radius: 10px; /* 테두리 둥글게 처리 */
-        transition: top 0.3s ease-in-out;
-    }
-
-
-
-@media screen and (max-width: 1668px) {
-   .category-list {
-      display: none; 
-   }
-   
-}
-</style>
-</head>
-<body>
-
-   <div class="container">
-      <h5 class="text-center">카테고리:&nbsp;${boardPname}<br>[${boardCount}]개의 상품이 있습니다</h5>
-
-      <c:forEach var="b" items="${li}">
-         <div class="product-item">
-            <ul class="products">
-               <li class="first product custom-border">
-                  <h6>&nbsp;</h6>
-                  <div class="product-content">
-                     <h4>${b.pname }</h4>
-                     <a href="boardInfo?num=${b.pnum}"> <img
-                        src="${pageContext.request.contextPath}/image/board/${b.file1}"
-                        style="width: 120px; height: 140px;" alt=""></a>
-
-                     <div class="remaining-time" id="remainingTime-${b.pnum}"></div>
-                     <span class="price"><fmt:formatNumber value="${b.price}" pattern="#,##0" />원</span> <a
-                        href="${pageContext.request.contextPath}/jumun/jumunAdd?pnum=${b.pnum}">찜하기</a>
-                     <p></p>
-                     <h6>&nbsp;</h6>
-                  </div>
-               </li>
-            </ul>
-         </div>
-      </c:forEach>
-      <ul class="pagination justify-content-center text-center">
-         <li
-            class="page-item <c:if test="${start<=bottomLine}"> disabled  </c:if> ">
-            <a class="page-link"
-            href="${pageContext.request.contextPath}/board/products?pageNum=${start-bottomLine}">Previous</a>
-         </li>
-				
-         <c:forEach var="p" begin="${start}" end="${end}">
-
-            <li class="page-item <c:if test="${pageInt==p}"> active  </c:if>"><a
-               class="page-link"
-               href="${pageContext.request.contextPath}/board/products?pagePnum=${p}">${p}</a></li>
-         </c:forEach>
-
-         <li class="page-item <c:if test="${end>=maxPage}"> disabled  </c:if>">
-            <a class="page-link"
-            href="${pageContext.request.contextPath}/board/products?pagePnum=${start+bottomLine}">Next</a>
-         </li>
-        <c:if test = "${sessionScope.id!=null}"> <li><a class="page-link" href="boardForm">게시판입력</a></li></c:if>
-      </ul>
-
-   </div>
-   <div class="category-list">
-      <h5>Category</h5>
-      <ul>
-         <!-- 카테고리 목록 아이템들을 동적으로 생성할 수 있습니다. -->
-         <li><a
-            href="${pageContext.request.contextPath}/board/products?boardid=1">가전</a></li><p>
-         <li><a
-            href="${pageContext.request.contextPath}/board/products?boardid=2">의류</a></li><p>
-         <li><a
-            href="${pageContext.request.contextPath}/board/products?boardid=3">도서</a></li><p>
-         <li><a
-            href="${pageContext.request.contextPath}/board/products?boardid=4">기타</a></li>
-      </ul>
-   </div>
-   <script>
-    var categoryList = document.querySelector('.category-list');
-    var headerHeight = document.querySelector('.site-header').offsetHeight; // 헤더의 높이
-    var initialTop = 300; // 초기 top 값
-
-    function updateCategoryListPosition() {
-        var scrollTop = window.scrollY;
-
-        // 스크롤이 헤더 아래로 내려갔을 때 고정
-        if (scrollTop > headerHeight) {
-            categoryList.style.top = '70px'; // 원하는 값으로 조절
-        } else {
-            // 스크롤이 맨 위로 올라갈 때 초기 위치로 고정
-            categoryList.style.top = initialTop + 'px';
-        }
-    }
-
-    // 페이지 로드 후 초기 업데이트
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCategoryListPosition();
-    });
-
-    // 스크롤 이벤트에 따라 카테고리 목록의 위치를 조절
-    document.addEventListener('scroll', updateCategoryListPosition);
-</script>
-
-
-</body>
-</html> 
+</div>

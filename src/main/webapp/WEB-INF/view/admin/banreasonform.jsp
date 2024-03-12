@@ -19,13 +19,13 @@
       <div class="modal-body">  <form class="validation-form" novalidate      action="banmember"   method="post"  name="f">
             
                 <div class="form-group" id="">
-                    <label for="content">회원 정지사유</label>
+                    <label for="content">내용</label>
                     <textarea class="form-control" id="banreason" placeholder="내용을 입력하세요" name="banreason"></textarea>
                 </div>
                 <input type="hidden" name="id" value="${id}">
                 <div class="modal-footer">
-        
-        <button type="submit" class="btn btn-primary">회원 정지</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">답변완료</button>
       </div>
                 </form> 
       

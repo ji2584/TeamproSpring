@@ -47,27 +47,74 @@ public class MemberController {
 	BoardMybatisDao bd;
 	 
 	@RequestMapping("index") //~~/board/index
-	   public String index(HttpServletRequest req) throws Exception {
-		      // TODO Auto-generated method stub
-		
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		req.setAttribute("amem", mem);
-		
-		String Tier = cd.tier(login); 
-		req.setAttribute("Tier", Tier);
-		
+    public String index(HttpServletRequest req) throws Exception {
+          // TODO Auto-generated method stub
+    
+    String login = (String) session.getAttribute("id");
+    Amem mem = md.oneMember(login);
+    req.setAttribute("amem", mem);
+    
+    String Tier = cd.tier(login); 
+    req.setAttribute("Tier", Tier);
+    String sum = cd.sum(login);
+     req.setAttribute("sum", sum);
+     String sum2 = cd.sum2(login);
+    req.setAttribute("sum2", sum2);
+     
+ 
+ 
+    
+ List<Auction> li = bd.mainList();   
+    
+    
+    request.setAttribute("li", li);
+    
+     return "member/index";
+    }
+	 
+	@RequestMapping("tier") //~~/board/index
+   public String tier(HttpServletRequest req) throws Exception {
+         // TODO Auto-generated method stub
+   
+   String login = (String) session.getAttribute("id");
+   Amem mem = md.oneMember(login);
+   req.setAttribute("amem", mem);
+   
+   String Tier = cd.tier(login); 
+   req.setAttribute("Tier", Tier);
+   String sum = cd.sum(login);
+    req.setAttribute("sum", sum);
+    String sum2 = cd.sum2(login);
+   req.setAttribute("sum2", sum2);
+    
+
+
+   
+
+    return "member/tier";
+   }
 	
-		
-	List<Auction> li = bd.mainList();	
-		
-		
-		request.setAttribute("li", li);
-		
-	    return "member/index";
-		}
-	
-	
+	@RequestMapping("agree") //~~/board/index
+    public String agree(HttpServletRequest req) throws Exception {
+          // TODO Auto-generated method stub
+    
+    String login = (String) session.getAttribute("id");
+    Amem mem = md.oneMember(login);
+    req.setAttribute("amem", mem);
+    
+    String Tier = cd.tier(login); 
+    req.setAttribute("Tier", Tier);
+    String sum = cd.sum(login);
+     req.setAttribute("sum", sum);
+     String sum2 = cd.sum2(login);
+    req.setAttribute("sum2", sum2);
+     
+ 
+ 
+
+    
+     return "member/agree";
+    }
 	
 	@ModelAttribute
 	protected void service(HttpServletRequest request) throws ServletException, IOException {
@@ -79,13 +126,35 @@ public class MemberController {
 	
 	@RequestMapping("memberinput")
 	public String memberinput() throws Exception {
-		
+		  
+	    String login = (String) session.getAttribute("id");
+	    Amem mem = md.oneMember(login);
+	    request.setAttribute("amem", mem);
+	    
+	    String Tier = cd.tier(login); 
+	    request.setAttribute("Tier", Tier);
+	    String sum = cd.sum(login);
+	     request.setAttribute("sum", sum);
+	     String sum2 = cd.sum2(login);
+	    request.setAttribute("sum2", sum2);
 		return "member/memberinput";
 	}
 	
 	@RequestMapping("findIdForm")
 	   public String findIdForm() throws Exception {
-	       return "member/findIdForm";
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
+		return "member/findIdForm";
+	       
+	       
 	   }
 	   
 	   @RequestMapping("findIdPro")
@@ -111,6 +180,16 @@ public class MemberController {
 	   }
 	   @RequestMapping("findPasswordForm")
 	   public String findPasswordForm() throws Exception {
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 	       return "member/findPasswordForm";
 	   }
 
@@ -135,7 +214,7 @@ public class MemberController {
 	            url = "/member/loginForm";
 	        } else {
 	            msg = "일치하는 정보가 없습니다. 다시 확인해 주세요.";
-	            url = "/member/findPasswordForm";
+	            url = "/member/findIdForm";
 	        }
 
 	        request.setAttribute("msg", msg);
@@ -161,6 +240,16 @@ public class MemberController {
 	@RequestMapping("loginForm")
 	public String loginForm() throws Exception {
 		// TODO Auto-generated method stub
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 		return "member/loginForm";
 	}
 	
@@ -181,12 +270,16 @@ public class MemberController {
 	public String memberinfo() throws Exception {	
 	
 		
-		
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		request.setAttribute("amem", mem);
-		String Tier = cd.tier(login); 
-		request.setAttribute("Tier", Tier);
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 		return "member/memberinfo";
 	}
 	
@@ -202,7 +295,7 @@ public class MemberController {
 	      if(mem != null ) { //id 존재할때
 	         if (pass.equals(mem.getPass())) { //login ok
 	            session.setAttribute("id", id);
-	            if (mem.getAdminchk().equals("1")) {//관리자로 로그인시 관리자페이지로 바로연결
+	            if (mem.getAdminchk().equals("1")) { //Amem 테이블의 Adminchk 컬럼으로 관리자인지 확인
 	               session.setAttribute("admin", id);
 	            msg = "관리자로 로그인하셧습니다.";
 	            url = "/admin/main";
@@ -221,34 +314,36 @@ public class MemberController {
 	   }
 
 	@RequestMapping("memberPro")
-	public String memberPro(Amem amem) throws Exception {
-		
-		
-	//apay	
-		
-
-		
-		System.out.println(amem);
-		int num = md.insertMember(amem);
-		
-		String msg = "저장 하였습니다.";
-		String url = "/member/loginForm";
-		
-		request.setAttribute("msg", msg);
-		request.setAttribute("url", url);
-		
-		return "alert";
+	public String memberPro(Amem amem, HttpServletRequest request) throws Exception {
+	    if (md.isIdDuplicated(amem.getId())) {
+	        // 중복된 경우
+	        request.setAttribute("msg", "이미 사용중인 아이디입니다.");
+	        request.setAttribute("url", "/member/memberinput");
+	        return "alert";
+	    }
+	    
+	    // 중복되지 않은 경우
+	    System.out.println(amem);
+	    int num = md.insertMember(amem);
+	    request.setAttribute("msg", "가입되셨습니다.");
+	    request.setAttribute("url", "/member/loginForm");
+	    
+	    return "alert";
 	}
+
 	//@Login(key = "id")
 	@RequestMapping("memberUpdateForm")
 	public String memberUpdateForm() throws Exception {
-		
-		String login =  (String) session.getAttribute("id");
-	
-		Amem mem = md.oneMember(login);
-		String Tier = cd.tier(login); 
-		request.setAttribute("Tier", Tier);
-		request.setAttribute("amem", mem);		
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 		
 		return "member/memberUpdateForm";
 	}
@@ -291,19 +386,32 @@ public class MemberController {
 	
 	@RequestMapping("memberDeleteForm")
 	public String memberDeleteForm() throws Exception {		
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		request.setAttribute("amem", mem);
-		String Tier = cd.tier(login); 
-		request.setAttribute("Tier", Tier);
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 		return "member/memberDeleteForm";
 	}
 	
 	@RequestMapping("memberDeletePro")
 	public String memberDeletePro(String pass) throws Exception {
 		
-		String login =  (String) session.getAttribute("id");
-	
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 	
 	Amem memdb = md.oneMember(login);
 	String msg = "탈퇴되지 않았습니다.";
@@ -327,20 +435,23 @@ public class MemberController {
 	
 	@RequestMapping("memberPassForm")
 	public String memberPassForm() throws Exception {		
-		String login = (String) session.getAttribute("id");
-		Amem mem = md.oneMember(login);
-		request.setAttribute("amem", mem);
-		String Tier = cd.tier(login); 
-		request.setAttribute("Tier", Tier);
+		   String login = (String) session.getAttribute("id");
+		    Amem mem = md.oneMember(login);
+		    request.setAttribute("amem", mem);
+		    
+		    String Tier = cd.tier(login); 
+		    request.setAttribute("Tier", Tier);
+		    String sum = cd.sum(login);
+		     request.setAttribute("sum", sum);
+		     String sum2 = cd.sum2(login);
+		    request.setAttribute("sum2", sum2);
 		return "member/memberPassForm";
 	}
 	
 	@RequestMapping("memberPassPro")
 	public String memberPassPro(String pass, String chgpass) throws Exception {
 		
-		String login =  (String) session.getAttribute("id");
-	
-
+	String login =  (String) session.getAttribute("id");	
 	Amem memdb = md.oneMember(login);
 
 	String msg = "비밀번호 수정을 실패 했습니다.";
@@ -360,8 +471,5 @@ public class MemberController {
 	
 	return "alert";
 	}
-	
-	
-	
-	
+		
 }
