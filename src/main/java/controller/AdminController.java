@@ -153,7 +153,7 @@ public class AdminController  {
 	    request.setAttribute("amem", mem);
 	     
 	     Auction auc = ad.oneReport(pnum);
-	     
+	
 	     request.setAttribute("auction", auc);
 	    
 	   
@@ -168,6 +168,10 @@ public class AdminController  {
        rep.setReportpnum(pnum);
        rep.setContent(content);
        rep.setRegdate(new Date());
+       rep.setReportedid(auc.getUserid());
+       
+       
+       
        // ReportService를 통해 데이터 저장
         ad.insertReport(rep);
 

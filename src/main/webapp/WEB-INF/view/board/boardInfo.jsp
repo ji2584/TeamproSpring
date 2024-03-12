@@ -194,6 +194,9 @@
 					<div class="pro_d_top">
 						<span class="prd_id">상품번호 : ${board.pnum }</span> <span
 							class="id_number"></span>
+					
+					<a class="btn btn-primary"
+										href="${pageContext.request.contextPath}/admin/ReportForm?num=${board.pnum}">게시물신고</a>		
 
 					</div>
 					<div class="pro_d_tit" id="trans_after_subject">${board.pname}</div>
@@ -344,6 +347,9 @@
 								<a class="red" onclick="buyNow()"
 									style="background-color: red; font-weight: bold; border: 0px solid red; color: white;"
 									onclick=";" href="javascript:;" rel="btn_compare"> 즉시구매 </a>
+								
+							
+									
 							</div>
 
 
@@ -372,6 +378,8 @@
 								</div>
 								<div class="item">
 									<span class="rec_tit">판매자 정보</span> <span class="gray"></span>
+								
+									<span class="rec_tit">아이디 신고 횟수:${reportcount}</span> <span class="gray"></span>
 								</div>
 								<div></div>
 								<div></div>
@@ -523,6 +531,9 @@ function reserv(ser, index) {
 	        console.error('Fetch error:', error);
 	    });
 }
+
+
+
 </script>
 			<table>
 				<tbody>
@@ -573,7 +584,7 @@ function reserv(ser, index) {
 											</tr>
 											<tr id="DPRICE_TR">
 												<td>배송비</td>
-												<td id="DPRICE">220엔</td>
+												<td id="DPRICE">3000원</td>
 											</tr>
 										</tbody>
 									</table>
@@ -608,6 +619,8 @@ function reserv(ser, index) {
 		<!-- //상품고시 -->
 
 	</div>
+
+
 
 
 

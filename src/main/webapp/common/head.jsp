@@ -463,6 +463,10 @@
 							
 					<li><a href="${pageContext.request.contextPath}/member/memberinfo">마이페이지</a></li>
 					<li><a href="${pageContext.request.contextPath}/member/memberinfo">고객센터</a></li>
+					<li><a href="http://127.0.0.1:6001/?id=${id}">내 대출 등급 확인하기</a></li>
+					  <c:if test="${sessionScope.admin!=null}">
+                        <li><a href="${pageContext.request.contextPath}/admin/Reportlist">관리자페이지</a></li>
+                        </c:if>
 				</ul>
 			</div>
 		</div>

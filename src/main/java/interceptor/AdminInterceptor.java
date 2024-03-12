@@ -33,7 +33,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
         
   
 	         if (mem == null || mem.getAdminchk().equals("0")) { // 관리자 계정 아닌 경우
-	        	    response.sendRedirect(request.getContextPath() + "/member/loginForm"); // 메인페이지로 리다이렉트
+	          	    response.sendRedirect(request.getContextPath() + "/member/loginForm"); // 메인페이지로 리다이렉트
 	        	    return false;
 	        	} else { // 나머지 코드
 	        	//    response.sendRedirect(request.getContextPath() + "/admin/main");

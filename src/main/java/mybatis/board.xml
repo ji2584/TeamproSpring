@@ -24,8 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<insert id="apay" parameterType="apay">
-	     INSERT INTO apay (name, tel, address, memo, pnum, regdate, buy, sp, point)
-    VALUES (#{name}, #{tel}, #{address}, #{memo}, #{pnum}, sysdate, #{buy}, #{sp}, #{point})
+	     INSERT INTO apay (name, tel, address, memo, pnum, regdate, buy, sp,id)
+    VALUES (#{name}, #{tel}, #{address}, #{memo}, #{pnum}, sysdate, #{buy}, #{sp},#{id})
 </insert>
 
 
@@ -111,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from auction
 		order by
 		pnum desc) a)
-		where rnum between 0 and 10
+		where rnum between 0 and 8
 	</select>
 
 	<delete id="commentDelete" parameterType="int">

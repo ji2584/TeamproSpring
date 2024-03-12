@@ -347,6 +347,8 @@ function openPurchasePopup() {
 												
 							<tr>
                         <th>입찰수</th>
+                        
+                        
                         <td>
                         <a class="btn btn-primary"  onclick="openModal('${board.pnum}')"
                               href="#"> ${maxbuy} 기록</a></td>

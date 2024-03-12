@@ -60,15 +60,25 @@ delete from aproducts where pnum = #{pnum}
                 ELSE 'Diamond'
             END AS Tier
         FROM
-            auction
+            apay
         WHERE
-            BUYID = #{BUYID}
+            id = #{id}
         GROUP BY
-           BUYID
+           id
     ) 
     </select>
     
-    
+    <!-- point 사용  sum = 누적 마일리지, sum2 = 누적금액, sum3 = 마일리지를 넣고 사용하기 버튼누를시 나오는금액 , sp = 사용마일리지 -->
+<select id="sum" parameterType="string" resultType="long">
+    SELECT SUM((buy * 0.05) - sp) 
+    FROM apay 
+    WHERE id=#{id}
+</select>
+
+
+<select id="sum2" parameterType="string" resultType="long">
+   select sum(buy) from apay where id=#{id}
+</select>
 
    
 </mapper>

@@ -32,6 +32,17 @@
     <label for="file">파일:${notice.file1}</label>
     <input type="file" class="form-control" id="file" name="f">
   </div>
+  
+  	 <div class="form-group">
+        <label for="isPublic">공개 여부:</label>
+        <input type="checkbox" id="isPublicCheckbox">
+        <input type="hidden" id="isPublic" name="isPublic" value="N"> <!-- 기본값은 'N'으로 설정 -->
+    </div>
+  
+  
+  
+  
+  
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </div>

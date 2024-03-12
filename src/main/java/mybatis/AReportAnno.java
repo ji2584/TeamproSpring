@@ -14,7 +14,7 @@ import model.Report;
 
 public interface AReportAnno {
 
-    @Insert("INSERT INTO AReport (reportid, reportpnum, content,regdate,reportedid) VALUES (#{reportid}, #{reportpnum},#{content},#{regdate},#{reportid})")
+    @Insert("INSERT INTO AReport (reportid, reportpnum, content,regdate,reportedid) VALUES (#{reportid}, #{reportpnum},#{content},#{regdate},#{reportedid})")
     int insertReport(Report rep);
     
     

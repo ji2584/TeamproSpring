@@ -364,18 +364,18 @@ public class BoardController {
 
 		List<AddbuyList> AddbuyList = bd.List(num);
 		System.out.println(AddbuyList);
-
+	
 		int maxbuy = bd.maxbuycnt(num);
 		System.out.println(maxbuy);
 		model.addAttribute("maxbuy", maxbuy);
 
 		List<Comment> commentLi = bd.commentList(num);
 		int count = commentLi.size();
-		req.setAttribute("commentLi", commentLi);
-		req.setAttribute("board", board);
-		req.setAttribute("count", count);
-		req.setAttribute("ab", AddbuyList);
-		
+		model.addAttribute("commentLi", commentLi);
+		model.addAttribute("board", board);
+		model.addAttribute("count", count);
+		model.addAttribute("ab", AddbuyList);
+	
 		return "board/boardInfo";
 	}
 

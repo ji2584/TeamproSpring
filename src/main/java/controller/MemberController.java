@@ -1,24 +1,23 @@
 package controller;
 
+
 import java.io.IOException;
-import java.util.HashMap;
+
+
 import java.util.List;
-import java.util.Map;
+
 import java.util.Random;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.InternalResourceView;
-
 
 
 import dao.BoardMybatisDao;
@@ -298,7 +297,7 @@ public class MemberController {
 	            if (mem.getAdminchk().equals("1")) { //Amem 테이블의 Adminchk 컬럼으로 관리자인지 확인
 	               session.setAttribute("admin", id);
 	            msg = "관리자로 로그인하셧습니다.";
-	            url = "/admin/main";
+	            url = "/admin/Reportlist";
 	            }else if(mem.getAdminchk().equals("0")){
 	         msg = mem.getName() + "님이 로그인 하셨습니다.";
 	          url = "/member/index";
@@ -471,5 +470,7 @@ public class MemberController {
 	
 	return "alert";
 	}
-		
+	
+
+	
 }

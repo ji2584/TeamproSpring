@@ -54,8 +54,13 @@ function previewImage(input) {
         <select class="form-control" id="boardCategory" name="boardid">
             <option value="1">가전</option>
             <option value="2">의류</option>
-            <option value="3">도서</option>
-            <option value="4">기타</option>
+            <option value="3">프라모델</option>
+            <option value="4">골동품</option>
+            <option value="5">악기</option>
+            <option value="6">명품시계</option>
+            <option value="7">악세사리</option>
+            <option value="8">레저</option>
+
         </select>
     </div>
 
